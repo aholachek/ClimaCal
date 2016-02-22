@@ -13,7 +13,7 @@ class TabComponent extends React.Component {
       let weatherIconSmall = "weather-icon-small " + icon;
       let weatherIconLarge = "weather-icon-large " + icon;
       return (
-              <li className={c}>
+              <li className={c} key={t.title}>
                 <a href="#" onClick={t.onTabChange}>
                   <i className={weatherIconLarge}/>
                   <div className="tab__date">{t.dateString}</div>

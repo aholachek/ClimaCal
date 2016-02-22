@@ -61,7 +61,6 @@ body {
 
 .navbar {
   height: 50px;
-  margin-bottom: 10px;
 }
 
 .tab-component {
@@ -138,8 +137,9 @@ ul {
   position: relative;
   z-index: 1;
   overflow: auto;
-  border-bottom: 2px solid #E8E8E8;
-  box-shadow: 0 10px 13px -10px rgba(0, 0, 0, 0.29);
+  border-bottom: 2px solid #e8e8e8;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 6PX rgba(0, 0, 0, 0.09);
 }
 .calendar-bottom {
   border-top: 2px solid #E8E8E8;
@@ -147,9 +147,6 @@ ul {
 }
 .all-day-tasks {
   width: 70%;
-  -webkit-align-self: flex-end;
-      -ms-flex-item-align: end;
-          align-self: flex-end;
 }
 .calendar-header {
   font-size: 0.9rem;
@@ -426,28 +423,28 @@ ul {
   display: -ms-flexbox;
   display: flex;
   margin: auto;
-  overflow: hidden;
 }
 .tab-component li {
   list-style: none;
-  padding: .5% 0;
+  padding: .4% 0;
   text-align: center;
   -webkit-transition: width .8s, background-color .8s;
   transition: width .8s, background-color .8s;
   width: 160px;
-  background: lighten($lightGray, 9%);
   z-index: 1;
   -webkit-transition: color 0.5s, background 0.5s;
   transition: color 0.5s,  background 0.5s;
   &:hover {
     color: $textLight;
-    background: lighten($lightGray, 12%);
+    background: lighten($lightGray, 10%);
   }
 }
 .tab__title {
   font-weight: bold;
-  font-size: 1.5rem;
   margin: 0;
+  font-size: 1.8rem;
+  font-variant: small-caps;
+  text-transform: lowercase;
 }
 .tab-component li a {
   text-decoration: none;
@@ -497,8 +494,10 @@ ul {
 }
 .tab-component li.active .weather-icon-large {
   left: 46%;
-  opacity: .11;
+  opacity: .2;
   color: $dark-blue;
+  left: 46%;
+  top: -67%;
 }
 .tab-component li:first-of-type .weather-icon-large {
   left: 0;
@@ -511,7 +510,7 @@ ul {
   position: relative;
 }
 .ReactModal__Overlay {
-  z-index: 1;
+  z-index: 3;
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
 .modal-content {
@@ -556,9 +555,14 @@ ul {
    /* Position and sizing of burger button */
 .bm-burger-button {
   position: absolute;
+  z-index : 2 !important;
   width: 100px;
   height: 30px;
-  right: 5%;
+  right: 2%;
+
+  @media (min-width: "900px") {
+    right: calc((100vw - 900px)/2)
+  }
   top: 15px;
 }
 
@@ -585,6 +589,14 @@ ul {
   font-weight: bold;
   font-variant: small-caps;
   font-size: 1.5rem;
+  }
+
+  .bm-menu-wrap {
+    z-index : 3 !important;
+  }
+
+  .bm-overlay {
+    z-index : 3 !important;
   }
 
   .bm-menu > div {
@@ -666,6 +678,16 @@ font-size: 1.4rem;
   bottom: 0;
 }
 
+.bm-menu .load-google {
+
+    border: 2px solid #d8d8d8;
+    padding: .5rem;
+    margin: auto;
+    display: block;
+    text-transform: lowercase;
+    font-variant: small-caps;
+}
+
 
 /* ==========================================================================
    popover
@@ -742,6 +764,8 @@ font-size: 1.4rem;
 
 
 .navbar {
-  background-color: #F5F5F5;
   box-shadow : 0 3px 3px rgba(0,0,0,0.08);
+  background-color: rgba(255, 255, 255, 0.45);
+  z-index: 1;
+  position: relative;
 }

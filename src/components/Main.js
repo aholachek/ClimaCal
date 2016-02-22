@@ -83,7 +83,9 @@ class AppComponent extends React.Component {
 
 
   let authorizeUI;
-  if (this.props.data.self.googleAuth){
+  let hasPersonalData = this.props.data.self.googleAuth && this.props.data.self.weather;
+
+  if ( hasPersonalData ){
     let that = this;
     if (this.props.data.auth === "self"){
       let setView = this.changeState.bind(this, {auth : 'stub' });
@@ -98,7 +100,13 @@ class AppComponent extends React.Component {
 
   }
   else {
-    authorizeUI = (<button onClick={function(){ Calendar.handleAuthClick()}}> load my Google calendar</button>)
+    authorizeUI = (
+      <span>
+        <h3>currently viewing sample data</h3>
+        <br/>
+        <button className="load-google" onClick={function(){ Calendar.handleAuthClick()}}> load my Google calendar</button>
+      </span>
+                )
   }
 
   let updateMenuOpen = function(state){
@@ -108,6 +116,12 @@ class AppComponent extends React.Component {
   let onSvgLoad = function(){
     animate(ReactDOM.findDOMNode(this.refs.container));
   }.bind(this);
+
+  let appOptions = (
+     <div className="section">
+      <a className="bm-menu__item" href='https://calendar.google.com/calendar/render' target='_blank'><i className='fa fa-google'></i><span>edit my calendar</span></a>
+      <a className="bm-menu__item" href={'https://forecast.io/#/f/' + this.props.latLong} target='_blank'><i className='fa fa-sun-o'></i><span>detailed forecast</span></a>
+    </div>)
 
     return (
       <div id="outer-container" ref="container">
@@ -123,10 +137,8 @@ class AppComponent extends React.Component {
             <div className="section">
               {authorizeUI}
             </div>
-            <div className="section">
-              <a className="bm-menu__item" href='https://calendar.google.com/calendar/render' target='_blank'><i className='fa fa-google'></i><span>edit my calendar</span></a>
-              <a className="bm-menu__item" href={'https://forecast.io/#/f/' + this.props.latLong} target='_blank'><i className='fa fa-sun-o'></i><span>detailed forecast</span></a>
-            </div>
+
+            { hasPersonalData? appOptions : <div></div>}
 
             <div className="section">
               <a className="bm-menu__item" href=""><i className="fa fa-github-alt"></i><span>view the code</span></a>

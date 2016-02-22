@@ -25,12 +25,12 @@ const AppStateManager = {
 
     //make any computed changes here
     processData : function(){
-      if (this.data.auth === 'self' && this.data.self.calendar && this.data.self.weather){
+      if ( this.data.auth === 'self' && this.data.self.calendar && this.data.self.weather ){
         //if first two are true, will show loading view
         this.data.onboardModal = false;
       }
 
-      if (this.data.auth === 'self' && this.data.self.calendar && !this.data.self.weather){
+      if ( this.data.auth === 'self' && this.data.self.calendar && this.data.self.weather === undefined ){
         //automatically request weather
         Weather.getWeatherData();
 

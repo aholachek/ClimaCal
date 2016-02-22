@@ -28,3 +28,9 @@ node_modules
 
 # Bower
 bower_components/
+
+/node_modules
+npm-debug.log
+.DS_Store
+/*.env
+/dist

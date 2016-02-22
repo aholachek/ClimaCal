@@ -26,7 +26,10 @@ class OnboardComponent extends React.Component {
     let container;
 
     if (
-      this.props.appData.auth === "self" && (!this.props.appData.self.weather || this.props.appData.self.calendar) ||
+      //if undefined, hasn't returned. if false, it's not available (might have been an error)
+      this.props.appData.auth === "self" && (
+        (this.props.appData.self.weather === undefined) || (this.props.appData.self.calendar === undefined)
+      )||
       //if equal to undefined, initial loading check is in progress
       this.props.appData.self.googleAuth === undefined
         ){
@@ -35,14 +38,15 @@ class OnboardComponent extends React.Component {
     else {
       container = (
       <div>
-        <p>
-          The only data requested is the content of your next two calendar days on Google,<br/>
-          and your geographical position. Other identifying information is not required.
-        </p>
 
-        <button onClick={this._authorize}> load my calendar + local weather data</button>
+        <button onClick={this._authorize}> load my calendar + local weather data * </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
         <button onClick={this.props.closeModal}>preview app</button>
+
+        <p>
+           * The only data requested is the content of your Google Calendar for today and tomorrow,<br/>
+          and your geographical position. Other identifying information is not required.
+        </p>
 
       </div>
       );

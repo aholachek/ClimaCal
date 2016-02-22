@@ -3,14 +3,16 @@ var config = require('./config_vars');
 var app = express();
 var request = require('request');
 var cors = require('cors');
+var path = require('path');
 
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+//tell express to serve static files, including index.html
+
+app.use('/', express.static(path.join(__dirname, 'dist')));
+
 
 var corsOptions = {
-  origin: 'http://localhost:8080'
+  origin: config.origin
 };
 
 
@@ -53,8 +55,5 @@ app.get('/get-forecast',  cors(corsOptions), function (req, res) {
 });
 
 var server = app.listen(3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
 
-  console.log('Example app listening at http://%s:%s', host, port);
 });

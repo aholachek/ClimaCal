@@ -118,6 +118,9 @@ class CalendarHourComponent extends React.Component {
         return 2.3;
       })
       .attr('cx', function() {
+          return d3.max([2, Math.random() * 40]);
+      })
+      .attr('cy', function() {
           return d3.max([2, Math.random() * 30]);
       })
       .style('fill-opacity', .4)

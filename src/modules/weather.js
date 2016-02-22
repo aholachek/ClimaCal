@@ -21,7 +21,11 @@ function getWeatherData() {
       .end(function(err, resp) {
 
         if (err) {
-          console.error(err);
+          console.error('request to /get-forecast failed : ', err);
+          let newState = AppStateManager.getState();
+          newState.self.latLong = position.coords;
+          newState.self.weather = false;
+          AppStateManager.setState(newState);
           return
         }
 

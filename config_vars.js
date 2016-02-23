@@ -7,4 +7,6 @@ config.WEATHER_URL = "https://api.forecast.io/forecast/";
 
 config.origin = 'https://climacal.herokuapp.com/';
 
+config.port = 3000;
+
 module.exports = config;

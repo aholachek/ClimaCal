@@ -9,7 +9,7 @@
   },
   "scripts": {
     "clean": "rimraf dist/*",
-    "copy": "copyfiles ./src/index.html ./src/favicon.ico ./dist && cp -r ./src/styles ./dist/styles && cp -r ./src/images ./dist/images",
+    "copy": "cp ./src/index.html ./dist/index.html && cp -r ./src/styles ./dist/styles && cp -r ./src/images ./dist/images",
     "dist": "npm run copy && webpack --env=dist",
     "lint": "eslint ./src",
     "posttest": "npm run lint",

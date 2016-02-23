@@ -147,8 +147,8 @@ class AppComponent extends React.Component {
 
           <div className="navbar">
             <div className="responsive-container">
-              <div className="climatecal-logo">
-                <Isvg src="../images/climateCal.svg" onLoad={onSvgLoad}></Isvg>
+              <div className="climacal-logo">
+                <Isvg src="../images/climaCal.svg" onLoad={onSvgLoad}></Isvg>
                   <h1>
                       ClimaCal
                   </h1>

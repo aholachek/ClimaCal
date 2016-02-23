@@ -12,9 +12,8 @@ app.use('/', express.static(path.join(__dirname, 'dist')));
 
 
 var corsOptions = {
-  origin: config.origin
+  origin: [config.origin, "localhost:8080"]
 };
-
 
 //return forecast for current day, starting from the morning
 app.get('/get-forecast',  cors(corsOptions), function (req, res) {

@@ -57,8 +57,8 @@ class OnboardComponent extends React.Component {
         isOpen={this.props.appData.onboardModal}>
         <div className="modal-content" ref="container">
 
-          <div className="climatecal-logo">
-            <Isvg src="../images/climateCal.svg" ></Isvg>
+          <div className="climacal-logo">
+            <Isvg src="../images/climaCal.svg" ></Isvg>
               <h1>
                   ClimaCal
               </h1>

@@ -131,7 +131,7 @@ class AppComponent extends React.Component {
                       isOpen = {this.props.data.menuOpen}
                       onStateChange = {updateMenuOpen}
                       right
-                      customIcon={ './../images/menu_icon.svg' }
+                      customIcon={ '/images/menu_icon.svg' }
                       >
             <br/>
             <div className="section">
@@ -148,7 +148,7 @@ class AppComponent extends React.Component {
           <div className="navbar">
             <div className="responsive-container">
               <div className="climacal-logo">
-                <Isvg src="../images/climaCal.svg" onLoad={onSvgLoad}></Isvg>
+                <Isvg src="/images/climaCal.svg" onLoad={onSvgLoad}></Isvg>
                   <h1>
                       ClimaCal
                   </h1>

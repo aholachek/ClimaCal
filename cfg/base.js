@@ -1,5 +1,7 @@
 var path = require('path');
 
+var autoprefixer = require('autoprefixer');
+
 var port = 8080;
 var srcPath = path.join(__dirname, '/../src');
 var publicPath = '/assets/';
@@ -51,6 +53,10 @@ module.exports = {
         loader: 'style-loader!css-loader'
       },
       {
+        test:   /\.css$/,
+        loader: "style-loader!css-loader!postcss-loader"
+      },
+      {
         test: /\.sass/,
         loader: 'style-loader!css-loader!sass-loader?outputStyle=expanded&indentedSyntax'
       },
@@ -71,5 +77,9 @@ module.exports = {
         loader: 'url-loader?limit=8192'
       }
     ]
-  }
+  },
+
+  postcss: function () {
+        return [autoprefixer];
+    }
 };

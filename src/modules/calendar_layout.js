@@ -7,9 +7,11 @@ function makeLayout(calendarData) {
 
   calendarData.forEach(function(d) {
     if (!d.dateObj) {
-      d.dateObj = {};
-      d.dateObj.start = new Date(d.start.dateTime);
-      d.dateObj.end = new Date(d.end.dateTime);
+      d.dateObj = {
+        start : new Date(d.start.dateTime),
+        end : new Date(d.end.dateTime)
+      };
+
     }
     if (!d.id) {
       d.id = _.uniqueId('event');

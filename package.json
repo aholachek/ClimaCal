@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "google calendar + hourly weather",
   "main": "",
-  "engines" : {
+  "engines": {
     "node": "5.1.0"
   },
   "scripts": {
@@ -19,7 +19,7 @@
     "serve": "node server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
     "start:dev": "node server.js && node express-server.js --env=dev",
-    "start" : "npm run-script dist && node express-server.js --env=dist",
+    "start": "npm run-script dist && node express-server.js --env=dist",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },
@@ -27,6 +27,7 @@
   "keywords": [],
   "author": "Your name here",
   "devDependencies": {
+    "autoprefixer": "^6.3.3",
     "babel-core": "^6.0.0",
     "babel-eslint": "^5.0.0-beta4",
     "babel-loader": "^6.0.0",
@@ -53,17 +54,18 @@
     "karma-webpack": "^1.7.0",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
+    "node-sass": "^3.3.3",
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs": "^1.9.18",
+    "precss": "^1.4.0",
     "react-hot-loader": "^1.2.9",
     "rimraf": "^2.4.3",
+    "sass-loader": "^1.0.1",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
-    "webpack-dev-server": "^1.12.0",
-    "sass-loader": "^1.0.1",
-    "node-sass": "^3.3.3"
+    "webpack-dev-server": "^1.12.0"
   },
   "dependencies": {
     "core-js": "^1.2.6",

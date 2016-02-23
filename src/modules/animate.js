@@ -12,7 +12,8 @@ export default function(container) {
   function loopAnimate() {
 
     function animate(i) {
-      var duration = 2000;
+      var duration = 600;
+      var delay = 2000;
       var icon = icons[i];
 
       function rotateIn() {
@@ -21,7 +22,9 @@ export default function(container) {
           opacity: [1, 0]
         }, {
           duration: duration,
-          complete: fadeOut
+          complete: function(){
+            setTimeout(fadeOut, delay);
+          }
         })
       }
 

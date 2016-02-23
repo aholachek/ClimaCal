@@ -32,7 +32,13 @@ function getWeatherData() {
 
         let newState = AppStateManager.getState();
         newState.self.latLong = position.coords;
-        newState.self.weather = JSON.parse(resp.text);
+        try {
+          newState.self.weather = JSON.parse(resp.text);
+        }
+        catch (e){
+          console.error("couldn't parse weather json");
+          newState.self.weather = false;
+        }
         AppStateManager.setState(newState);
 
 

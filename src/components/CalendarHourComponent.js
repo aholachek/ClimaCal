@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 import d3 from 'd3';
 import _ from 'lodash';
 import Popover from 'react-popover';
+import Velocity from 'velocity-animate';
 
 class CalendarHourComponent extends React.Component {
 
@@ -65,9 +66,9 @@ class CalendarHourComponent extends React.Component {
       <div>
         <h4>{hour} : {this.props.data.summary.toLowerCase()}</h4>
         <ul>
-          <li>humidity: {this.props.data.humidity}/1</li>
           <li> real temp : {this.props.data.temperature.toFixed(0)}&deg;</li>
           <li> feels like : {this.props.data.apparentTemperature.toFixed(0)}&deg;</li>
+          <li> humidity: {this.props.data.humidity * 100}% </li>
         </ul>
       </div>
     )
@@ -84,47 +85,54 @@ class CalendarHourComponent extends React.Component {
   }
 
   addPrecipAnimation (){
-    const precipContainer = ReactDOM.findDOMNode(this.refs.precipContainer);
-    if (!precipContainer)
-      return;
-
     const precipCountScale = d3.scale.linear()
     //0 --- .4 (heavy rain)
-      .domain([0, .4]).rangeRound([1, 15]).clamp(true);
+      .domain([0, .4]).rangeRound([8, 20]).clamp(true);
 
-    const svg = d3.select(ReactDOM.findDOMNode(this.refs.precipContainer));
+    const svg = ReactDOM.findDOMNode(this.refs.precipContainer);
     const d = this.props.data;
-    const numCircles = precipCountScale(d.precipIntensity);
 
-    svg.selectAll('circle')
-    .data(_.range(numCircles))
+    let circle = d3.select(svg).selectAll('circle')
+    .data(_.range(precipCountScale(d.precipIntensity)))
     .enter()
     .append('circle')
     .attr('fill', function() {
-        if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail') {return 'snow';} else {return '#5151E6'}
-      }).attr('stroke', function() {
-        if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail') {return 'black';} else {return '#5151E6'}
-      }).each(function() {
-        setTimeout(function() {
-          var speed = d.precipIntensity > .2
-            ? 'fast'
-            : 'slow';
-          if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail') {
-            d3.select(this).classed('snow--' + speed, true);
-          } else {d3.select(this).classed('rain--' + speed, true);}
-        }.bind(this), Math.random() * 4000);
+        if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail')
+        {return 'snow' }
+         else
+         {return '#5151E6'}
       })
-      .attr('r', function() {
-        return 2.3;
+      .each(function(){
+        this.multiplier = Math.random();
       })
-      .attr('cx', function() {
-          return d3.max([2, Math.random() * 40]);
+      .attr('r', function(d) {
+        return this.multiplier * 3;
       })
-      .attr('cy', function() {
-          return d3.max([2, Math.random() * 30]);
-      })
-      .style('fill-opacity', .4)
-      .style('stroke-opacity', .7);
+
+      .each(function(){
+
+        let that = this;
+        that.setAttribute('fill-opacity', (that.multiplier * .6).toFixed(1));
+
+          function animate() {
+
+            that.setAttribute('cx', d3.max([2, Math.random() * 40]));
+            that.setAttribute('cy', d3.max([2, Math.random() * 30]));
+
+              Velocity(that, {
+                translateY : ['50px', '-10px'],
+
+              }, {
+                delay : Math.random() * 5000,
+                duration : 3000,
+                complete : animate
+              });
+          }
+
+          animate();
+
+        });
+
   }
 
   componentDidMount () {

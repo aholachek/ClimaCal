@@ -73,20 +73,38 @@ class CalendarContainerComponent extends React.Component {
     return hourEntries;
   }
 
+  renderAllDayTasks () {
+
+    let allDayTasks = this.props.allDayTasks.map(function(d) {
+
+      let id = JSON.stringify(d);
+      let setPopover = function(){
+        let p = (this.state.popover == id) ? undefined : id;
+        this.setState({'popover': p});
+      }.bind(this);
+
+      return <AllDayTask
+        data={d}
+        key={id}
+        setPopover= {setPopover}
+        popover= {this.state.popover == JSON.stringify(d)}
+        />
+
+    }.bind(this));
+
+    return allDayTasks;
+
+  }
+
   render () {
 
     let calendarEntries = this.renderCalendarEntries();
     let hourEntries = this.renderHourEntries();
+    let allDayTasks = this.renderAllDayTasks();
 
     let noHourEntries = (
       <div className='no-hour-entries'>Schedule is empty</div>
     );
-
-    let AllDayTasks = this.props.allDayTasks.map(function(d) {
-      let id = JSON.stringify(d);
-
-      return <AllDayTask data={d} key={id}/>
-    });
 
     this.children = calendarEntries;
 
@@ -95,7 +113,7 @@ class CalendarContainerComponent extends React.Component {
         <div className='calendar-top'>
           <div className='all-day-tasks'>
             <ul>
-              {AllDayTasks}
+              {allDayTasks}
             </ul>
           </div>
           <div className='calendar-header'>
@@ -131,13 +149,13 @@ class CalendarContainerComponent extends React.Component {
 
   componentDidMount () {
     let hourHeight = (document.body.clientWidth < 600) ? 80 : 42;
-    this.refs.scrollbars.scrollTop(hourHeight * 7);
+    this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 
   componentDidUpdate (newProps) {
     if (newProps.today === this.props.today) return;
     let hourHeight = (document.body.clientWidth < 600) ? 80 : 42;
-    this.refs.scrollbars.scrollTop(hourHeight * 7);
+    this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 
 }

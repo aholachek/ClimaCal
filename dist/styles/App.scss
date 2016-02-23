@@ -155,8 +155,7 @@ ul
     overflow: auto;
     padding: 6px;
     border-bottom: 2px solid #e8e8e8;
-    background: rgba(255, 255, 255, .5);
-    box-shadow: 0 0 6PX rgba(0, 0, 0, .09);
+    box-shadow: 0 6px 4px rgba(0,0,0,.09);
 }
 .calendar-bottom
 {
@@ -231,8 +230,9 @@ ul
     flex-direction: column;
     width: 16%;
     cursor: pointer;
-    transition: box-shadow .5s;
+    transition: box-shadow .4s;
     color: white;
+    font-weight: bold;
     border-left: $border-left-width solid transparent;
     background: rgba(0, 0, 0, .7);
 
@@ -362,7 +362,7 @@ ul
     0%
     {
         transform: translateY(-5px);
-        opacity: .1;
+        opacity: 0;
     }
     10%
     {
@@ -375,7 +375,7 @@ ul
     100%
     {
         transform: translateY(80px);
-        opacity: .1;
+        opacity: 0;
     }
 }
 .rain--fast
@@ -401,11 +401,16 @@ ul
 .all-day-tasks li
 {
     display: inline-block;
-
     margin: 4px 8px;
     padding: 4px;
-
     list-style-type: none;
+    cursor: pointer;
+    background-color: #fff;
+    transition: box-shadow .4s;
+    &:hover
+    {
+        box-shadow: 0 5px 10px 2px rgba(0, 0, 0, .2);
+    }
     &:first-of-type
     {
         margin: 4px 8px 4px 0;
@@ -417,7 +422,7 @@ ul
     overflow: hidden;
     list-style: none;
     cursor: pointer;
-    transition: box-shadow .5s;
+    transition: box-shadow .4s;
     color: $text;
     border: 1px solid gainsboro;
     background-color: #fff;
@@ -472,7 +477,7 @@ ul
     list-style: none;
 
     transition: width .8s, background-color .8s;
-    transition: color .5s,  background .5s;
+    transition: color .4s,  background .4s;
     text-align: center;
     &:hover
     {
@@ -533,14 +538,14 @@ ul
     z-index: 0;
     top: -20px;
     left: 100%;
-    transition: left .5s;
+    transition: left .4s;
     text-align: center;
     opacity: 0;
     color: $lightGray;
 }
 .tab-component li.active .weather-icon-large
 {
-    top: -67%;
+    top: -65%;
     left: 46%;
     opacity: .15;
     color: $dark-blue;
@@ -745,7 +750,6 @@ ul
 
 .Popover
 {
-    position: relative;
     z-index: 3;
 }
 .Popover-body
@@ -755,7 +759,7 @@ ul
     padding: 1rem 2rem;
     color: white;
     border-radius: .3rem;
-    background: hsl(0, 0%, 40%);
+    background: #2B2B2B;
 }
 
 .Popover-body h4
@@ -783,7 +787,7 @@ ul
 
 .Popover-tipShape
 {
-    fill: hsl(0, 0%, 40%);
+    fill: #2B2B2B;
 }
 
 /* ==========================================================================

@@ -1,5 +1,5 @@
 {
-  "name": "climateCal",
+  "name": "climaCal",
   "private": true,
   "version": "0.0.1",
   "description": "google calendar + hourly weather",

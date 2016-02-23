@@ -19,7 +19,7 @@
     "serve": "node server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
     "start:dev": "node server.js && node express-server.js --env=dev",
-    "start": "npm run-script dist && node express-server.js --env=dist",
+    "start": "node express-server.js --env=dist",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },

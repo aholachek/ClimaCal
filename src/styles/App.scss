@@ -542,7 +542,7 @@ ul
 {
     top: -67%;
     left: 46%;
-    opacity: .2;
+    opacity: .15;
     color: $dark-blue;
 }
 .tab-component li:first-of-type .weather-icon-large
@@ -755,7 +755,7 @@ ul
     padding: 1rem 2rem;
     color: white;
     border-radius: .3rem;
-    background: hsl(0, 0%, 27%);
+    background: hsl(0, 0%, 40%);
 }
 
 .Popover-body h4
@@ -783,7 +783,7 @@ ul
 
 .Popover-tipShape
 {
-    fill: hsl(0, 0%, 27%);
+    fill: hsl(0, 0%, 40%);
 }
 
 /* ==========================================================================

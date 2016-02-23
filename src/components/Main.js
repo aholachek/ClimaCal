@@ -141,7 +141,7 @@ class AppComponent extends React.Component {
             { hasPersonalData? appOptions : <div></div>}
 
             <div className="section">
-              <a className="bm-menu__item" href=""><i className="fa fa-github-alt"></i><span>view the code</span></a>
+              <a className="bm-menu__item" href="https://github.com/aholachek/ClimaCal"><i className="fa fa-github-alt"></i><span>view the code</span></a>
             </div>
         </AnimMenu>
 

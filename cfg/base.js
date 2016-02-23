@@ -1,6 +1,8 @@
 var path = require('path');
 
 var autoprefixer = require('autoprefixer');
+var precss       = require('precss');
+
 
 var port = 8080;
 var srcPath = path.join(__dirname, '/../src');
@@ -80,6 +82,6 @@ module.exports = {
   },
 
   postcss: function () {
-        return [autoprefixer];
+            return [autoprefixer, precss];
     }
 };

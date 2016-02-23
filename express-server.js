@@ -52,7 +52,7 @@ app.get('/get-forecast',  cors(corsOptions), function (req, res) {
 });
 
 });
-
-var server = app.listen(config.port, function () {
+//process.env is from heroku
+var server = app.listen(process.env.PORT || config.port, function () {
 
 });

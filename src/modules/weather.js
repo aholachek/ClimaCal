@@ -13,7 +13,8 @@ function getWeatherData() {
   }
   navigator.geolocation.getCurrentPosition(function(position) {
 
-    request.get('http://localhost:3000/get-forecast')
+    //for dev this should be 'localhost:3000', not sure how to automate
+    request.get('/get-forecast')
       .query({
         lat: position.coords.latitude,
         lon: position.coords.longitude

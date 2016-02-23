@@ -1,0 +1,818 @@
+/* Base Application Styles */
+@import './weather-icons/sass/weather-icons.scss';
+@import './pure';
+$background: #e2e2e2;
+$text: #3e3e3e;
+$textLight: lighten($text, 10%);
+$lightGray: #d8d8d8;
+$blue: #4dbfff;
+$dark-blue: #5c8ae0;
+$red: #ff6161;
+$left: #c6ffff;
+$right: #83adf9;
+$border-left-width: .35rem;
+$medium-break-point: 600px;
+$shadow: 0 5px 20px 2px rgba(0, 0, 0, .2);
+
+html
+{
+    box-sizing: border-box;
+    height: 100%;
+}
+*,
+*:before,
+*:after
+{
+    box-sizing: inherit;
+}
+.clearfix:after
+{
+    display: table;
+    clear: both;
+
+    content: '';
+}
+body
+{
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+
+    overflow: hidden;
+
+    height: 100%;
+    max-height: 100%;
+
+    color: $text;
+    @media (min-width: $medium-break-point)
+    {
+        font-size: 17px;
+    }
+}
+
+#outer-container,
+#app
+{
+    height: 100%;
+}
+
+//from bs
+.sr-only
+{
+    position: absolute;
+
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+
+    border: 0;
+}
+
+/*heights*/
+
+.navbar
+{
+    height: 50px;
+}
+
+.tab-component
+{
+    height: 85px;
+}
+.calendar-top
+{
+    height: 70px;
+}
+
+/*this is a div w/o classname created by scroll component*/
+.calendar-top + div
+{
+    width: 98% !important;
+    height: calc(100vh - 60px - 85px - 70px - 10px) !important;
+    margin: auto;
+}
+
+.calendar-bottom
+{
+    position: relative;
+    z-index: 1;
+    height: 10px;
+    border-top: 2px solid #e8e8e8;
+    box-shadow: 0 -8px 8px -6px rgba(0, 0, 0, .3);
+}
+
+button
+{
+    padding: .5rem;
+
+    border: 2px solid $lightGray;
+    background: transparent;
+    &:hover
+    {
+        background: rgba(128, 128, 128, .06);
+    }
+}
+ol,
+ul
+{
+    margin: 0;
+    padding: 0;
+}
+
+.responsive-container
+{
+    width: 99%;
+    margin: auto;
+    @media (min-width: $medium-break-point)
+    {
+        width: 96%;
+        max-width: 900px;
+    }
+}
+
+.navbar
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+/* ==========================================================================
+   calendar container
+   ========================================================================== */
+.calendar__container
+{
+    position: relative;
+    background: #e0e0e0;
+}
+.calendar-top
+{
+    position: relative;
+    z-index: 1;
+    display: flex;
+    overflow: auto;
+    padding: 6px;
+    border-bottom: 2px solid #e8e8e8;
+    background: rgba(255, 255, 255, .5);
+    box-shadow: 0 0 6PX rgba(0, 0, 0, .09);
+}
+.calendar-bottom
+{
+    min-height: 20px;
+    border-top: 2px solid #e8e8e8;
+}
+.all-day-tasks
+{
+    width: 70%;
+}
+.calendar-header
+{
+    font-size: .9rem;
+    display: none;
+    width: 30%;
+    margin-right: auto;
+    padding: 6px 0;
+    @media (min-width: $medium-break-point)
+    {
+        display: flex;
+        justify-content: flex-end;
+        align-self: flex-end;
+    }
+}
+.calendar-header .wi
+{
+    font-size: 1.4rem;
+    color: lighten($textLight, 20%);
+}
+.calendar-header > div
+{
+    display: flex;
+    width: 16%;
+    height: 100%;
+    color: lighten($textLight, 10%);
+    align-items: center;
+}
+.calendar-header > div:last-of-type
+{
+    position: relative;
+    left: .6%;
+}
+
+/* ==========================================================================
+   calendar hour row
+   ========================================================================== */
+.calendar__hour
+{
+    display: flex;
+    height: 80px;
+    margin-bottom: 2px;
+    background: rgba(255, 255, 255, .4);
+    @media (min-width: $medium-break-point)
+    {
+        height: 42px;
+    }
+}
+.calendar__hour > div:nth-of-type(1)
+{
+    width: 30px;
+    padding: 2px 0 0 4px;
+    color: lighten($textLight, 20%);
+}
+.calendar__hour > div:nth-of-type(2)
+{
+    flex-grow: 1;
+}
+.calendar__hour__weather
+{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 16%;
+    cursor: pointer;
+    transition: box-shadow .5s;
+    color: white;
+    border-left: $border-left-width solid transparent;
+    background: rgba(0, 0, 0, .8);
+
+    align-items: center;
+    @media (min-width: $medium-break-point)
+    {
+        flex-direction: row;
+
+        height: 100%;
+    }
+    &:hover
+    {
+        box-shadow: $shadow;
+    }
+}
+
+.weather-icon-small
+{
+    font-size: 1rem;
+}
+
+.calendar__hour--day .calendar__hour__weather
+{
+    color: $textLight;
+    background: rgba(255, 255, 255, .3);
+}
+.calendar__hour__weather > div
+{
+    margin: 5px 0;
+    padding: 4px 0;
+    @media (min-width: $medium-break-point)
+    {
+        width: 100%;
+        margin: 0;
+        text-align: center;
+    };
+}
+.calendar__hour__weather > div:first-of-type
+{
+    margin: 0;
+    padding-top: 11px;
+}
+.calendar__hour__weather > div:last-of-type
+{
+    height: 100%;
+}
+.calendar__hour__weather > div
+{
+    padding: 0;
+}
+.calendar__hour__weather > div > span
+{
+    position: relative;
+}
+.temp
+{
+    height: 100%;
+    padding-top: 10px;
+}
+
+.calendar__hour__weather .precip-anim-container
+{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    @media (min-width: $medium-break-point)
+    {
+        position: relative;
+    }
+}
+.calendar__hour__weather .wi
+{
+    font-size: 1.2em;
+    @media (min-width: $medium-break-point)
+    {
+        font-size: 1.6em;
+    }
+}
+.calendar__hour__weather .precip-anim-container span
+{
+    width: 100%;
+    @media (min-width: $medium-break-point)
+    {
+        position: relative;
+        top: 50%;
+        display: inline-block;
+        transform: translateY(-50%);
+    }
+}
+.calendar__hour__weather svg
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+}
+@-webkit-keyframes precip
+{
+    0%
+    {
+        transform: translateY(-5px);
+        opacity: .1;
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    90%
+    {
+        opacity: 1;
+    }
+    100%
+    {
+        transform: translateY(80px);
+        opacity: .1;
+    }
+}
+@keyframes precip
+{
+    0%
+    {
+        transform: translateY(-5px);
+        opacity: .1;
+    }
+    10%
+    {
+        opacity: 1;
+    }
+    90%
+    {
+        opacity: 1;
+    }
+    100%
+    {
+        transform: translateY(80px);
+        opacity: .1;
+    }
+}
+.rain--fast
+{
+    animation: precip 1s ease-in infinite;
+}
+.rain--slow
+{
+    animation: precip 2s ease-in infinite;
+}
+.snow--fast
+{
+    animation: precip 3s ease-in infinite;
+}
+.snow--slow
+{
+    animation: precip 5s ease-in infinite;
+}
+
+/* ==========================================================================
+   calendar entry
+   ========================================================================== */
+.all-day-tasks li
+{
+    display: inline-block;
+
+    margin: 4px 8px;
+    padding: 4px;
+
+    list-style-type: none;
+    &:first-of-type
+    {
+        margin: 4px 8px 4px 0;
+    }
+}
+.calendar__entry
+{
+    position: absolute;
+    overflow: hidden;
+    list-style: none;
+    cursor: pointer;
+    transition: box-shadow .5s;
+    color: $text;
+    border: 1px solid gainsboro;
+    background-color: #fff;
+    &:hover
+    {
+        box-shadow: $shadow;
+    }
+}
+.calendar__entry > div
+{
+    padding: .5%;
+}
+.calendar__entry > div:first-of-type
+{
+    font-size: .8em;
+    font-weight: bold;
+    color: $textLight;
+}
+.calendar__entrylist
+{
+    position: absolute;
+    top: 0;
+    right: 15%;
+    bottom: 0;
+    left: 30px;
+
+    margin-top: 0;
+    @media (min-width: $medium-break-point)
+    {
+        right: 18%;
+        left: 40px;
+    }
+}
+
+/* ==========================================================================
+   tabs
+   ========================================================================== */
+.tab-component ul
+{
+    left: 0;
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+.tab-component li
+{
+    z-index: 1;
+
+    width: 160px;
+    padding: .4% 0;
+
+    list-style: none;
+
+    transition: width .8s, background-color .8s;
+    transition: color .5s,  background .5s;
+    text-align: center;
+    &:hover
+    {
+        color: $textLight;
+        background: lighten($lightGray, 10%);
+    }
+}
+.tab__title
+{
+    font-size: 1.8rem;
+    font-weight: bold;
+    font-variant: small-caps;
+    margin: 0;
+    text-transform: lowercase;
+}
+.tab-component li a
+{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: lighten($textLight, 25%);
+    border-bottom: $border-left-width solid transparent;
+}
+
+.tab-component div,
+.tab-component h3
+{
+    position: relative;
+    z-index: 1;
+}
+
+.tab-component li.active
+{
+    z-index: 0;
+    width: 100%;
+    background: #fff;
+}
+
+.tab-component li.active a
+{
+    width: 100%;
+    cursor: default;
+    text-decoration: none;
+    color: $textLight;
+}
+
+.tab-component li:nth-of-type(2).active a
+{
+    position: relative;
+    right: 15%;
+}
+
+.weather-icon-large
+{
+    font-size: 9rem;
+    position: absolute;
+    z-index: 0;
+    top: -20px;
+    left: 100%;
+    transition: left .5s;
+    text-align: center;
+    opacity: 0;
+    color: $lightGray;
+}
+.tab-component li.active .weather-icon-large
+{
+    top: -67%;
+    left: 46%;
+    opacity: .2;
+    color: $dark-blue;
+}
+.tab-component li:first-of-type .weather-icon-large
+{
+    left: 0;
+}
+
+.tab-component li:first-of-type.active .weather-icon-large
+{
+    left: 46%;
+}
+.tab-component__tab
+{
+    position: relative;
+}
+.ReactModal__Overlay
+{
+    z-index: 3;
+    background-color: rgba(0, 0, 0, .75) !important;
+}
+.modal-content
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+.no-hour-entries
+{
+    font-size: 1.6rem;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 84%;
+    height: 100%;
+    padding: 40% 0;
+    text-align: center;
+    color: #6d6d6d;
+    background: rgba(255, 255, 255, .7);
+}
+
+/* ==========================================================================
+   menu
+   ========================================================================== */
+
+/* Position and sizing of burger button */
+.bm-burger-button
+{
+    position: absolute;
+    z-index: 2 !important;
+    top: 15px;
+    right: 2%;
+
+    width: 100px;
+    height: 30px;
+
+    @media (min-width: '900px')
+    {
+        right: calc((100vw - 900px)/2);
+    }
+}
+
+.bm-burger-button button
+{
+    height: auto !important;
+}
+
+/* Position and sizing of clickable cross button */
+.bm-cross-button
+{
+    width: 24px;
+    height: 24px;
+}
+
+/* Color/shape of close button cross */
+.bm-cross
+{
+    background: #bdc3c7;
+}
+
+/* General sidebar styles */
+.bm-menu
+{
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    background: #fff;
+}
+
+.bm-menu-wrap
+{
+    z-index: 3 !important;
+}
+
+.bm-overlay
+{
+    z-index: 3 !important;
+}
+
+.bm-item-list a span
+{
+    margin-left: 10px;
+}
+
+.bm-menu__footer
+{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.bm-menu__item
+{
+    display: block;
+    height: 60px;
+    padding: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+
+    color: $dark-blue;
+
+    &:hover
+    {
+        color: darken($dark-blue, 10%);
+    }
+}
+
+.bm-menu__item i
+{
+    font-size: 1.5rem;
+    width: 40px !important;
+}
+
+/* Morph shape necessary with bubble or elastic */
+.bm-morph-shape
+{
+    fill: #373a47;
+}
+
+/* Wrapper for item list */
+.bm-item-list
+{
+    color: #b8b7ad;
+}
+
+.bm-menu h3
+{
+    font-size: 1.4rem;
+    font-weight: normal;
+    font-style: normal;
+    font-variant: normal;
+
+    margin: 0;
+    padding: 0 1rem;
+
+    text-align: left;
+}
+
+.bm-menu h3 em
+{
+    font-style: normal;
+    display: block;
+    color: darken(#b8b7ad, 20%);
+}
+
+.bm-menu .section
+{
+    padding: 20px 0;
+}
+
+.bm-menu .section
+{
+    border-right: none;
+    border-bottom: 2px solid #f1f1f1;
+    border-left: none;
+}
+.bm-menu .section:last-of-type
+{
+    position: fixed;
+    bottom: 0;
+}
+
+.bm-menu .load-google
+{
+    font-variant: small-caps;
+    display: block;
+    margin: auto;
+    padding: .5rem;
+    text-transform: lowercase;
+    border: 2px solid #d8d8d8;
+}
+
+/* ==========================================================================
+   popover
+   ========================================================================== */
+
+.Popover
+{
+    position: relative;
+    z-index: 3;
+}
+.Popover-body
+{
+    display: inline-flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    color: white;
+    border-radius: .3rem;
+    background: hsl(0, 0%, 27%);
+}
+
+.Popover-body h4
+{
+    margin: .3rem 0;
+}
+
+.Popover-body a
+{
+    padding: .4rem .6rem;
+    text-decoration: none;
+    color: white;
+    border: 1px solid gray;
+    border-radius: .2rem;
+    &:hover
+    {
+        background-color: rgba(255, 255, 255, .15);
+    }
+}
+
+.Popover-body li
+{
+    list-style-type: none;
+}
+
+.Popover-tipShape
+{
+    fill: hsl(0, 0%, 27%);
+}
+
+/* ==========================================================================
+   app logo
+   ========================================================================== */
+
+.climacal-logo
+{
+    display: flex !important;
+    padding: .5%;
+}
+
+.climacal-logo h1
+{
+    font-size: 2rem;
+    margin: .1rem .5rem 0 .5rem;
+    color: #c3c2c2;
+}
+
+.bm-menu .climacal-logo
+{
+    margin-left: 3%;
+    padding-top: 40px;
+}
+
+/* ==========================================================================
+     top nav
+     ========================================================================== */
+
+.navbar
+{
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, .45);
+    box-shadow: 0 3px 3px rgba(0,0,0,.08);
+}

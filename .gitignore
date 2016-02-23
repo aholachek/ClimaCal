@@ -33,4 +33,4 @@ bower_components/
 npm-debug.log
 .DS_Store
 /*.env
-/dist
+

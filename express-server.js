@@ -53,6 +53,4 @@ app.get('/get-forecast',  cors(corsOptions), function (req, res) {
 
 });
 //process.env is from heroku
-var server = app.listen(process.env.PORT || config.port, function () {
-
-});
+app.listen(process.env.PORT || config.port);

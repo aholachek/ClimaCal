@@ -2,7 +2,7 @@
   "name": "climaCal",
   "private": true,
   "version": "0.0.1",
-  "description": "google calendar + hourly weather",
+  "description": "google calendar + hourly weather = bad portmanteau",
   "main": "",
   "engines": {
     "node": "5.1.0"
@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist && cp -r ./src/styles ./dist/styles && cp -r ./src/images ./dist/images",
-    "dist": "npm run copy & webpack --env=dist",
+    "dist": "npm run copy && webpack --env=dist",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
     "release:major": "npm version major && npm publish && git push --follow-tags",

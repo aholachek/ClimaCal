@@ -573,15 +573,12 @@ ul
 
 .no-hour-entries
 {
-    font-size: 1.8rem;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 84%;
-    height: 100%;
-    padding: 50% 0;
-    text-align: center;
-    color: #6d6d6d;
+  font-size: 2rem;
+  position: absolute;
+  top: 30%;
+  color: #6d6d6d;
+  left: 29%;
+  z-index: 1;
 }
 /* ==========================================================================
    onboardModal

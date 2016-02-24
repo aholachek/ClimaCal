@@ -132,10 +132,8 @@ class CalendarContainerComponent extends React.Component {
           </div>
         </div>
         <Scrollbars ref='scrollbars' onScroll={this.closeChildPopovers}>
+          {calendarEntries.length === 0 ? noHourEntries  : null }
           <div className='calendar__container'>
-            {calendarEntries.length === 0
-              ? noHourEntries
-              : null}
             <ol>{hourEntries}</ol>
             <ol className='calendar__entrylist'>{calendarEntries}</ol>
           </div>

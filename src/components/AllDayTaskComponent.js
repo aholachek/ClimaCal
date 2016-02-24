@@ -9,7 +9,13 @@ class AllDayTaskComponent extends React.Component {
   render() {
   let color = Colors.event[this.props.data.colorId].background || "gray";
 
-  let content = (<li  onClick = {this.props.setPopover}
+  let className = '';
+  if (this.props.popover) className += ' shadow'
+
+
+  let content = (<li
+                      className={className}
+                      onClick = {this.props.setPopover}
                       style = {{borderBottom : ".35rem solid " + color}}>
                       {this.props.data.summary}
                 </li>);

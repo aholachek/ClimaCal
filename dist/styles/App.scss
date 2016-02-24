@@ -139,6 +139,12 @@ ul
     justify-content: space-between;
 }
 
+// general
+
+.shadow {
+  box-shadow : $shadow;
+}
+
 /* ==========================================================================
    calendar container
    ========================================================================== */
@@ -431,6 +437,7 @@ ul
         box-shadow: $shadow;
     }
 }
+
 .calendar__entry > div
 {
     padding: .5%;
@@ -563,31 +570,7 @@ ul
 {
     position: relative;
 }
-//overpowering react-modal's element styles
-.ReactModal__Overlay
-{
-    z-index: 3;
-    background-color: rgba(0, 0, 0, .75) !important;
-}
-.ReactModal__Overlay>div {
-    top: 0 !important;
-    right: 0 !important;;
-    bottom: 0 !important;;
-    left: 0 !important;;
-    background: rgba(0, 0, 0, 0.6) !important;
-    color: white !important;
-    font-size: 1.2rem !important;
-}
-.modal-content
-{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-}
+
 .no-hour-entries
 {
     font-size: 1.8rem;
@@ -600,6 +583,51 @@ ul
     text-align: center;
     color: #6d6d6d;
 }
+/* ==========================================================================
+   onboardModal
+   ========================================================================== */
+
+  .ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.ReactModal__Content--before-close {
+  opacity: 0;
+  transition: opacity 400ms ease-in;
+}
+//overpowering react-modal's element styles
+.ReactModal__Overlay
+{
+    z-index: 3;
+    background-color: rgba(0, 0, 0, .6) !important;
+}
+.ReactModal__Content {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+    font-size: 1.2rem !important;
+    border: none !important;
+    border-radius : 0 !important;
+
+}
+.modal-content
+{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-details {
+  height: 200px;
+}
+
 
 /* ==========================================================================
    menu

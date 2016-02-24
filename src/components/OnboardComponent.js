@@ -33,11 +33,11 @@ class OnboardComponent extends React.Component {
       //if equal to undefined, initial loading check is in progress
       this.props.appData.self.googleAuth === undefined
         ){
-      container = (<div> <i className="fa fa-spinner fa-pulse"></i> Loading ... </div>)
+      container = (<div className="modal-details"> <i className="fa fa-spinner fa-pulse"></i> Loading ... </div>)
     }
     else {
       container = (
-      <div>
+      <div className="modal-details">
 
         <button onClick={this._authorize}> load my calendar + local weather data * </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
@@ -54,7 +54,10 @@ class OnboardComponent extends React.Component {
 
     return (
       <Modal
-        isOpen={this.props.appData.onboardModal}>
+        closeTimeoutMS={400}
+        isOpen={this.props.appData.onboardModal}
+        onRequestClose={this.props.closeModal}
+        >
         <div className="modal-content" ref="container">
           <div className="climacal-logo">
             <Isvg src="/images/climaCal.svg" ></Isvg>

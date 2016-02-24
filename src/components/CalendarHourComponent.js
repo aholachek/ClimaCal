@@ -15,7 +15,7 @@ class CalendarHourComponent extends React.Component {
     let hour = time.getHours();
 
     if (hour == 0)
-      hour = '12a'
+      hour = '12am'
     else if (hour == 12)
       hour = '12pm'
     else if (hour > 12)
@@ -47,8 +47,11 @@ class CalendarHourComponent extends React.Component {
       parentClass += ' calendar__hour--day';
     }
 
+    let className = 'calendar__hour__weather';
+    if (this.props.popover) className += ' shadow';
+
     let weather = (
-      <div className='calendar__hour__weather'
+      <div className={className}
            onClick = {this.props.setPopover} >
       <div className = {tempClass}>{displayTemp}&deg;</div>
       <div>
@@ -87,7 +90,7 @@ class CalendarHourComponent extends React.Component {
   addPrecipAnimation (){
     const precipCountScale = d3.scale.linear()
     //0 --- .4 (heavy rain)
-      .domain([0, .4]).rangeRound([8, 20]).clamp(true);
+      .domain([0, .4]).rangeRound([8, 16]).clamp(true);
 
     const svg = ReactDOM.findDOMNode(this.refs.precipContainer);
     const d = this.props.data;
@@ -102,6 +105,13 @@ class CalendarHourComponent extends React.Component {
          else
          {return '#b4c0f9'}
       })
+      .attr('stroke', function() {
+          if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail')
+          {return 'gray' }
+           else
+           {return '#b4c0f9'}
+        })
+      .attr('stroke-width', 1)
       .each(function(){
         this.multiplier = Math.random();
       })
@@ -111,21 +121,24 @@ class CalendarHourComponent extends React.Component {
 
       .each(function(){
 
-        let that = this;
-          function animate() {
+        let animate = function () {
+            //it's not in the DOM anymore, so stop
+            //XXX : velocity is still holding reference to these circles
+            if (!document.body.contains(this)) {
+                return
+            }
 
-            that.setAttribute('cx', d3.max([2, Math.random() * 40]));
-            that.setAttribute('cy', d3.max([2, Math.random() * 30]));
+            this.setAttribute('cx', d3.max([2, Math.random() * 40]));
+            this.setAttribute('cy', d3.max([2, Math.random() * 30]));
 
-              Velocity(that, {
+              Velocity(this, {
                 translateY : ['50px', '-10px'],
-
               }, {
                 delay : Math.random() * 5000,
                 duration : 3000,
                 complete : animate
               });
-          }
+          }.bind(this);
 
           animate();
 
@@ -136,6 +149,7 @@ class CalendarHourComponent extends React.Component {
   componentDidMount () {
     this.addPrecipAnimation.call(this);
   }
+
 
   componentDidUpdate (){
     this.addPrecipAnimation.call(this);

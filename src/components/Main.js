@@ -4,17 +4,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Isvg from 'react-inlinesvg';
 import _ from 'lodash';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Calendar from './../modules/calendar';
 import Menu from 'react-burger-menu';
+const AnimMenu = Menu.scaleRotate;
+
 import TabComponent from './TabComponent';
 import CalendarContainerComponent from './CalendarContainerComponent';
 import OnboardComponent from './OnboardComponent';
 
 import AppStateManager from './../modules/data_store';
 import animate from './../modules/animate';
-
-const AnimMenu = Menu.scaleRotate;
 
 
 class AppComponent extends React.Component {
@@ -171,16 +172,19 @@ class AppComponent extends React.Component {
               </CalendarContainerComponent>
           </main>
 
-          <OnboardComponent appData = {this.props.data}
-            closeModal = {this.closeModal}>
-          </OnboardComponent>
+            <OnboardComponent
+               appData = {this.props.data}
+               closeModal = {this.closeModal}
+               >
+             </OnboardComponent>
+
       </div>
 
     );
   }
 
-  closeModal (){
-    this.changeState({onboardModal : false});
+  closeModal () {
+      this.changeState({onboardModal : false});
 }
 
 toggleMenu (val) {

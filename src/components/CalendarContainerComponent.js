@@ -172,7 +172,10 @@ CalendarContainerComponent.propTypes = {
   calendar: React.PropTypes.array.isRequired,
   allDayTasks: React.PropTypes.array.isRequired,
   today : React.PropTypes.object.isRequired,
-  latLong :  React.PropTypes.bool.isRequired,
+  latLong : React.PropTypes.oneOfType([
+      React.PropTypes.array,
+      React.PropTypes.bool
+    ]).isRequired
 };
 
 export default CalendarContainerComponent;

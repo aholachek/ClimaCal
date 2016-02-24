@@ -233,7 +233,7 @@ let stubData = {
        'self': true
      },
      'start': {
-       'dateTime': '2016-01-28T07:30:00-05:00'
+       'dateTime': '2016-01-28T08:30:00-05:00'
      },
      'end': {
        'dateTime': '2016-01-28T17:30:00-05:00'
@@ -332,7 +332,7 @@ let stubData = {
        'self': true
      },
      'start': {
-       'dateTime': '2016-01-29T07:00:00-05:00'
+       'dateTime': '2016-01-29T08:00:00-05:00'
      },
      'end': {
        'dateTime': '2016-01-29T19:00:00-05:00'
@@ -1243,10 +1243,11 @@ let stubData = {
           },
           {
             'time': 1454014800,
-            'summary': 'Partly Cloudy',
-            'icon': 'partly-cloudy-day',
-            'precipIntensity': 0,
-            'precipProbability': 0,
+            'summary': 'Snow',
+            'icon': 'snow',
+            'precipIntensity': 0.1,
+            'precipProbability': .4,
+            'precipType' : 'snow',
             'temperature': 42.14,
             'apparentTemperature': 37.49,
             'dewPoint': 32.68,

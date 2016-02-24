@@ -153,13 +153,13 @@ class CalendarContainerComponent extends React.Component {
   }
 
   componentDidMount () {
-    let hourHeight = (document.body.clientWidth < 600) ? 80 : 42;
+    let hourHeight = (document.body.clientWidth < 600) ? 80 : 44;
     this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 
   componentDidUpdate (newProps) {
     if (newProps.today === this.props.today) return;
-    let hourHeight = (document.body.clientWidth < 600) ? 80 : 42;
+    let hourHeight = (document.body.clientWidth < 600) ? 80 : 44;
     this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 

@@ -590,16 +590,15 @@ ul
 }
 .no-hour-entries
 {
-    font-size: 1.6rem;
-    position: absolute;
+    font-size: 1.8rem;
+    position: fixed;
     top: 0;
     bottom: 0;
     width: 84%;
     height: 100%;
-    padding: 40% 0;
+    padding: 50% 0;
     text-align: center;
     color: #6d6d6d;
-    background: rgba(255, 255, 255, .7);
 }
 
 /* ==========================================================================
@@ -765,12 +764,12 @@ ul
 }
 .Popover-body
 {
-    display: inline-flex;
-    flex-direction: column;
-    padding: 1rem 2rem;
-    color: white;
-    border-radius: .3rem;
-    background: #2B2B2B;
+  display: inline-flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+  color: $text;
+  border: 2px solid $text;
+  background: #FFFFFF;
 }
 
 .Popover-body h4
@@ -782,12 +781,13 @@ ul
 {
     padding: .4rem .6rem;
     text-decoration: none;
-    color: white;
+    color: $text;
     border: 1px solid gray;
     border-radius: .2rem;
     &:hover
     {
-        background-color: rgba(255, 255, 255, .15);
+        color : $dark-blue;
+
     }
 }
 
@@ -798,7 +798,7 @@ ul
 
 .Popover-tipShape
 {
-    fill: #2B2B2B;
+    fill: $text;
 }
 
 /* ==========================================================================

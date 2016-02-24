@@ -14,7 +14,7 @@ class CalendarHourComponent extends React.Component {
     let time = new Date(this.props.data.time * 1000);
     let hour = time.getHours();
 
-    if (hour === 0)
+    if (hour == 0)
       hour = '12a'
     else if (hour == 12)
       hour = '12pm'
@@ -28,7 +28,6 @@ class CalendarHourComponent extends React.Component {
     let probabilityThreshold = .1;
     let precip = (<div className = 'precip-anim-container'>
           <svg></svg>
-          -
         </div>);
 
     if (this.props.data.precipProbability > probabilityThreshold) {
@@ -67,9 +66,9 @@ class CalendarHourComponent extends React.Component {
       <div>
         <h4>{hour} : {this.props.data.summary.toLowerCase()}</h4>
         <ul>
-          <li> real temp : {this.props.data.temperature.toFixed(0)}&deg;</li>
-          <li> feels like : {this.props.data.apparentTemperature.toFixed(0)}&deg;</li>
-          <li> humidity: {this.props.data.humidity * 100}% </li>
+          <li> real temp: <b>{parseInt(this.props.data.temperature)}</b>&deg;&nbsp;&nbsp;feels like: <b>{parseInt(this.props.data.apparentTemperature)}</b>&deg;</li>
+          <li> chance of precipitation : <b>{this.props.data.precipProbability.toFixed(2)* 100}%</b></li>
+          <li> humidity: <b>{this.props.data.humidity * 100}% </b></li>
         </ul>
       </div>
     )

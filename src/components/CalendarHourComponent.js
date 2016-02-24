@@ -49,7 +49,8 @@ class CalendarHourComponent extends React.Component {
     }
 
     let weather = (
-      <div className='calendar__hour__weather' onClick={this.props.setPopover}>
+      <div className='calendar__hour__weather'
+           onClick = {this.props.setPopover} >
       <div className = {tempClass}>{displayTemp}&deg;</div>
       <div>
         <i className={iconClass}></i>
@@ -100,7 +101,7 @@ class CalendarHourComponent extends React.Component {
         if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail')
         {return 'snow' }
          else
-         {return '#5151E6'}
+         {return '#b4c0f9'}
       })
       .each(function(){
         this.multiplier = Math.random();
@@ -112,8 +113,6 @@ class CalendarHourComponent extends React.Component {
       .each(function(){
 
         let that = this;
-        that.setAttribute('fill-opacity', (that.multiplier * .6).toFixed(1));
-
           function animate() {
 
             that.setAttribute('cx', d3.max([2, Math.random() * 40]));
@@ -147,9 +146,11 @@ class CalendarHourComponent extends React.Component {
 
 CalendarHourComponent.displayName = 'CalendarHourComponent';
 
-// Uncomment properties you need
 CalendarHourComponent.propTypes = {
-  data: React.PropTypes.object
+  data : React.PropTypes.object.isRequired,
+  setPopover : React.PropTypes.func.isRequired,
+  popover : React.PropTypes.bool.isRequired,
+  sun : React.PropTypes.array.isRequired
 };
 // CalendarHourComponent.defaultProps = {};
 

@@ -32,8 +32,10 @@ class CalendarEntryComponent extends React.Component {
 
   render() {
 
-    let taskColor = this.props.data.colorId ? Colors.event[this.props.data.colorId].background : "gray";
-    let taskTextColor = this.props.data.colorId ? Colors.event[this.props.data.colorId].foreground : "#212121";
+    let colorId = this.props.data.colorId || "9";
+
+    let taskColor = Colors.event[colorId].background
+    let taskTextColor = Colors.event[colorId].foreground;
 
     let times = getDisplayTime(new Date(this.props.data.start.dateTime));
         times+= " - ";
@@ -45,9 +47,10 @@ class CalendarEntryComponent extends React.Component {
           top : this.props.data.layout.top  + "%",
           width : (this.props.data.layout.width - 0.5) + "%",
           left: this.props.data.layout.left + "%"
-
         }}
-        onClick={this.props.setPopover}>
+        onClick = {this.props.setPopover}
+
+        >
         <div style={{backgroundColor : taskColor, color : taskTextColor }}>{times}</div>
         <div>
           {this.props.data.summary}
@@ -74,9 +77,10 @@ class CalendarEntryComponent extends React.Component {
 
 CalendarEntryComponent.displayName = 'CalendarEntryComponent';
 
-// Uncomment properties you need
 CalendarEntryComponent.propTypes = {
-  data : React.PropTypes.object
+  data : React.PropTypes.object.isRequired,
+  setPopover : React.PropTypes.func.isRequired,
+  popover : React.PropTypes.bool.isRequired
 };
 // CalendarEntryComponent.defaultProps = {};
 

@@ -8,9 +8,10 @@ class AllDayTaskComponent extends React.Component {
 
   render() {
   let color = Colors.event[this.props.data.colorId].background || "gray";
-  let content = (<li onClick={this.props.setPopover}
-                     style = {{borderBottom : ".35rem solid " + color}}>
-                  {this.props.data.summary}
+
+  let content = (<li  onClick = {this.props.setPopover}
+                      style = {{borderBottom : ".35rem solid " + color}}>
+                      {this.props.data.summary}
                 </li>);
 
   if (this.props.popover){
@@ -32,8 +33,10 @@ class AllDayTaskComponent extends React.Component {
 
 AllDayTaskComponent.displayName = 'AllDayTaskComponent';
 
-// Uncomment properties you need
-// AuthButtonComponent.propTypes = {};
-// AuthButtonComponent.defaultProps = {};
+AllDayTaskComponent.propTypes = {
+  data : React.PropTypes.object.isRequired,
+  setPopover : React.PropTypes.func.isRequired,
+  popover : React.PropTypes.bool.isRequired
+};
 
 export default AllDayTaskComponent;

@@ -124,7 +124,7 @@ class AppComponent extends React.Component {
     </div>)
 
     return (
-      <div id="outer-container" ref="container">
+      <div id="outer-container" ref="container" onClick={this.hide}>
 
             <AnimMenu pageWrapId={ "page-wrap" }
                       outerContainerId={ "outer-container" }
@@ -138,7 +138,7 @@ class AppComponent extends React.Component {
               {authorizeUI}
             </div>
 
-            { hasPersonalData? appOptions : <div></div>}
+            { hasPersonalData? appOptions : <div></div> }
 
             <div className="section">
               <a className="bm-menu__item" href="https://github.com/aholachek/ClimaCal"><i className="fa fa-github-alt"></i><span>view the code</span></a>

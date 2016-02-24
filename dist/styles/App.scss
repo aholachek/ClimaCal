@@ -563,10 +563,20 @@ ul
 {
     position: relative;
 }
+//overpowering react-modal's element styles
 .ReactModal__Overlay
 {
     z-index: 3;
     background-color: rgba(0, 0, 0, .75) !important;
+}
+.ReactModal__Overlay>div {
+    top: 0 !important;
+    right: 0 !important;;
+    bottom: 0 !important;;
+    left: 0 !important;;
+    background: rgba(0, 0, 0, 0.6) !important;
+    color: white !important;
+    font-size: 1.2rem !important;
 }
 .modal-content
 {
@@ -649,6 +659,7 @@ ul
 .bm-overlay
 {
     z-index: 3 !important;
+    background : rgba(0, 0, 0, 0.66) !important;
 }
 
 .bm-item-list a span

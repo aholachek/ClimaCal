@@ -37,7 +37,12 @@ class CalendarContainerComponent extends React.Component {
       };
 
       return (
-        <CalendarEntryComponent key= {id} data= {c} popover={that.state.popover === id} setPopover= {setPopover}></CalendarEntryComponent>
+        <CalendarEntryComponent
+          key= {id}
+          data= {c}
+          popover={that.state.popover === id}
+          setPopover= {setPopover}>
+        </CalendarEntryComponent>
       )
     });
 
@@ -142,7 +147,7 @@ class CalendarContainerComponent extends React.Component {
   }
 
   closeChildPopovers () {
-    if(this.state.popover) {
+    if (this.state.popover) {
       this.setState({'popover': null});
     }
   }
@@ -162,11 +167,12 @@ class CalendarContainerComponent extends React.Component {
 
 CalendarContainerComponent.displayName = 'CalendarContainerComponent';
 
-// Uncomment properties you need
 CalendarContainerComponent.propTypes = {
-  forecast: React.PropTypes.object,
-  calendar: React.PropTypes.array
+  forecast: React.PropTypes.object.isRequired,
+  calendar: React.PropTypes.array.isRequired,
+  allDayTasks: React.PropTypes.array.isRequired,
+  today : React.PropTypes.object.isRequired,
+  latLong :  React.PropTypes.bool.isRequired,
 };
-CalendarContainerComponent.defaultProps = {};
 
 export default CalendarContainerComponent;

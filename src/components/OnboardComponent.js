@@ -56,7 +56,6 @@ class OnboardComponent extends React.Component {
       <Modal
         isOpen={this.props.appData.onboardModal}>
         <div className="modal-content" ref="container">
-
           <div className="climacal-logo">
             <Isvg src="/images/climaCal.svg" ></Isvg>
               <h1>
@@ -77,9 +76,9 @@ class OnboardComponent extends React.Component {
 
 OnboardComponent.displayName = 'OnboardComponent';
 
-// Uncomment properties you need
 OnboardComponent.propTypes = {
-  data : React.PropTypes.object
+  appData : React.PropTypes.object.isRequired,
+  closeModal : React.PropTypes.func.isRequired
 };
 // OnboardComponent.defaultProps = {};
 

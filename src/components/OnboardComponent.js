@@ -40,27 +40,18 @@ class OnboardComponent extends React.Component {
       //if equal to undefined, initial loading check is in progress
       this.props.appData.self.googleAuth === undefined
         ){
-      container = (<div className="overlay-details"> Loading ... </div>)
+      container = (<div className="overlay-details" style={{paddingTop: '30px'}}> Loading ... </div>)
     }
     else {
       container = (
       <div className="overlay-details">
+        <h1>
+            ClimaCal
+        </h1>
 
-        <button onClick={this._authorize}> load my calendar + local weather data * </button>
+        <button onClick={this._authorize} style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
-        <button onClick={this.props.closeModal}>preview app</button>
-
-          <div>
-
-           * The only data requested is:
-           <ul>
-             <li>your Google Calendar schedule for today and tomorrow</li>
-             <li>your current geographic position</li>
-           </ul>
-            Other identifying information is not required.
-          </div>
-
-
+        <button onClick={this.props.closeModal} style={{marginTop: '20px'}}>view a preview of the app</button>
 
       </div>
       );
@@ -76,12 +67,7 @@ class OnboardComponent extends React.Component {
       >
         <div className={className}>
           <div className="overlay-content">
-            <div className="climacal-logo">
               <Isvg src="/images/climaCal.svg" ></Isvg>
-                <h1>
-                    ClimaCal
-                </h1>
-            </div>
           {container}
         </div>
         </div>

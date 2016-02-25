@@ -84,7 +84,6 @@ import AppStateManager from './data_store';
   }
 
   function handleAuthClick() {
-    debugger
     gapi.auth.authorize(
          {
            client_id: CLIENT_ID,

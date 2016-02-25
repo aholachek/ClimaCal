@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Popover from 'react-popover';
 import Colors from './../config/colors';
 
@@ -52,7 +53,7 @@ class CalendarEntryComponent extends React.Component {
           left: this.props.data.layout.left + '%'
         }}
         onClick = {this.props.setPopover}
-
+        ref = "container"
         >
         <div style={{backgroundColor : taskColor, color : taskTextColor }}>{times}</div>
         <div>
@@ -73,6 +74,13 @@ class CalendarEntryComponent extends React.Component {
     else {
       return content
     }
+  }
+
+  componentDidMount (){
+    var container = ReactDOM.findDOMNode(this.refs.container);
+    setTimeout(function(){
+      container.classList.add("in");
+    }, 0)
   }
 
 

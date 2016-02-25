@@ -13,7 +13,6 @@ function getWeatherData() {
   }
   navigator.geolocation.getCurrentPosition(function(position) {
 
-    //for dev this should be 'localhost:3000', not sure how to automate
     request.get('/get-forecast')
       .query({
         lat: position.coords.latitude,
@@ -36,7 +35,7 @@ function getWeatherData() {
           newState.self.weather = JSON.parse(resp.text);
         }
         catch (e){
-          console.error("couldn't parse weather json");
+          console.error("couldn't parse weather json", resp.text);
           newState.self.weather = false;
         }
         AppStateManager.setState(newState);

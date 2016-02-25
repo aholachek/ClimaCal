@@ -52,7 +52,8 @@ class CalendarHourComponent extends React.Component {
 
     let weather = (
       <div className={className}
-           onClick = {this.props.setPopover} >
+           onClick = {this.props.setPopover}
+           >
       <div className = {tempClass}>{displayTemp}&deg;</div>
       <div>
         <i className={iconClass}></i>

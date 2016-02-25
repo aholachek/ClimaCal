@@ -2,14 +2,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Modal from 'react-modal';
+import Portal from 'react-portal';
 import Isvg from 'react-inlinesvg';
 
 import AppStateManager from './../modules/data_store';
 
 import Calendar from './../modules/calendar';
 import Weather from './../modules/weather';
-
 
 
 class OnboardComponent extends React.Component {
@@ -20,6 +19,14 @@ class OnboardComponent extends React.Component {
     AppStateManager.setState(newState);
     //when authorized, weather will be requested
     Calendar.handleAuthClick();
+  }
+
+  beforeClose(node, removeFromDom) {
+    node.querySelector(".overlay").classList.add("fade-out-up");
+    setTimeout(function(){
+      removeFromDom();
+    }, 500);
+
   }
 
   render() {
@@ -33,43 +40,52 @@ class OnboardComponent extends React.Component {
       //if equal to undefined, initial loading check is in progress
       this.props.appData.self.googleAuth === undefined
         ){
-      container = (<div className="modal-details"> <i className="fa fa-spinner fa-pulse"></i> Loading ... </div>)
+      container = (<div className="overlay-details"> Loading ... </div>)
     }
     else {
       container = (
-      <div className="modal-details">
+      <div className="overlay-details">
 
         <button onClick={this._authorize}> load my calendar + local weather data * </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
         <button onClick={this.props.closeModal}>preview app</button>
 
-        <p>
-           * The only data requested is the content of your Google Calendar for today and tomorrow,<br/>
-          and your geographical position. Other identifying information is not required.
-        </p>
+          <div>
+
+           * The only data requested is:
+           <ul>
+             <li>your Google Calendar schedule for today and tomorrow</li>
+             <li>your current geographic position</li>
+           </ul>
+            Other identifying information is not required.
+          </div>
+
+
 
       </div>
       );
     }
 
-    return (
-      <Modal
-        closeTimeoutMS={400}
-        isOpen={this.props.appData.onboardModal}
-        onRequestClose={this.props.closeModal}
-        >
-        <div className="modal-content" ref="container">
-          <div className="climacal-logo">
-            <Isvg src="/images/climaCal.svg" ></Isvg>
-              <h1>
-                  ClimaCal
-              </h1>
-          </div>
+    let className = "overlay";
+    if (this.props.appData.self.googleAuth === false) className += " fade-background";
 
-        <p>An integrated daily view of your Google calendar and local weather information. </p>
-        {container}
-      </div>
-      </Modal>
+    return (
+      <Portal
+        isOpened={this.props.appData.onboardModal}
+        beforeClose = {this.beforeClose}
+      >
+        <div className={className}>
+          <div className="overlay-content">
+            <div className="climacal-logo">
+              <Isvg src="/images/climaCal.svg" ></Isvg>
+                <h1>
+                    ClimaCal
+                </h1>
+            </div>
+          {container}
+        </div>
+        </div>
+      </Portal>
 
     )
 

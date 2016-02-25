@@ -17,7 +17,6 @@ class CalendarContainerComponent extends React.Component {
     }
 
     this.closeChildPopovers = this.closeChildPopovers.bind(this);
-
   }
 
   renderCalendarEntries() {
@@ -37,6 +36,7 @@ class CalendarContainerComponent extends React.Component {
       };
 
       return (
+
         <CalendarEntryComponent
           key= {id}
           data= {c}
@@ -135,7 +135,10 @@ class CalendarContainerComponent extends React.Component {
           {calendarEntries.length === 0 ? noHourEntries  : null }
           <div className='calendar__container'>
             <ol>{hourEntries}</ol>
-            <ol className='calendar__entrylist'>{calendarEntries}</ol>
+
+            <ol className='calendar__entrylist'>
+              {calendarEntries}
+            </ol>
           </div>
         </Scrollbars>
         <div className='calendar-bottom'></div>

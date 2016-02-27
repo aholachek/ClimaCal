@@ -1,6 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import {Scrollbars} from 'react-custom-scrollbars';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import CalendarEntryComponent from './CalendarEntryComponent';
 import CalendarHourComponent from './CalendarHourComponent';
@@ -118,7 +119,9 @@ class CalendarContainerComponent extends React.Component {
         <div className='calendar-top'>
           <div className='all-day-tasks'>
             <ul>
+              <ReactCSSTransitionGroup transitionName="calendar-entry-animation" transitionEnterTimeout={500} transitionLeave={false}>
               {allDayTasks}
+            </ReactCSSTransitionGroup>
             </ul>
           </div>
           <div className='calendar-header'>
@@ -132,15 +135,19 @@ class CalendarContainerComponent extends React.Component {
           </div>
         </div>
         <Scrollbars ref='scrollbars' onScroll={this.closeChildPopovers}>
-          {calendarEntries.length === 0 ? noHourEntries  : null }
           <div className='calendar__container'>
-            <ol>{hourEntries}</ol>
+            <ol>
+              {hourEntries}
+            </ol>
 
             <ol className='calendar__entrylist'>
-              {calendarEntries}
+              <ReactCSSTransitionGroup transitionName="calendar-entry-animation" transitionEnterTimeout={500} transitionLeaveTimeout={10}>
+                {calendarEntries}
+                </ReactCSSTransitionGroup>
             </ol>
           </div>
         </Scrollbars>
+        {calendarEntries.length === 0 ? noHourEntries  : null }
         <div className='calendar-bottom'></div>
       </div>
     );

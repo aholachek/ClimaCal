@@ -28,7 +28,7 @@ class CalendarHourComponent extends React.Component {
     let probabilityThreshold = .1;
     let precip = (<div className = 'precip-anim-container'>
           <svg></svg>
-           -
+           <i className="weather-icon-small wi wi-sprinkle faded"></i>
         </div>);
 
     if (this.props.data.precipProbability > probabilityThreshold) {

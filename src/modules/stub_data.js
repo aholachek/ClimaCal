@@ -47,7 +47,7 @@ let stubData = {
         'htmlLink': 'https://calendar.google.com/calendar/event?eid=NDA4cjFwaWNjdmltODNwZ2FyYjgxZDdwZDRfMjAxNjAxMjcgYWhvbGFjaGVrQG0',
         'created': '2013-08-30T17:11:30.000Z',
         'updated': '2014-01-09T16:45:00.788Z',
-        'summary': 'Jenny\'s Birthday',
+        'summary': 'Jenny\'s Birthday : make sure to pick up the cake',
         'colorId': '4',
         'creator': {
           'email': 'aholachek@gmail.com',
@@ -76,6 +76,80 @@ let stubData = {
           'useDefault': false
         }
       },
+      {
+         'kind': 'calendar#event',
+         'etag': '\'2778571801576000\'',
+         'id': '408r1piccvim83pgarb81d7pd4_20160127',
+         'status': 'confirmed',
+         'htmlLink': 'https://calendar.google.com/calendar/event?eid=NDA4cjFwaWNjdmltODNwZ2FyYjgxZDdwZDRfMjAxNjAxMjcgYWhvbGFjaGVrQG0',
+         'created': '2013-08-30T17:11:30.000Z',
+         'updated': '2014-01-09T16:45:00.788Z',
+         'summary': 'John, Jude and Jason coming for the weekend',
+         'colorId': '2',
+         'creator': {
+           'email': 'aholachek@gmail.com',
+           'displayName': 'Alex Holachek',
+           'self': true
+         },
+         'organizer': {
+           'email': 'aholachek@gmail.com',
+           'displayName': 'Alex Holachek',
+           'self': true
+         },
+         'start': {
+           'date': '2016-01-29'
+         },
+         'end': {
+           'date': '2016-01-30'
+         },
+         'recurringEventId': '408r1piccvim83pgarb81d7pd4',
+         'originalStartTime': {
+           'date': '2016-01-27'
+         },
+         'transparency': 'transparent',
+         'iCalUID': '408r1piccvim83pgarb81d7pd4@google.com',
+         'sequence': 0,
+         'reminders': {
+           'useDefault': false
+         }
+       },
+       {
+          'kind': 'calendar#event',
+          'etag': '\'2778571801576000\'',
+          'id': '408r1piccvim83pgarb81d7pd4_20160127',
+          'status': 'confirmed',
+          'htmlLink': 'https://calendar.google.com/calendar/event?eid=NDA4cjFwaWNjdmltODNwZ2FyYjgxZDdwZDRfMjAxNjAxMjcgYWhvbGFjaGVrQG0',
+          'created': '2013-08-30T17:11:30.000Z',
+          'updated': '2014-01-09T16:45:00.788Z',
+          'summary': 'Make a giant batch of jello',
+          'colorId': '7',
+          'creator': {
+            'email': 'aholachek@gmail.com',
+            'displayName': 'Alex Holachek',
+            'self': true
+          },
+          'organizer': {
+            'email': 'aholachek@gmail.com',
+            'displayName': 'Alex Holachek',
+            'self': true
+          },
+          'start': {
+            'date': '2016-01-29'
+          },
+          'end': {
+            'date': '2016-01-30'
+          },
+          'recurringEventId': '408r1piccvim83pgarb81d7pd4',
+          'originalStartTime': {
+            'date': '2016-01-27'
+          },
+          'transparency': 'transparent',
+          'iCalUID': '408r1piccvim83pgarb81d7pd4@google.com',
+          'sequence': 0,
+          'reminders': {
+            'useDefault': false
+          }
+        },
       {
          'kind': 'calendar#event',
          'etag': '\'2778571801576000\'',

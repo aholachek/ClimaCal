@@ -77,8 +77,17 @@ body
 
 .tab-component
 {
-    height: 30px;
+    height: 35px;
     margin-top: 15px;
+    padding-bottom: 10px;
+
+    border-bottom: 2px solid #e8e8e8;
+
+    @media (min-width: $medium-break-point)
+    {
+        height: 30px;
+        margin-bottom: 5px;
+    }
 }
 .calendar-top
 {
@@ -88,7 +97,7 @@ body
 /*this is a div w/o classname created by scroll component*/
 .calendar-top + div
 {
-    height: calc(100vh - 50px - 45px - 80px - 10px) !important;
+    height: calc(100vh - 50px - (30px + 15px + 10px + 5px) - 80px - 10px) !important;
     margin: auto;
 }
 
@@ -165,6 +174,11 @@ ul
     background-color: rgba(0, 0, 0, .84) !important;
 }
 
+.faded
+{
+    opacity: .14;
+}
+
 
 /* ==========================================================================
    calendar container
@@ -174,8 +188,9 @@ ul
     position: relative;
 }
 
-.calendar {
-  position: relative;
+.calendar
+{
+    position: relative;
 }
 
 .calendar-top
@@ -183,9 +198,41 @@ ul
     position: relative;
     z-index: 1;
 
-    display: flex;
-    overflow: auto;
+    overflow: hidden;
+    @media (min-width: $medium-break-point)
+    {
+        display: flex;
+    }
+}
+.calendar-top .date
+{
+    @media (min-width: $medium-break-point)
+    {
+        position: absolute;
+        right: 0;
 
+        order: 1;
+    }
+}
+
+.calendar-top .date h3
+{
+    font-size: 1rem;
+
+    margin: 0;
+    padding: 5px;
+
+    color: $textLight;
+    background: #eaeaea;
+    @media (min-width: $medium-break-point)
+    {
+        font-size: 1.2rem;
+
+        padding: 10px 0 0 0;
+        padding-top: 10px;
+
+        background: #fff;
+    }
 }
 
 .calendar-top + div
@@ -197,13 +244,7 @@ ul
 {
     min-height: 20px;
 }
-.all-day-tasks
-{
-    @media (min-width: $medium-break-point)
-    {
-        width: 70%;
-    }
-}
+
 .calendar-header
 {
     font-size: .9rem;
@@ -212,19 +253,21 @@ ul
 
     width: 30%;
     margin-right: auto;
-    padding: 6px 0;
+    margin-left: 16%;
+    padding: 6px 2% 6px 0;
+
     @media (min-width: $medium-break-point)
     {
         display: flex;
 
-        justify-content: flex-end;
         align-self: flex-end;
     }
 }
 
-.calendar-header div:last-of-type {
-  position: relative;
-  left: 3px;
+.calendar-header div:last-of-type
+{
+    position: relative;
+    left: 3px;
 }
 
 .calendar-header .wi
@@ -441,26 +484,35 @@ ul
 /* ==========================================================================
    calendar entry
    ========================================================================== */
+.all-day-tasks
+{
+    overflow: scroll;
+    @media (min-width : $medium-break-point)
+    {
+        width: 84%;
+    }
+}
 .all-day-tasks li
 {
     display: inline-block;
+    overflow: hidden;
 
-    margin: 4px 8px;
+    max-width: 200px;
+    max-height: 32px;
+    margin: 4px 8px 8px 0;
     padding: 4px;
 
     list-style-type: none;
 
     cursor: pointer;
     transition: box-shadow .4s, transform .4s, opacity .4s;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     background-color: #fff;
     &:hover
     {
         box-shadow: 0 5px 10px 2px rgba(0, 0, 0, .2);
-    }
-    &:first-of-type
-    {
-        margin: 4px 8px 4px 0;
     }
 }
 .calendar__entry
@@ -582,10 +634,11 @@ ul
 .tab__title__temp
 {
     font-size: 1rem;
-    opacity: .7;
 
     position: relative;
     top: -2px;
+
+    opacity: .7;
 }
 .tab__summary
 {
@@ -600,18 +653,18 @@ ul
     height: 100%;
     padding: 1% 0;
 
-    text-decoration: none;
-
     transition: color .5s;
+    text-decoration: none;
 }
 
-.tab-component__tab:not(.active) a {
+.tab-component__tab:not(.active) a
+{
+    color: lighten($textLight, 25%);
 
-  color: lighten($textLight, 10%);
-
-  &:hover {
-    color: lighten($textLight, 5%);
-  }
+    &:hover
+    {
+        color: $textLight;
+    }
 }
 
 .tab-component div,
@@ -630,49 +683,38 @@ ul
     color: $primary;
 }
 
-.tab-component .icon-container {
-  position: relative;
+.tab-component .icon-container
+{
+    position: relative;
 }
 
 
-@media (min-width: $medium-break-point) {
 
+.icon-container i
+{
+    font-size: 1.2rem;
 
-  .icon-container i {
-    font-size: 1.8rem;
-    opacity: 0;
     transform: rotateX(-90deg);
     transform-origin: center;
-  }
 
-  .tab-component__tab.active .icon-container i{
-    opacity: .7;
-    transition : transform .4s ease-in, opacity .4s ease-in;
+    opacity: 0;
+    @media (min-width: $medium-break-point)
+    {
+        font-size: 1.8rem;
+    }
+}
+
+.tab-component__tab.active .icon-container i
+{
+    transition: transform .4s ease-in, opacity .4s ease-in;
     transform: rotateX(360deg);
 
-
-  }
-
+    opacity: .7;
 }
 
 
-.tab-component li.active .weather-icon-large
-{
-    top: -65%;
-    left: 46%;
 
-    opacity: .15;
-    color: $primary;
-}
-.tab-component li:first-of-type .weather-icon-large
-{
-    left: 0;
-}
 
-.tab-component li:first-of-type.active .weather-icon-large
-{
-    left: 46%;
-}
 .tab-component__tab
 {
     position: relative;
@@ -688,7 +730,6 @@ ul
     left: 30%;
 
     color: #6d6d6d;
-
 }
 /* ==========================================================================
    onboardModal
@@ -998,10 +1039,11 @@ ul
     @media (min-width: $medium-break-point)
     {
         visibility: visible;
-  }
+    }
 }
 
-.navbar .climacal-logo img {
-  max-height: 40px;
-  width: auto;
+.navbar .climacal-logo img
+{
+    width: auto;
+    max-height: 40px;
 }

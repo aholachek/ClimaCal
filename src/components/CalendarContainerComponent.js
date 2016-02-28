@@ -117,6 +117,9 @@ class CalendarContainerComponent extends React.Component {
     return (
       <div className='calendar'>
         <div className='calendar-top'>
+          <div className='date'>
+            <h3>{this.props.today.toDateString().slice(0, 10)}</h3>
+          </div>
           <div className='all-day-tasks'>
             <ul>
               <ReactCSSTransitionGroup transitionName="calendar-entry-animation" transitionEnterTimeout={500} transitionLeave={false}>
@@ -124,15 +127,7 @@ class CalendarContainerComponent extends React.Component {
             </ReactCSSTransitionGroup>
             </ul>
           </div>
-          <div className='calendar-header'>
-            <div>
-              <i className='wi wi-thermometer' title="apparent temperature"></i>
-            </div>
-            <div></div>
-            <div>
-              <i className='wi wi-sprinkle' title='precipitation'></i>
-            </div>
-          </div>
+
         </div>
         <Scrollbars ref='scrollbars' onScroll={this.closeChildPopovers}>
           <div className='calendar__container'>
@@ -161,13 +156,13 @@ class CalendarContainerComponent extends React.Component {
   }
 
   componentDidMount () {
-    let hourHeight = (document.body.clientWidth < 600) ? 80 : 44;
+    let hourHeight = (document.body.clientWidth < 600) ? 82 : 42;
     this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 
   componentDidUpdate (newProps) {
     if (newProps.today === this.props.today) return;
-    let hourHeight = (document.body.clientWidth < 600) ? 80 : 44;
+    let hourHeight = (document.body.clientWidth < 600) ? 82 : 42;
     this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 

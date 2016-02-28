@@ -221,6 +221,12 @@ ul
         align-self: flex-end;
     }
 }
+
+.calendar-header div:last-of-type {
+  position: relative;
+  left: 3px;
+}
+
 .calendar-header .wi
 {
     font-size: 1.4rem;
@@ -238,11 +244,7 @@ ul
 
     align-items: center;
 }
-.calendar-header > div:last-of-type
-{
-    position: relative;
-    left: .6%;
-}
+
 
 /* ==========================================================================
    calendar hour row
@@ -678,7 +680,7 @@ ul
 
 .no-hour-entries
 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
 
     position: absolute;
     z-index: 1;
@@ -687,12 +689,6 @@ ul
 
     color: #6d6d6d;
 
-    @media (min-width: '900px')
-    {
-        font-size: 2rem;
-
-        left: 20%;
-    }
 }
 /* ==========================================================================
    onboardModal

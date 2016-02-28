@@ -78,14 +78,13 @@ body
 .tab-component
 {
     height: 35px;
-    margin-top: 15px;
+    margin-top: 10px;
     padding-bottom: 10px;
 
     border-bottom: 2px solid #e8e8e8;
 
     @media (min-width: $medium-break-point)
     {
-        height: 30px;
         margin-bottom: 5px;
     }
 }

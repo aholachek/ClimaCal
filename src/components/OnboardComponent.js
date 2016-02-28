@@ -67,7 +67,7 @@ class OnboardComponent extends React.Component {
       >
           <div className={className}>
               <div className="overlay-content">
-                  <Isvg src="/images/climaCal.svg" ></Isvg>
+                <img src="/images/climacal.png"/>
               {container}
               </div>
         </div>

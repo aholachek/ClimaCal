@@ -66,6 +66,7 @@
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs": "^1.9.18",
+    "postcss-loader": "^0.8.1",
     "precss": "^1.4.0",
     "react": "^0.14.0",
     "react-addons-css-transition-group": "^0.14.7",

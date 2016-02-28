@@ -15,7 +15,7 @@ class TabComponent extends React.Component {
       return (
               <li className={c} key={t.title}>
                 <a href="#" onClick={t.onTabChange}>
-                  <h3 className="tab__title"> <i className={weatherIconSmall}/> {t.title} <span className="tab__temp">{parseInt(t.weather.apparentTemperatureMin)}&deg;-{parseInt(t.weather.apparentTemperatureMax)}&deg;</span></h3>
+                  <h3 className="tab__title"> <i className={weatherIconSmall}/> <span className="tab__title__label">{t.title}</span> <span className="tab__title__temp">{parseInt(t.weather.apparentTemperatureMin)}&deg;-{parseInt(t.weather.apparentTemperatureMax)}&deg;</span></h3>
                 </a>
               </li>
             )

@@ -28,6 +28,7 @@ class CalendarHourComponent extends React.Component {
     let probabilityThreshold = .1;
     let precip = (<div className = 'precip-anim-container'>
           <svg></svg>
+           - 
         </div>);
 
     if (this.props.data.precipProbability > probabilityThreshold) {
@@ -104,13 +105,13 @@ class CalendarHourComponent extends React.Component {
         if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail')
         {return 'snow' }
          else
-         {return 'rgb(166, 197, 255)'}
+         {return '#5893ff'}
       })
       .attr('stroke', function() {
           if (d.precipType === 'snow' || d.precipType === 'sleet' || d.precipType === 'hail')
           {return 'gray' }
            else
-           {return 'rgb(166, 197, 255)'}
+           {return '#5893ff'}
         })
       .attr('stroke-width', 1)
       .each(function(){

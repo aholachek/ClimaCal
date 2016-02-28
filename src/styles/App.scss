@@ -726,7 +726,10 @@ ul
     position: absolute;
     z-index: 1;
     top: calc(80px + 40%);
-    left: 30%;
+    left: 12%;
+    @media (min-width: $medium-break-point) {
+      left: 30%;
+    }
 
     color: #6d6d6d;
 }

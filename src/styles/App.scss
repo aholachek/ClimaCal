@@ -499,7 +499,7 @@ ul
    ========================================================================== */
 .all-day-tasks
 {
-    overflow: scroll;
+    overflow: auto;
     @media (min-width : $medium-break-point)
     {
         width: 84%;

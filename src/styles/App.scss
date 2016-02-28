@@ -78,15 +78,16 @@ body
 .tab-component
 {
     height: 35px;
-    margin-top: 10px;
-    padding-bottom: 10px;
+    margin-top: 15px;
+    padding-bottom: 5px;
 
     border-bottom: 2px solid #e8e8e8;
 
-    @media (min-width: $medium-break-point)
-    {
-        margin-bottom: 5px;
+    @media (min-width: $medium-break-point) {
+      padding-bottom: 10px;
+      margin-bottom: 5px;
     }
+
 }
 .calendar-top
 {
@@ -96,8 +97,14 @@ body
 /*this is a div w/o classname created by scroll component*/
 .calendar-top + div
 {
-    height: calc(100vh - 50px - (30px + 15px + 10px + 5px) - 80px - 10px) !important;
+    height: calc(100vh - 50px - (35px + 15px + 5px) - 80px - 10px) !important;
     margin: auto;
+
+    @media (min-width: $medium-break-point) {
+      height: calc(100vh - 50px - (35px + 15px + 10px + 5px) - 80px - 10px) !important;
+
+    }
+
 }
 
 
@@ -237,6 +244,13 @@ ul
 .calendar-top + div
 {
     border: 1px solid darken($mid, 5%);
+
+}
+
+.calendar-top + div>div
+{
+  overflow-x : hidden !important;
+  overflow-y: scroll !important;
 }
 
 .calendar-bottom
@@ -321,9 +335,6 @@ ul
 
     position: relative;
 
-    display: flex;
-    flex-direction: column;
-
     width: 16%;
 
     cursor: pointer;
@@ -335,6 +346,7 @@ ul
 
     @media (min-width: $medium-break-point)
     {
+       display: flex;
         flex-direction: row;
 
         height: 100%;

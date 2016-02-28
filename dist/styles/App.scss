@@ -173,6 +173,11 @@ ul
 {
     position: relative;
 }
+
+.calendar {
+  position: relative;
+}
+
 .calendar-top
 {
     position: relative;
@@ -181,7 +186,6 @@ ul
     display: flex;
     overflow: auto;
 
-    padding: 6px;
 }
 
 .calendar-top + div
@@ -401,7 +405,7 @@ ul
     height: 100%;
 }
 
-@-webkit-keyframes fall-down
+@keyframes fall-down
 {
     0%
     {
@@ -429,6 +433,7 @@ ul
 {
     animation: fall-down 3s ease-in infinite;
 }
+
 
 
 /* ==========================================================================
@@ -575,7 +580,7 @@ ul
 .tab__title__temp
 {
     font-size: 1rem;
-    font-weight: 300;
+    opacity: .7;
 
     position: relative;
     top: -2px;
@@ -596,13 +601,15 @@ ul
     text-decoration: none;
 
     transition: color .5s;
+}
 
-    color: lighten($textLight, 25%);
+.tab-component__tab:not(.active) a {
 
-    &:hover
-    {
-        color: lighten($textLight, 7%);
-    }
+  color: lighten($textLight, 10%);
+
+  &:hover {
+    color: lighten($textLight, 5%);
+  }
 }
 
 .tab-component div,
@@ -613,7 +620,7 @@ ul
 }
 
 
-.tab-component li.active a
+.tab-component__tab.active a
 {
     cursor: default;
     text-decoration: none;
@@ -621,6 +628,30 @@ ul
     color: $primary;
 }
 
+.tab-component .icon-container {
+  position: relative;
+}
+
+
+@media (min-width: $medium-break-point) {
+
+
+  .icon-container i {
+    font-size: 1.8rem;
+    opacity: 0;
+    transform: rotateX(-90deg);
+    transform-origin: center;
+  }
+
+  .tab-component__tab.active .icon-container i{
+    opacity: .7;
+    transition : transform .4s ease-in, opacity .4s ease-in;
+    transform: rotateX(360deg);
+
+
+  }
+
+}
 
 
 .tab-component li.active .weather-icon-large
@@ -651,8 +682,8 @@ ul
 
     position: absolute;
     z-index: 1;
-    top: calc(100px + 40%);
-    left: 15%;
+    top: calc(80px + 40%);
+    left: 30%;
 
     color: #6d6d6d;
 

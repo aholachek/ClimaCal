@@ -40,7 +40,7 @@ class OnboardComponent extends React.Component {
       //if equal to undefined, initial loading check is in progress
       this.props.appData.self.googleAuth === undefined
         ){
-      container = (<div className="overlay-details" style={{paddingTop: '80px'}}> Loading </div>)
+      container = (<div className="overlay-details" style={{paddingTop: '80px'}}> loading </div>)
     }
     else {
       container = (

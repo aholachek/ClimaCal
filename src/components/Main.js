@@ -15,7 +15,6 @@ import CalendarContainerComponent from './CalendarContainerComponent';
 import OnboardComponent from './OnboardComponent';
 
 import AppStateManager from './../modules/data_store';
-import animate from './../modules/animate';
 
 
 class AppComponent extends React.Component {
@@ -114,9 +113,6 @@ class AppComponent extends React.Component {
     this.toggleMenu(state.isOpen);
   }.bind(this);
 
-  let onSvgLoad = function(){
-    animate(ReactDOM.findDOMNode(this.refs.container));
-  }.bind(this);
 
   let appOptions = (
      <div className="section">
@@ -149,7 +145,7 @@ class AppComponent extends React.Component {
           <div className="navbar">
             <div className="responsive-container">
               <div className="climacal-logo">
-                <Isvg src="/images/climaCal.svg" onLoad={onSvgLoad}></Isvg>
+                <Isvg src="/images/climaCal.svg"></Isvg>
                   <h1>
                       ClimaCal
                   </h1>

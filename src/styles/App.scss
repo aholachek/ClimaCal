@@ -41,6 +41,7 @@ body
     @media (min-width: $medium-break-point)
     {
         font-size: 17px;
+
         overflow: hidden;
     }
 }
@@ -69,28 +70,27 @@ body
 
 /*heights*/
 
-  .navbar
-  {
-      height: 50px;
-  }
+.navbar
+{
+    height: 50px;
+}
 
-  .tab-component
-  {
-      height: 30px;
-      margin-top: 15px;
-  }
-  .calendar-top
-  {
-      height: 85px;
-  }
+.tab-component
+{
+    height: 30px;
+    margin-top: 15px;
+}
+.calendar-top
+{
+    height: 80px;
+}
 
-  /*this is a div w/o classname created by scroll component*/
-  .calendar-top + div
-  {
-      height: calc(100vh - 50px - 45px - 85px - 10px) !important;
-      margin: auto;
-
-  }
+/*this is a div w/o classname created by scroll component*/
+.calendar-top + div
+{
+    height: calc(100vh - 50px - 45px - 80px - 10px) !important;
+    margin: auto;
+}
 
 
 .calendar-bottom
@@ -103,10 +103,10 @@ body
 button
 {
     padding: .5rem;
-    color : white;
 
     transition: border .5s, color .5s;
 
+    color: white;
     border: 2px solid darken($mid, 5%);
     background: transparent;
     &:hover
@@ -184,10 +184,9 @@ ul
     padding: 6px;
 }
 
-.calendar-top + div {
-
-  border: 1px solid darken($mid, 5%);
-
+.calendar-top + div
+{
+    border: 1px solid darken($mid, 5%);
 }
 
 .calendar-bottom
@@ -196,8 +195,9 @@ ul
 }
 .all-day-tasks
 {
-    @media (min-width: $medium-break-point) {
-      width: 70%;
+    @media (min-width: $medium-break-point)
+    {
+        width: 70%;
     }
 }
 .calendar-header
@@ -316,6 +316,7 @@ ul
 {
     margin: 5px 0;
     padding: 0;
+
     text-align: center;
     @media (min-width: $medium-break-point)
     {
@@ -329,22 +330,21 @@ ul
 // z-index is so that mobile has svg as background
 .calendar__hour__weather > div:first-of-type
 {
+    position: relative;
+    z-index: 1;
+
     margin: 0;
     padding-top: 11px;
-    z-index: 1;
-    position: relative;
 }
 
 .calendar__hour__weather > div:nth-of-type(2)
 {
-
-    z-index: 1;
     position: relative;
+    z-index: 1;
 }
 .calendar__hour__weather > div:last-of-type
 {
     height: 100%;
-
 }
 
 .calendar__hour__weather > div > span
@@ -392,10 +392,10 @@ ul
 .calendar__hour__weather svg
 {
     position: absolute;
+    z-index: 0;
     top: 0;
     right: 0;
     left: 10px;
-    z-index: 0;
 
     width: 100%;
     height: 100%;
@@ -542,27 +542,12 @@ ul
 
     list-style: none;
 
-    transition: color .5s, border-bottom-color .5s;
+    transition: color .5s;
     text-align: center;
-
-    border-bottom-width: 4px;
-    border-bottom-style: solid;
-    border-bottom-color: transparent;
-    &:hover
-    {
-        color: $textLight;
-        border-bottom-color: lighten($textLight, 60%);
-    }
 }
 .tab__title
 {
     font-size: 1.2rem;
-
-    @media (min-width: $medium-break-point){
-      font-size: 1.6rem;
-
-    }
-
     font-weight: bold;
     font-variant: small-caps;
 
@@ -571,19 +556,25 @@ ul
     margin: 0;
 
     text-transform: lowercase;
+
+    @media (min-width: $medium-break-point)
+    {
+        font-size: 1.6rem;
+    }
 }
-.tab__title__label {
-    max-width: 40%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.tab__title__label
+{
     display: inline-block;
+    overflow: hidden;
+
+    max-width: 40%;
+
     vertical-align: top;
+    text-overflow: ellipsis;
 }
 .tab__title__temp
 {
-
-  font-size: 1rem;
-
+    font-size: 1rem;
     font-weight: 300;
 
     position: relative;
@@ -604,7 +595,14 @@ ul
 
     text-decoration: none;
 
+    transition: color .5s;
+
     color: lighten($textLight, 25%);
+
+    &:hover
+    {
+        color: lighten($textLight, 7%);
+    }
 }
 
 .tab-component div,
@@ -614,11 +612,6 @@ ul
     z-index: 1;
 }
 
-
-.tab-component li.active
-{
-    border-bottom-color: $primary;
-}
 
 .tab-component li.active a
 {
@@ -659,54 +652,55 @@ ul
     position: absolute;
     z-index: 1;
     top: calc(100px + 40%);
-
-    @media (min-width: '900px')
-    {
-        left: 20%;
-        font-size: 2rem;
-
-    }
     left: 15%;
 
     color: #6d6d6d;
+
+    @media (min-width: '900px')
+    {
+        font-size: 2rem;
+
+        left: 20%;
+    }
 }
 /* ==========================================================================
    onboardModal
    ========================================================================== */
-
 .overlay
 {
     font-size: 1.2rem;
 
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
 
+    display: flex;
+
     transition: opacity .5s, transform .5s, background-color .5s;
 
     color: #fff;
     background-color: rgba(0, 0, 0, 1);
-}
-.overlay-content
-{
-    display: flex;
-    flex-direction: column;
-
-    width: 100%;
-    height: 100%;
-
-    text-align: center;
 
     align-items: center;
     justify-content: center;
 }
 
-.overlay-content .climacal-logo
+.overlay-content
 {
-    width: 65px !important;
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+    align-items: center;
+}
+
+.overlay-content .climacal-logo svg
+{
+    width: 100px !important;
     height: auto;
 }
 
@@ -716,6 +710,7 @@ ul
     overflow: hidden;
 
     height: 250px;
+    margin-top: 20px;
 }
 
 
@@ -858,9 +853,10 @@ ul
 .bm-menu .section
 {
     padding: 20px 0;
+
     border-right: none;
-    border-left: none;
     border-bottom: 2px solid hsla(255, 255, 255, .1);
+    border-left: none;
 }
 
 .bm-menu .load-google
@@ -968,11 +964,17 @@ ul
     justify-content: space-between;
 }
 
-.navbar .climacal-logo h1 {
-  visibility : hidden;
+.navbar .climacal-logo h1
+{
+    visibility: hidden;
 
-  @media (min-width: $medium-break-point){
-
-    visibility: visible;
+    @media (min-width: $medium-break-point)
+    {
+        visibility: visible;
   }
+}
+
+.navbar .climacal-logo svg {
+  width: 38px;
+  height: auto;
 }

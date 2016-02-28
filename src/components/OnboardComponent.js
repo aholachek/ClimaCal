@@ -45,7 +45,7 @@ class OnboardComponent extends React.Component {
     else {
       container = (
       <div className="overlay-details">
-        <h1>
+        <h1 className="sr-only">
             ClimaCal
         </h1>
 
@@ -65,11 +65,11 @@ class OnboardComponent extends React.Component {
         isOpened={this.props.appData.onboardModal}
         beforeClose = {this.beforeClose}
       >
-        <div className={className}>
-          <div className="overlay-content">
-              <Isvg src="/images/climaCal.svg" ></Isvg>
-          {container}
-        </div>
+          <div className={className}>
+              <div className="overlay-content">
+                  <Isvg src="/images/climaCal.svg" ></Isvg>
+              {container}
+              </div>
         </div>
       </Portal>
 

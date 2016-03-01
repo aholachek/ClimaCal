@@ -250,7 +250,6 @@ ul
 .calendar-top + div>div
 {
   overflow-x : hidden !important;
-  overflow-y: scroll !important;
 }
 
 .calendar-bottom
@@ -735,7 +734,7 @@ ul
 
 .no-hour-entries
 {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
 
     position: absolute;
     z-index: 1;
@@ -743,6 +742,8 @@ ul
     left: 12%;
     @media (min-width: $medium-break-point) {
       left: 30%;
+      font-size: 1.8rem;
+
     }
 
     color: #6d6d6d;

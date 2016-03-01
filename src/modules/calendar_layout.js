@@ -1,6 +1,8 @@
 'use strict';
 import _ from 'lodash';
 
+//see http://bl.ocks.org/aholachek/ce7cd491546a88cbc9c4
+
 function makeLayout(calendarData) {
 
   calendarData = _.cloneDeep(calendarData);

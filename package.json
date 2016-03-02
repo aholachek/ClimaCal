@@ -61,7 +61,6 @@
     "lodash": "^3.10.1",
     "minimist": "^1.2.0",
     "mocha": "^2.2.5",
-    "mocha-loader": "^0.7.1",
     "node-sass": "^3.3.3",
     "normalize.css": "^3.0.3",
     "npm": "^3.6.0",

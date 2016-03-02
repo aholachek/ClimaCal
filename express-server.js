@@ -6,7 +6,6 @@ var cors = require('cors');
 var path = require('path');
 var enforce = require('express-sslify');
 
-app.use(enforce.HTTPS());
 //heroku adds x-forwarded-proto header
 app.use(enforce.HTTPS({ trustProtoHeader: true }))
 

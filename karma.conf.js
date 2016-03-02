@@ -3,17 +3,17 @@ var webpackCfg = require('./webpack.config');
 module.exports = function(config) {
   config.set({
     basePath: '',
-    browsers: [ 'PhantomJS' ],
+    browsers: [ 'PhantomJS', 'Chrome' ],
     files: [
       'test/loadtests.js'
     ],
-    port: 8080,
+    port: 8081,
     captureTimeout: 60000,
     frameworks: [ 'phantomjs-shim', 'mocha', 'chai' ],
     client: {
       mocha: {}
     },
-    singleRun: true,
+    singleRun: false,
     reporters: [ 'mocha', 'coverage' ],
     preprocessors: {
       'test/loadtests.js': [ 'webpack', 'sourcemap' ]

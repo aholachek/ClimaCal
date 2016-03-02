@@ -63,7 +63,7 @@ describe('AppStateManager', () => {
       state.error = "failed loading data";
       AppStateManager.setState(state);
 
-      expect(document.querySelector(".overlay-details").textContent).to.eql("ClimaCalfailed loading dataTry just checking out the app preview for now load my calendar + local weather data   or  view a preview of the app");
+      expect(document.querySelector(".overlay-details").textContent).to.eql("ClimaCal  failed loading data  Sorry! Try just checking out the app preview for now.  load my calendar + local weather data   or  view a preview of the app");
 
       //click "preview app" should remove error state and show preview
       TestUtils.Simulate.click(document.querySelector("#preview-app-button"));

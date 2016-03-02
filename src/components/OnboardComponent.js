@@ -55,9 +55,8 @@ class OnboardComponent extends React.Component {
     if (errorMessage){
       errorMessage = (
         <div>
-          <i className="fa fa-warning"></i>
-          { this.props.appData.error }
-          Try just checking out the app preview for now
+          <p> <i className="fa fa-warning"></i> { this.props.appData.error } </p>
+          <p> Sorry! Try just checking out the app preview for now. </p>
         </div>
       )
     }

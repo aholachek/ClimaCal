@@ -1,0 +1,13 @@
+var express = require('express');
+var app = express();
+var cors = require('cors');
+
+var getForecast = require('./get-forecast');
+
+app.use(cors());
+
+//return forecast for current day, starting from the morning
+app.get('/get-forecast', getForecast);
+
+//process.env is from heroku
+app.listen(3000);

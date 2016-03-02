@@ -16,10 +16,9 @@
     "release:major": "npm version major && npm publish && git push --follow-tags",
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
-    "serve": "node server.js --env=dev",
-    "serve:dist": "node server.js --env=dist",
-    "start:dev": "node server.js && node express-server.js --env=dev",
-    "start": "node express-server.js --env=dist",
+    "webpack-start": "node server.js",
+    "express-start": "node ./express_servers/test-express-server.js --env=dev",
+    "start:dist": "node ./express_servers/express-server.js --env=dist",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"
   },

@@ -69,7 +69,7 @@ function handleUserInitiatedAuthResult (authResult){
     //no access
     //set to false so loading view can be removed
     newState.self.googleAuth = auth;
-    newState.error = "We couldn't authenticate with Google. Try viewing the app preview instead."
+    newState.error = "We couldn't authenticate with Google."
     AppStateManager.setState(newState);
   }
 

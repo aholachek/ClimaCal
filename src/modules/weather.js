@@ -4,6 +4,9 @@ import request from 'superagent';
 import React from 'react/dist/react-with-addons';
 import AppStateManager from './data_store';
 
+let forecastEndpoint = '/get-forecast';
+//for dev this needs to be
+//let forecastEndpoint = 'http://localhost:3000/get-forecast';
 
 function getWeatherData() {
 
@@ -12,14 +15,14 @@ function getWeatherData() {
     console.error("can't geolocate");
 
     let newState = AppStateManager.getState();
-    newState.error = "We couldn't get latitude/longitude for you. Try viewing the app preview instead."
+    newState.error = "We couldn't get latitude/longitude for you."
     AppStateManager.setState(newState);
     return
   }
 
   navigator.geolocation.getCurrentPosition(function(position) {
 
-    request.get('/get-forecast')
+    request.get(forecastEndpoint)
       .query({
         lat: position.coords.latitude,
         lon: position.coords.longitude
@@ -31,7 +34,7 @@ function getWeatherData() {
           let newState = AppStateManager.getState();
           newState.self.latLong = position.coords;
           newState.self.weather = false;
-          newState.error = "We couldn't get weather information for you at the moment. Try viewing the app preview instead."
+          newState.error = "We couldn't get weather information for you at the moment."
           AppStateManager.setState(newState);
           return
         }

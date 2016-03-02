@@ -9,8 +9,14 @@ function getWeatherData() {
 
   if (!("geolocation") in navigator) {
     //cant get data
-    console.error("can't geolocate")
+    console.error("can't geolocate");
+
+    let newState = AppStateManager.getState();
+    newState.error = "We couldn't get latitude/longitude for you. Try viewing the app preview instead."
+    AppStateManager.setState(newState);
+    return
   }
+
   navigator.geolocation.getCurrentPosition(function(position) {
 
     request.get('/get-forecast')
@@ -25,6 +31,7 @@ function getWeatherData() {
           let newState = AppStateManager.getState();
           newState.self.latLong = position.coords;
           newState.self.weather = false;
+          newState.error = "We couldn't get weather information for you at the moment. Try viewing the app preview instead."
           AppStateManager.setState(newState);
           return
         }

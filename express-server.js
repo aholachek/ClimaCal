@@ -4,6 +4,11 @@ var app = express();
 var request = require('request');
 var cors = require('cors');
 var path = require('path');
+var enforce = require('express-sslify');
+
+app.use(enforce.HTTPS());
+//heroku adds x-forwarded-proto header
+app.use(enforce.HTTPS({ trustProtoHeader: true }))
 
 
 //tell express to serve static files, including index.html

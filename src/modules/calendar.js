@@ -48,6 +48,32 @@ import AppStateManager from './data_store';
   }
 
 }
+/**
+             * Handle response from authorization server.,
+             * and set an error if the authorization is false.
+             *
+             * @param {Object} authResult Authorization result.
+             */
+function handleUserInitiatedAuthResult (authResult){
+
+  let auth = (authResult && !authResult.error)  ? true: false;
+  let newState = AppStateManager.getState();
+
+  if (auth){
+    newState.self.googleAuth = auth;
+    newState.auth = 'self';
+    AppStateManager.setState(newState);
+    loadCalendarApi();
+  }
+  else {
+    //no access
+    //set to false so loading view can be removed
+    newState.self.googleAuth = auth;
+    newState.error = "We couldn't authenticate with Google. Try viewing the app preview instead."
+    AppStateManager.setState(newState);
+  }
+
+}
 
   /**
                * Load Google Calendar client library. List upcoming events
@@ -90,7 +116,7 @@ import AppStateManager from './data_store';
            scope: SCOPES,
            immediate: false
          },
-         handleAuthResult);
+         handleUserInitiatedAuthResult);
     return false;
   }
 

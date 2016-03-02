@@ -26,7 +26,10 @@ let appState = {
         latLong : false
       },
 
-    tab : 'today'
+    tab : 'today',
+    
+    //represents an error getting user data
+    error : false
 
   };
 

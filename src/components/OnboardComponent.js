@@ -13,6 +13,13 @@ import Weather from './../modules/weather';
 
 class OnboardComponent extends React.Component {
 
+
+  constructor(props) {
+    super(props);
+
+    this._previewClick = this._previewClick.bind(this);
+  }
+
   _authorize (){
     let newState = AppStateManager.getState();
     newState.auth = 'self';
@@ -32,7 +39,11 @@ class OnboardComponent extends React.Component {
   render() {
     let container;
 
-    if (
+    if (  this.props.appData.error ){
+      container = (<div className="overlay-details" style={{paddingTop: '80px'}}> { this.props.appData.error }</div>)
+
+    }
+    else if (
       //if undefined, hasn't returned. if false, it's not available (might have been an error)
       this.props.appData.auth === "self" && (
         (this.props.appData.self.weather === undefined) || (this.props.appData.self.calendar === undefined)
@@ -51,7 +62,7 @@ class OnboardComponent extends React.Component {
 
         <button onClick={this._authorize} style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
-        <button onClick={this.props.closeModal} style={{marginTop: '20px'}}>view a preview of the app</button>
+        <button onClick={this.props._previewClick} style={{marginTop: '20px'}}>view a preview of the app</button>
 
       </div>
       );
@@ -77,6 +88,15 @@ class OnboardComponent extends React.Component {
 
   }
 
+  _previewClick () {
+    this.props.closeModal();
+    //if there's an error, the person has seen the message, now delete it
+    if (this.props.appData.error ){
+      let newState = AppStateManager.getState();
+      newState.error = false;
+      AppStateManager.setState(newState);
+    }
+  }
 }
 
 OnboardComponent.displayName = 'OnboardComponent';

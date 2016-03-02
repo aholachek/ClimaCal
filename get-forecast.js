@@ -1,6 +1,6 @@
 
 var request = require('request');
-var config = require('./../config_vars');
+var config = require('./config_vars');
 
 function getForecast (req, res) {
 

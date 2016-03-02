@@ -1,9 +1,9 @@
 var express = require('express');
-var app = express();
 var path = require('path');
 var enforce = require('express-sslify');
 
-var getForecast = require('./get-forecast');
+var config = require('config_vars');
+var getForecast = require('get-forecast');
 
 var app = express();
 
@@ -17,4 +17,8 @@ app.use('/', express.static(path.join(__dirname, 'dist')));
 app.get('/get-forecast', getForecast);
 
 //process.env is from heroku
-app.listen( process.env.PORT );
+var port = process.env.PORT || config.port;
+
+app.listen( port , function(){
+  console.log("listening on port " + port +  " and serving " + __dirname + "/dist")
+});

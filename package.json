@@ -17,8 +17,8 @@
     "release:minor": "npm version minor && npm publish && git push --follow-tags",
     "release:patch": "npm version patch && npm publish && git push --follow-tags",
     "webpack-start": "node server.js",
-    "express-start": "node ./express_servers/test-express-server.js --env=dev",
-    "deploy-start": "node ./express_servers/express-server.js --env=dist",
+    "express-start": "node test-express-server.js --env=dev",
+    "deploy-start": "node express-server.js --env=dist",
     "start" : "npm run-script deploy-start",
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false"

@@ -18,18 +18,60 @@ module.exports = {
     ],
     loaders: [
       {
-        test: /\.(png|jpg|gif|woff|woff2|css|sass|scss|less|styl)$/,
-        loader: 'null-loader'
-      },
-      {
         test: /\.(js|jsx)$/,
         loader: 'babel-loader',
         include: [
           path.join(__dirname, '/../src'),
           path.join(__dirname, '/../test')
         ]
+      },
+      //why did i need to copy these over from base??
+      //need to provide the include also
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&minetype=application/font-woff',
+        include: [
+          path.join(__dirname, '/../src'),
+          path.join(__dirname, '/../test')
+        ]
+       },
+
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+         loader: 'file-loader',
+         include: [
+           path.join(__dirname, '/../src'),
+           path.join(__dirname, '/../test')
+         ]
+        },
+
+      {
+        test:   /\.css$/,
+        loader: "style-loader!css-loader!postcss-loader",
+        include: [
+          path.join(__dirname, '/../src'),
+          path.join(__dirname, '/../test')
+        ]
+      },
+
+      {
+        test: /\.scss/,
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded',
+        include: [
+          path.join(__dirname, '/../src'),
+          path.join(__dirname, '/../test')
+        ]
+      },
+
+      {
+        test: /\.(png|jpg|gif|woff|woff2)$/,
+        loader: 'url-loader?limit=8192',
+        include: [
+          path.join(__dirname, '/../src'),
+          path.join(__dirname, '/../test')
+        ]
       }
-    ]
+]
   },
   resolve: {
     extensions: [ '', '.js', '.jsx' ],
@@ -39,6 +81,7 @@ module.exports = {
       components: srcPath + 'components/',
       sources: srcPath + 'sources/',
       stores: srcPath + 'stores/',
+      //needed to add the loaders above for this to work
       styles: srcPath + 'styles/',
       config: srcPath + 'config/' + process.env.REACT_WEBPACK_ENV
     }

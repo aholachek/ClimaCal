@@ -18,6 +18,8 @@ class OnboardComponent extends React.Component {
     super(props);
 
     this._previewClick = this._previewClick.bind(this);
+    this._beforeClose = this._beforeClose.bind(this);
+
   }
 
   _authorize (){
@@ -28,7 +30,7 @@ class OnboardComponent extends React.Component {
     Calendar.handleAuthClick();
   }
 
-  beforeClose(node, removeFromDom) {
+  _beforeClose (node, removeFromDom) {
     node.querySelector(".overlay").classList.add("fade-out-up");
     setTimeout(function(){
       removeFromDom();
@@ -36,14 +38,34 @@ class OnboardComponent extends React.Component {
 
   }
 
+  _previewClick () {
+    let newState = AppStateManager.getState();
+    newState.onboardModal = false;
+    //if there's an error, the person has seen the message, now delete it
+    if (this.props.appData.error ){
+      newState.error = false;
+    }
+    AppStateManager.setState(newState);
+  }
+
   render() {
     let container;
 
-    if (  this.props.appData.error ){
-      container = (<div className="overlay-details" style={{paddingTop: '80px'}}> { this.props.appData.error }</div>)
-
+    let errorMessage = this.props.appData.error;
+    if (errorMessage){
+      errorMessage = (
+        <div>
+          <i className="fa fa-warning"></i>
+          { this.props.appData.error }
+          Try just checking out the app preview for now
+        </div>
+      )
     }
-    else if (
+    else {
+      errorMessage = (<div></div>);
+    }
+
+    if (
       //if undefined, hasn't returned. if false, it's not available (might have been an error)
       this.props.appData.auth === "self" && (
         (this.props.appData.self.weather === undefined) || (this.props.appData.self.calendar === undefined)
@@ -60,9 +82,11 @@ class OnboardComponent extends React.Component {
             ClimaCal
         </h1>
 
+        {errorMessage}
+
         <button onClick={this._authorize} style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
         <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
-        <button onClick={this.props._previewClick} style={{marginTop: '20px'}}>view a preview of the app</button>
+        <button id="preview-app-button" onClick={this._previewClick} style={{marginTop: '20px'}}>view a preview of the app</button>
 
       </div>
       );
@@ -74,7 +98,7 @@ class OnboardComponent extends React.Component {
     return (
       <Portal
         isOpened={this.props.appData.onboardModal}
-        beforeClose = {this.beforeClose}
+        beforeClose = {this._beforeClose}
       >
           <div className={className}>
               <div className="overlay-content">
@@ -83,27 +107,16 @@ class OnboardComponent extends React.Component {
               </div>
         </div>
       </Portal>
-
     )
-
   }
 
-  _previewClick () {
-    this.props.closeModal();
-    //if there's an error, the person has seen the message, now delete it
-    if (this.props.appData.error ){
-      let newState = AppStateManager.getState();
-      newState.error = false;
-      AppStateManager.setState(newState);
-    }
-  }
+
 }
 
 OnboardComponent.displayName = 'OnboardComponent';
 
 OnboardComponent.propTypes = {
   appData : React.PropTypes.object.isRequired,
-  closeModal : React.PropTypes.func.isRequired
 };
 // OnboardComponent.defaultProps = {};
 

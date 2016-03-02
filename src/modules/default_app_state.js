@@ -27,7 +27,7 @@ let appState = {
       },
 
     tab : 'today',
-    
+
     //represents an error getting user data
     error : false
 

@@ -22,7 +22,6 @@ class AppComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    this.closeModal = this.closeModal.bind(this);
     this.toggleMenu = this.toggleMenu.bind(this);
     this.changeState = this.changeState.bind(this);
   }
@@ -170,7 +169,6 @@ class AppComponent extends React.Component {
 
             <OnboardComponent
                appData = {this.props.data}
-               closeModal = {this.closeModal}
                >
              </OnboardComponent>
 
@@ -179,9 +177,6 @@ class AppComponent extends React.Component {
     );
   }
 
-  closeModal () {
-      this.changeState({onboardModal : false});
-}
 
 toggleMenu (val) {
   this.changeState({menuOpen : val});

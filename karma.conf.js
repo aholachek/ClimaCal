@@ -3,7 +3,7 @@ var webpackCfg = require('./webpack.config');
 module.exports = function(config) {
   config.set({
     basePath: '',
-    browsers: [ 'PhantomJS', 'Chrome' ],
+    browsers: [ 'PhantomJS'],
     files: [
       'test/loadtests.js'
     ],
@@ -11,7 +11,10 @@ module.exports = function(config) {
     captureTimeout: 60000,
     frameworks: [ 'phantomjs-shim', 'mocha', 'chai' ],
     client: {
-      mocha: {}
+      mocha: {
+        reporter : 'html',
+        ui : 'bdd'
+      }
     },
     singleRun: false,
     reporters: [ 'mocha', 'coverage' ],

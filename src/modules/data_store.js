@@ -2,6 +2,8 @@
 
 import ReactDOM from 'react-dom';
 import React from 'react';
+import DefaultState from './../modules/default_app_state';
+
 
 import Weather from './weather';
 
@@ -19,7 +21,7 @@ const AppStateManager = {
         ReactDOM.render(<this.App data={this.data}/>, document.getElementById('app'));
       }
       else {
-        console.error("no app provided")
+        console.warn("no app provided")
       }
     },
 
@@ -40,6 +42,11 @@ const AppStateManager = {
 
     getState : function(){
       return JSON.parse(JSON.stringify(this.data))
+    },
+
+    init : function(app){
+      this.App = app;
+      this.setState(DefaultState);
     }
 
 }

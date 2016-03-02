@@ -17,4 +17,4 @@ app.use('/', express.static(path.join(__dirname, 'dist')));
 app.get('/get-forecast', getForecast);
 
 //process.env is from heroku
-app.listen(process.env.PORT);
+app.listen( process.env.PORT || 3000 );

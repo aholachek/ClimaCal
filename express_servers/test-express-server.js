@@ -1,8 +1,12 @@
+
 var express = require('express');
-var app = express();
 var cors = require('cors');
 
 var getForecast = require('./get-forecast');
+
+
+var app = express();
+
 
 app.use(cors());
 

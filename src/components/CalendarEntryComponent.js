@@ -2,34 +2,12 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 import Popover from 'react-popover';
 import Colors from './../config/colors';
 
-//utility classes for date presentation
-function getDisplayHours(hours) {
-  if (hours == 0) {
-    return '' + 12;
-  } else if (hours <= 12) {
-    return '' + hours
-  } else {
-    return '' + (hours - 12);
-  }
-}
-
-function getDisplayMinutes(m) {
-  if (m > 9) return m;
-  return m + '0';
-}
-
-function getDisplayTime(date) {
-  var hours = getDisplayHours(date.getHours());
-  var minutes = getDisplayMinutes(date.getMinutes());
-  var ending = date.getHours() < 12 ? 'am' : 'pm';
-  return hours + ':' + minutes + ending;
-}
 
 class CalendarEntryComponent extends React.Component {
-
 
   render() {
 
@@ -38,9 +16,9 @@ class CalendarEntryComponent extends React.Component {
     let taskColor = Colors.event[colorId].background
     let taskTextColor = Colors.event[colorId].foreground;
 
-    let times = getDisplayTime(new Date(this.props.data.start.dateTime));
-        times+= ' - ';
-        times+= getDisplayTime(new Date(this.props.data.end.dateTime));
+    let times = moment(this.props.data.start.dateTime).format("HH:mm a");
+        times+= '  -  ';
+        times+= moment(this.props.data.end.dateTime).format("HH:mm a");
 
     let className = 'calendar__entry';
     if (this.props.popover) className += ' shadow'

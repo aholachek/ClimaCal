@@ -1,5 +1,6 @@
 
 import React from 'react/dist/react-with-addons';
+import moment from 'moment';
 import AppStateManager from './data_store';
 
 
@@ -84,17 +85,24 @@ function handleUserInitiatedAuthResult (authResult){
   }
 
   /**
-               * Print the summary and start datetime/date of the next ten events in
+               * Print the summary and start datetime/date of the next 100 events in
                * the authorized user's calendar. If no events are found an
                * appropriate message is printed.
                */
   function listUpcomingEvents() {
+
+    var today = moment();
+        today.hour(0).minute(0).second(0);
+
+    var tomorrow = moment(today).add(1, 'day');
+
     var request = gapi.client.calendar.events.list({
       'calendarId': 'primary',
-      'timeMin': (new Date()).toISOString(),
+      'timeMin': today.format(),
+      'timeMax' : tomorrow.format(),
       'showDeleted': false,
       'singleEvents': true,
-      'maxResults': 10,
+      'maxResults': 200,
       'orderBy': 'startTime'
     });
 

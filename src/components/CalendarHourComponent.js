@@ -6,22 +6,14 @@ import d3 from 'd3';
 import _ from 'lodash';
 import Popover from 'react-popover';
 import Velocity from 'velocity-animate';
+import moment from 'moment';
 
 class CalendarHourComponent extends React.Component {
 
   render() {
-
-    let time = new Date(this.props.data.time * 1000);
-    let hour = time.getHours();
-
-    if (hour == 0)
-      hour = '12am'
-    else if (hour == 12)
-      hour = '12pm'
-    else if (hour > 12)
-      hour = hour - 12 + 'pm'
-    else
-      hour = hour + 'am';
+    //unix timestamp
+    let time = moment(this.props.data.time, 'X');
+    let hour = time.format('hha').replace(/^0/, "");
 
     var iconClass = 'wi wi-forecast-io-' + this.props.data.icon;
 
@@ -92,7 +84,7 @@ class CalendarHourComponent extends React.Component {
   addPrecipAnimation (){
     const precipCountScale = d3.scale.linear()
     //0 --- .4 (heavy rain)
-      .domain([0, .4]).rangeRound([8, 16]).clamp(true);
+      .domain([0, .4]).rangeRound([3, 16]).clamp(true);
 
     const svg = ReactDOM.findDOMNode(this.refs.precipContainer);
     const d = this.props.data;

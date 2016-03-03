@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Isvg from 'react-inlinesvg';
 import _ from 'lodash';
+import moment from 'moment';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Calendar from './../modules/calendar';
@@ -45,39 +46,46 @@ class AppComponent extends React.Component {
     let forecast, day, calendar, tabs;
     let today, tomorrow;
 
+    //use moment.js for dates because browser implementations of new Date() are inconsistent!
+    // (some use UTC, others like chrome take time zone into account)
+
     //use stub data or google data?
     if ( this.props.data.auth === 'self' && this.props.data.self.calendar && this.props.data.self.weather ){
-      today = new Date();
-      tomorrow  = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
+      today = moment().hour(0).minute(0).second(0);
+      tomorrow = moment(today).add(1, 'day');
+
       forecast = (this.props.data.tab === 'today')  ? this.props.data.self.weather.today : this.props.data.self.weather.tomorrow;
       day = (this.props.data.tab === 'today') ? today : tomorrow;
       calendar = this.props.data.self.calendar;
       tabs = [
-          {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', dateString : today.toString().match(/\w+\s+\w+\s+\w+/)[0], weather :  this.props.data.self.weather.today.daily.data[0]},
-          {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', dateString : tomorrow.toString().match(/\w+\s+\w+\s+\w+/)[0], weather :  this.props.data.self.weather.tomorrow.daily.data[0]}
+          {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', weather :  this.props.data.self.weather.today.daily.data[0]},
+          {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', weather :  this.props.data.self.weather.tomorrow.daily.data[0]}
       ];
     }
     else {
       //show stub data
-      today = new Date('Thu Jan 28 2016 00:00:00 GMT-0500 (EST)');
-      tomorrow = new Date('Fri Jan 29 2016 00:00:00 GMT-0500 (EST)');
+      today = moment('2016-01-28T00:00:00.196-0500');
+      tomorrow = moment('2016-01-29T00:00:00.196-0500');
       forecast = (this.props.data.tab === 'today')  ? this.props.data.stub.weather.today : this.props.data.stub.weather.tomorrow;
       day = (this.props.data.tab === 'today')  ? today  :  tomorrow;
       calendar = this.props.data.stub.calendar;
       tabs = [
-          {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', dateString : today.toString().match(/\w+\s+\w+\s+\w+/)[0], weather :  this.props.data.stub.weather.today.daily.data[0]},
-          {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', dateString : tomorrow.toString().match(/\w+\s+\w+\s+\w+/)[0], weather :  this.props.data.stub.weather.tomorrow.daily.data[0]}
+          {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', weather :  this.props.data.stub.weather.today.daily.data[0]},
+          {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', weather :  this.props.data.stub.weather.tomorrow.daily.data[0]}
       ];
 
     }
 
+    let compareFormat = "ddd MMM DD YYYY";
+
     //get data for calendar container and pass it in
     let daySchedule = calendar.filter(function(d) {
-      return d.start.dateTime && new Date(d.start.dateTime).toDateString() == day.toDateString();
+      return d.start.dateTime && moment(d.start.dateTime).format(compareFormat) === day.format(compareFormat);
     });
 
     let allDayTasks = calendar.filter(function(d) {
-      return !d.start.dateTime && new Date(d.start.date + ' 00:00:00').toDateString() == day.toDateString();
+      return !d.start.dateTime && moment(d.start.date).format(compareFormat) === day.format(compareFormat);
     });
 
 

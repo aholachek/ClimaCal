@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import {Scrollbars} from 'react-custom-scrollbars';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import moment from 'moment';
 
 import CalendarEntryComponent from './CalendarEntryComponent';
 import CalendarHourComponent from './CalendarHourComponent';
@@ -54,7 +55,7 @@ class CalendarContainerComponent extends React.Component {
   renderHourEntries () {
 
     let that = this;
-    let sun = [new Date(this.props.forecast.daily.data[0].sunriseTime * 1000), new Date(this.props.forecast.daily.data[0].sunsetTime * 1000)];
+    let sun = [moment(this.props.forecast.daily.data[0].sunriseTime, 'X'), moment(this.props.forecast.daily.data[0].sunsetTime, 'X')];
 
     //hourly forecast + background for calendar
     let hourEntries = this.props.forecast.hourly.data.map(function(f) {
@@ -118,7 +119,7 @@ class CalendarContainerComponent extends React.Component {
       <div className='calendar'>
         <div className='calendar-top'>
           <div className='date'>
-            <h3>{this.props.today.toDateString().slice(0, 10)}</h3>
+            <h3>{this.props.today.format("ddd, MMM DD")}</h3>
           </div>
           <div className='all-day-tasks'>
             <ul>

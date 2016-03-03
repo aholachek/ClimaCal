@@ -1,5 +1,6 @@
 'use strict';
 import _ from 'lodash';
+import moment from 'moment';
 
 //see http://bl.ocks.org/aholachek/ce7cd491546a88cbc9c4
 
@@ -10,8 +11,8 @@ function makeLayout(calendarData) {
   calendarData.forEach(function(d) {
     if (!d.dateObj) {
       d.dateObj = {
-        start : new Date(d.start.dateTime),
-        end : new Date(d.end.dateTime)
+        start : moment(d.start.dateTime),
+        end : moment(d.end.dateTime)
       };
 
     }
@@ -32,10 +33,10 @@ function makeLayout(calendarData) {
   //add top and height vals
   calendarData.forEach(function(d) {
 
-    let minutesFromTop = d.dateObj.start.getHours() * 60 + d.dateObj.start.getMinutes();
+    let minutesFromTop = d.dateObj.start.hours() * 60 + d.dateObj.start.minutes();
     d.layout.top = minutesFromTop / (24 * 60) * 100;
 
-    d.totalMinutes = (d.dateObj.end.getHours() * 60 + d.dateObj.end.getMinutes()) - (d.dateObj.start.getHours() * 60 + d.dateObj.start.getMinutes());
+    d.totalMinutes = (d.dateObj.end.hours() * 60 + d.dateObj.end.minutes()) - (d.dateObj.start.hours() * 60 + d.dateObj.start.minutes());
     d.layout.height = d.totalMinutes / (24 * 60) * 100;
 
   });

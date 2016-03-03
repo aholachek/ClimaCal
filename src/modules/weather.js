@@ -6,7 +6,7 @@ import AppStateManager from './data_store';
 
 let forecastEndpoint = '/get-forecast';
 //for dev this needs to be
-//let forecastEndpoint = 'http://localhost:3000/get-forecast';
+// forecastEndpoint = 'http://localhost:4000/get-forecast';
 
 function getWeatherData() {
 

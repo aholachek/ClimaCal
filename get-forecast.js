@@ -1,18 +1,11 @@
 
 var request = require('request');
 var config = require('./config_vars');
-var moment = require('moment');
 
 function getForecast (req, res) {
 
-//use moment since browsers' implementation of date object is inconsistent!!!!
-  var today = moment().hour(0).minute(0).second(0);
-
-  var tomorrow = moment(today).add(1, 'day');
-
-  //wants the UNIX seconds since 1970
-  var q1 = req.query.lat + ',' + req.query.lon + ',' + today.unix();
-  var q2 = req.query.lat + ',' + req.query.lon + ',' + tomorrow.unix();
+  var q1 = req.query.lat + ',' + req.query.lon + ',' + req.query.todayUNIX;
+  var q2 = req.query.lat + ',' + req.query.lon + ',' + req.query.tomorrowUNIX;
 
 console.log("request uri for today: " + config.WEATHER_URL + config.WEATHER_KEY + '/' + q1);
 

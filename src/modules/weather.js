@@ -1,11 +1,12 @@
 
 
 import request from 'superagent';
+import moment from 'moment';
 import React from 'react/dist/react-with-addons';
 import AppStateManager from './data_store';
 
 let forecastEndpoint = '/get-forecast';
-//for dev this needs to be
+//for dev this needs to be uncommented
 // forecastEndpoint = 'http://localhost:4000/get-forecast';
 
 function getWeatherData() {
@@ -22,10 +23,15 @@ function getWeatherData() {
 
   navigator.geolocation.getCurrentPosition(function(position) {
 
+    let today = moment().hour(0).minute(0).second(0);
+    let tomorrow = moment(today).add(1, 'day');
+
     request.get(forecastEndpoint)
       .query({
         lat: position.coords.latitude,
-        lon: position.coords.longitude
+        lon: position.coords.longitude,
+        todayUNIX : today.unix(),
+        tomorrowUNIX : tomorrow.unix()
       })
       .end(function(err, resp) {
 

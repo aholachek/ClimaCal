@@ -36,7 +36,13 @@ console.log("request uri for today: " + config.WEATHER_URL + config.WEATHER_KEY 
          try {
            var body1Parsed = JSON.parse(body1);
            var body2Parsed = JSON.parse(body2);
-           res.status(200).send({ today : body1Parsed, tomorrow : body2Parsed });
+           res.status(200).send({
+              today : body1Parsed,
+              tomorrow : body2Parsed,
+              forecasturls : {
+                today : config.WEATHER_URL + "[key]" + '/' + q1,
+                tomorrow : config.WEATHER_URL + "[key]" + '/' + q2,
+              } });
          }
          catch(e){
            res.status(500).send('unable to parse json from forecast.io endpoint (we probably caused an error)');

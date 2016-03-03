@@ -47,7 +47,6 @@ class AppComponent extends React.Component {
     let today, tomorrow;
 
     //use moment.js for dates because browser implementations of new Date() are inconsistent!
-    // (some use UTC, others like chrome take time zone into account)
 
     //use stub data or google data?
     if ( this.props.data.auth === 'self' && this.props.data.self.calendar && this.props.data.self.weather ){
@@ -74,7 +73,6 @@ class AppComponent extends React.Component {
           {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', weather :  this.props.data.stub.weather.today.daily.data[0]},
           {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', weather :  this.props.data.stub.weather.tomorrow.daily.data[0]}
       ];
-
     }
 
     let compareFormat = "ddd MMM DD YYYY";
@@ -109,8 +107,7 @@ class AppComponent extends React.Component {
   else {
     authorizeUI = (
       <span>
-        <h3>currently viewing sample data</h3>
-        <br/>
+        <h3 style="padding-bottom: 15px">currently viewing sample data</h3>
         <button className="load-google" onClick={function(){ Calendar.handleAuthClick()}}> load my Google calendar</button>
       </span>
                 )

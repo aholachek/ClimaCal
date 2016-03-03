@@ -16,9 +16,9 @@ class CalendarEntryComponent extends React.Component {
     let taskColor = Colors.event[colorId].background
     let taskTextColor = Colors.event[colorId].foreground;
 
-    let times = moment(this.props.data.start.dateTime).format("HH:mm a");
+    let times = moment(this.props.data.start.dateTime).format("hh:mm a").replace(/^0/, "");
         times+= '  -  ';
-        times+= moment(this.props.data.end.dateTime).format("HH:mm a");
+        times+= moment(this.props.data.end.dateTime).format("hh:mm a").replace(/^0/, "");
 
     let className = 'calendar__entry';
     if (this.props.popover) className += ' shadow'

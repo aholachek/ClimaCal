@@ -712,11 +712,12 @@ ul
 }
 
 
-
 .icon-container i
 {
     font-size: 1.2rem;
 
+    //3d is for safari fix--otherwise entire document jitters
+    //still looks bad in safari :()
     transform: rotateX(-90deg);
     transform-origin: center;
 
@@ -854,9 +855,10 @@ ul
 /* General sidebar styles */
 .bm-menu
 {
-    font-size: 1.5rem;
     font-weight: bold;
     font-variant: small-caps;
+    padding-top: 30px;
+    font-size: 1.5rem;
 
     text-transform: lowercase;
 
@@ -894,6 +896,7 @@ ul
 
     height: 60px;
     padding: 1rem;
+    font-size: 1.4rem;
 
     cursor: pointer;
     text-decoration: none;
@@ -908,7 +911,6 @@ ul
 
 .bm-menu__item i
 {
-    font-size: 1.5rem;
 
     width: 40px !important;
 }
@@ -927,7 +929,7 @@ ul
 
 .bm-menu h3
 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: normal;
     font-style: normal;
     font-variant: normal;

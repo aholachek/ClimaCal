@@ -718,6 +718,7 @@ ul
 
     //3d is for safari fix--otherwise entire document jitters
     //still looks bad in safari :()
+    -webkit-transform-style: preserve-3d;
     transform: rotateX(-90deg);
     transform-origin: center;
 

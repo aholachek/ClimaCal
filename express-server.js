@@ -2,14 +2,14 @@ var express = require('express');
 var path = require('path');
 var enforce = require('express-sslify');
 
-var config = require('config_vars');
-var getForecast = require('get-forecast');
+var config = require('./config_vars');
+var getForecast = require('./get-forecast');
 
 var app = express();
-
-//heroku adds x-forwarded-proto header
-app.use(enforce.HTTPS({ trustProtoHeader: true }))
-
+//
+// //heroku adds x-forwarded-proto header
+// app.use(enforce.HTTPS({ trustProtoHeader: true }))
+//
 //tell express to serve static files, including index.html
 app.use('/', express.static(path.join(__dirname, 'dist')));
 

@@ -2,106 +2,176 @@
 /*global expect */
 'use strict';
 
-// Uncomment the following lines to use the react test utilities
-import React from 'react/addons';
-const TestUtils = React.addons.TestUtils;
+import ReactDOM from 'react-dom';
+import React from 'react';
 
-import AppStateManager from './../src/modules/data_store.js';
-import DefaultAppState from './../src/modules/default_app_state.js';
-import App from './../src/components/Main.js';
+import ReactTestUtils from 'react-addons-test-utils';
 
+import _ from 'lodash';
 
-describe('AppStateManager', () => {
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import StoreCalulator from './../src/store/storeCalculator';
+import AppContainer from './../src/components/AppContainer';
 
-  afterEach(()=> {
-    let app = document.querySelector("#app");
-    if (app)   document.body.removeChild(app)
+import stubData from './../src/store/stub-data';
+import {updateStateVar, updateUserData} from './../src/actions/staticActionCreators';
+
+import startApp from './../src/components/startApp';
+import configureStore from './../src/store/configureStore';
+
+import * as getCalendarData from './../src/actions/getCalendarData';
+
+describe('Store', () => {
+
+  let store,
+    unsubscribe;
+
+  beforeEach(() => {
+    store = configureStore();
+    store.subscribe(function () {
+      StoreCalulator.call(undefined, store);
+    });
+  });
+
+  afterEach(() => {
+    //hack to get a fresh store
+    store.dispatch({type: "RESET_STATE"});
   })
 
-    it('should have a setState and getState method', () => {
-      expect(AppStateManager.setState).to.be.instanceof(Function);
-      expect(AppStateManager.getState).to.be.instanceof(Function);
+  it('should initialize with correct default vals', () => {
+
+    expect(JSON.stringify(_.omit(store.getState(), "stub"))).to.eql(JSON.stringify({
+      "onboardModal": true,
+      "menuOpen": false,
+      "auth": "stub",
+      "self": {
+        "latLong": undefined
+      },
+      "tab": "today",
+      "error": false,
+      "popover": null
+    }));
+
+    expect(JSON.stringify(store.getState().stub)).to.eql(JSON.stringify(stubData));
+
+  })
+
+  it('should have a listener that updates certain store state values (e.g. modal, tab hashes) based on other values', () => {
+
+    sinon.spy(store, "dispatch");
+
+    store.dispatch(updateStateVar({auth: 'self', onboardModal: true}));
+    expect(store.getState().auth).to.eql('self');
+
+    store.dispatch(updateUserData({calendar: true, weather: true}));
+
+    expect(store.dispatch.args[2][0]).to.eql({
+      "type": "UPDATE_STATE_VAR",
+      "data": {
+        "onboardModal": false
+      }
     });
 
-    it('should by default populate with the default_app_state ', () => {
-      AppStateManager.init();
-      expect(JSON.stringify(AppStateManager.getState())).to.eql(JSON.stringify(DefaultAppState));
+    expect(window.location.hash).to.eql("#/today");
+
+    store.dispatch(updateStateVar({tab: 'this week'}));
+
+    expect(window.location.hash).to.eql("#/this-week");
+
+  });
+
+});
+
+describe('App', () => {
+
+  let store;
+
+  beforeEach(() => {
+
+    let appContainer = document.createElement("div");
+    appContainer.id = "app";
+    document.body.appendChild(appContainer);
+
+    //make sure singleton store is default state
+    store = startApp({test: true});
+    store.dispatch({type: "RESET_STATE"});
+
+  });
+
+  function removeApp(){
+    let app = document.querySelector("#app");
+    var overlay = document.querySelector(".overlay");
+    if (app)
+      document.body.removeChild(app);
+    if (overlay)
+      overlay.parentNode.removeChild(overlay);
+  }
+
+  afterEach(() => {
+    removeApp();
+  });
+
+  it("should allow user to view stub data", function (done) {
+
+    expect(store.getState().onboardModal).to.eql(true);
+    expect(document.querySelector(".overlay-details").textContent).to.eql(" loading ClimaCal... ");
+    expect(store.getState().self.googleAuth).to.be.undefined;
+
+    store.dispatch(updateUserData({googleAuth: false}));
+
+    expect(store.getState().self.googleAuth).to.be.false;
+    expect(store.getState().auth).to.eql("stub");
+
+    ReactTestUtils.Simulate.click(document.querySelector("#preview-app-button"));
+
+    expect(store.getState().onboardModal).to.eql(false);
+    expect(document.querySelector(".tab-component__tab.active").textContent).to.eql('  today 32°-57°');
+    expect(document.querySelector(".all-day-tasks li").textContent).to.eql("remember to send rent check!");
+
+    ReactTestUtils.Simulate.click(document.querySelectorAll(".tab-component__tab a")[1]);
+
+    expect(document.querySelector(".active.tab-component__tab").textContent).to.eql("  tomorrow 18°-37°");
+    setTimeout(function () {
+      expect(document.querySelector(".all-day-tasks li").textContent).to.eql('Jenny\'s Birthday : make sure to pick up the cake');
+      done();
+    }, 1000);
+
+  });
+
+  it("should allow google authorization initiated by user from onboard modal", function () {
+
+    store.dispatch(updateUserData({googleAuth: false}));
+
+    sinon.stub(getCalendarData, "googleAuthorize", function () {
+      return {type: "fake"}
     });
 
+    expect(getCalendarData.googleAuthorize.callCount).to.eql(0);
 
-    it('should compute properties every time app state is set', () => {
+    ReactTestUtils.Simulate.click(document.querySelector(".overlay-details button:first-of-type"));
 
-      expect(AppStateManager.getState().onboardModal).to.be.true;
+    expect(getCalendarData.googleAuthorize.callCount).to.eql(1);
 
-      let state = AppStateManager.getState();
-      state.auth = 'self';
-      state.self.calendar = true;
-      state.self.weather = true;
-      AppStateManager.setState(state);
+    getCalendarData.googleAuthorize.restore();
 
-      expect(AppStateManager.getState().onboardModal).to.be.false;
+  });
 
+  it("should allow google authorization initiated by user from sidebar", function () {
+
+    store.dispatch(updateStateVar({onboardModal: false, menuOpen: true}));
+
+    sinon.stub(getCalendarData, "googleAuthorize", function () {
+      return {type: "fake"}
     });
 
-    it('should render the app each time the data changes ', (done) => {
-      let appContainer = document.createElement("div")
-      appContainer.id = "app";
-      document.body.appendChild(appContainer);
-      AppStateManager.init(App);
+    expect(getCalendarData.googleAuthorize.callCount).to.eql(0);
 
-      //by default the app should show loading viewing
-      expect(document.querySelector(".overlay-details").textContent).to.eql(" loading ClimaCal... ");
-      let state = AppStateManager.getState();
-      state.self.googleAuth = false;
-      AppStateManager.setState(state);
+    ReactTestUtils.Simulate.click(document.querySelector(".load-google"));
 
-      // //once it checks and see google authentication isn't there yet, offer the two options
-      expect(document.querySelector(".overlay-details").textContent).to.eql("ClimaCal load my calendar + local weather data   or  view a preview of the app");
-
-      //set a loading error
-      state = AppStateManager.getState();
-      state.error = "failed loading data";
-      AppStateManager.setState(state);
-
-      expect(document.querySelector(".overlay-details").textContent).to.eql("ClimaCal  failed loading data  Sorry! Try just checking out the app preview for now.  load my calendar + local weather data   or  view a preview of the app");
-
-      //click "preview app" should remove error state and show preview
-      TestUtils.Simulate.click(document.querySelector("#preview-app-button"));
-
-      expect(AppStateManager.getState().error).to.eql(false);
-
-      setTimeout(function(){
-        //onboard modal has been removed
-        expect(document.querySelector(".overlay-details")).to.be.null;
-        done();
-
-      }, 600)
+    expect(getCalendarData.googleAuthorize.callCount).to.eql(1);
 
 
-    });
-
-    it('should show the appropriate tab (today or tomorrow) when tab is clicked', (done) => {
-
-      let appContainer = document.createElement("div")
-      appContainer.id = "app";
-      document.body.appendChild(appContainer);
-      AppStateManager.init(App);
-
-      let state = AppStateManager.getState();
-      state.onboardModal = false;
-      AppStateManager.setState(state);
-
-      setTimeout(function(){
-
-        expect(document.querySelector(".calendar__entry:first-of-type").textContent).to.eql("8:30am - 9:00ambreakfast meeting");
-        TestUtils.Simulate.click(document.querySelector(".tab-component__tab:nth-of-type(2) a"));
-        expect(document.querySelector(".calendar__entry:first-of-type").textContent).to.eql("8:00am - 7:00pmall day cat convention");
-
-        done();
-
-      }, 600);
-
-
-    })
+  });
 
 });

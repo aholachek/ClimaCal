@@ -3,7 +3,6 @@ var path = require('path');
 var autoprefixer = require('autoprefixer');
 var precss       = require('precss');
 
-
 var port = 8080;
 var srcPath = path.join(__dirname, '/../src');
 var publicPath = '/assets/';
@@ -17,7 +16,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/../dist/assets'),
     filename: 'app.js',
-    publicPath: publicPath
+    publicPath: publicPath,
   },
   devServer: {
     contentBase: './src/',

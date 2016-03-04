@@ -2,13 +2,9 @@
 var express = require('express');
 var cors = require('cors');
 
-var config = require('./config_vars');
-
 var getForecast = require('./get-forecast');
 
-
 var app = express();
-
 
 app.use(cors());
 
@@ -16,4 +12,4 @@ app.use(cors());
 app.get('/get-forecast', getForecast);
 
 //process.env is from heroku
-app.listen( config.port );
+app.listen( 4000 );

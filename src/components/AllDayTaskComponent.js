@@ -10,27 +10,30 @@ class AllDayTaskComponent extends React.Component {
   let color = Colors.event[this.props.data.colorId].background || "gray";
 
   let className = '';
-  if (this.props.popover) className += ' shadow'
+  if (this.props.popover) className += ' shadow';
 
+  let style = {};
+  style[this.props.borderSide ? this.props.borderSide : "borderTop"] = ".4rem solid " + color;
 
   let content = (<li
                       className={className}
                       onClick = {this.props.setPopover}
-                      style = {{borderBottom : ".35rem solid " + color}}>
+                      style = {style}>
                       {this.props.data.summary}
                 </li>);
 
   if (this.props.popover){
     let body = (<div>
-      <a href={this.props.data.htmlLink} target="_blank"><i className="fa fa-pencil-square-o"></i> edit</a>
+      <a href={this.props.data.htmlLink} target="_blank">
+        <i className="fa fa-pencil-square-o"></i> edit</a>
       <p>{this.props.data.summary}</p>
-    </div>)
+    </div>);
     return (
       <Popover isOpen={true} body={body}>{content}</Popover>
     )
   }
   else {
-    return content
+    return content;
   }
 
 }
@@ -42,7 +45,8 @@ AllDayTaskComponent.displayName = 'AllDayTaskComponent';
 AllDayTaskComponent.propTypes = {
   data : React.PropTypes.object.isRequired,
   setPopover : React.PropTypes.func.isRequired,
-  popover : React.PropTypes.bool.isRequired
+  popover: React.PropTypes.bool,
+  borderSide : React.PropTypes.string
 };
 
 export default AllDayTaskComponent;

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "clean": "rimraf dist/*",
-    "copy": "mkdir -p dist && cp ./src/index.html ./dist/index.html && cp -r ./src/styles/ ./dist/styles/ && cp -r ./src/images/ ./dist/images/",
+    "copy": "mkdir -p dist && cp ./src/index.html ./dist/ && cp -r ./src/images/ ./dist/images/ && cp -r ./src/favicons/ ./dist/favicons/",
     "dist": "npm run-script copy && webpack --env=dist",
     "lint": "eslint ./src",
     "posttest": "npm run lint",
@@ -46,6 +46,7 @@
     "express-sslify": "^1.0.1",
     "file-loader": "^0.8.4",
     "glob": "^6.0.0",
+    "html-webpack-plugin": "^2.9.0",
     "install": "^0.4.1",
     "isparta-instrumenter-loader": "^1.0.0",
     "jquery": "^2.2.0",
@@ -56,6 +57,7 @@
     "karma-mocha-reporter": "^1.1.1",
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-phantomjs-shim": "^1.1.1",
+    "karma-sinon-chai": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
@@ -73,7 +75,7 @@
     "precss": "^1.4.0",
     "react": "^0.14.0",
     "react-addons-css-transition-group": "^0.14.7",
-    "react-addons-test-utils": "^0.14.0",
+    "react-addons-test-utils": "^0.14.7",
     "react-burger-menu": "^1.5.1",
     "react-custom-scrollbars": "^2.2.1",
     "react-dom": "^0.14.0",
@@ -81,6 +83,7 @@
     "react-inlinesvg": "^0.4.2",
     "react-popover": "^0.4.4",
     "react-portal": "^2.0.0",
+    "redux": "^3.3.1",
     "rimraf": "^2.4.3",
     "sass-loader": "^1.0.1",
     "style-loader": "^0.13.0",
@@ -88,5 +91,8 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
     "webpack-dev-server": "^1.12.0"
+  },
+  "devDependencies": {
+    "karma-sinon": "^1.0.4"
   }
 }

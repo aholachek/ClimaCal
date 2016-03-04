@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom'
 import d3 from 'd3';
 import _ from 'lodash';
 import Popover from 'react-popover';
-import Velocity from 'velocity-animate';
 import moment from 'moment';
 
 class CalendarHourComponent extends React.Component {
@@ -121,7 +120,7 @@ class CalendarHourComponent extends React.Component {
                 return
             }
 
-              this.setAttribute('cx', d3.max([2, Math.random() * 40]));
+              this.setAttribute('cx', d3.max([4, Math.random() * 40]));
               this.setAttribute('cy', d3.max([2, Math.random() * 30]));
               var delay = Math.random() * 5000;
 
@@ -152,7 +151,7 @@ CalendarHourComponent.displayName = 'CalendarHourComponent';
 CalendarHourComponent.propTypes = {
   data : React.PropTypes.object.isRequired,
   setPopover : React.PropTypes.func.isRequired,
-  popover : React.PropTypes.bool.isRequired,
+  popover: React.PropTypes.bool.isRequired,
   sun : React.PropTypes.array.isRequired
 };
 // CalendarHourComponent.defaultProps = {};

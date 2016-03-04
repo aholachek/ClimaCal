@@ -1,6 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
 var _ = require('lodash');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 
 var baseConfig = require('./base');
 
@@ -12,6 +14,7 @@ var config = _.merge({
   cache: false,
   devtool: 'sourcemap',
   plugins: [
+
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
@@ -22,6 +25,7 @@ var config = _.merge({
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin()
+
   ]
 }, baseConfig);
 

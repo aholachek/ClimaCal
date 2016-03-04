@@ -94,7 +94,7 @@ function handleUserInitiatedAuthResult (authResult){
     var today = moment();
         today.hour(0).minute(0).second(0);
 
-    var tomorrow = moment(today).add(1, 'day');
+    var tomorrow = moment(today).add(2, 'day');
 
     var request = gapi.client.calendar.events.list({
       'calendarId': 'primary',

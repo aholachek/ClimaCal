@@ -532,7 +532,7 @@ ul
     @media (min-width : $medium-break-point)
     {
         width: auto;
-        max-width: 200px;
+        max-width: 25%;
         margin: 4px 8px 0 0;
     }
     &:hover
@@ -577,7 +577,7 @@ ul
 
 .calendar__entry > div
 {
-    padding: .5%;
+    padding: .3%;
 }
 .calendar__entry > div:first-of-type
 {

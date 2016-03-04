@@ -179,7 +179,7 @@ ul
 
 .fade-background
 {
-    background-color: rgba(0, 0, 0, .84) !important;
+    background-color: rgba(0, 0, 0, .92) !important;
 }
 
 .faded
@@ -309,6 +309,8 @@ ul
 {
     display: flex;
 
+    width: 100%;
+    max-width: 100%;
     height: 82px;
 
     border-bottom: 2px solid #fff;
@@ -716,13 +718,13 @@ ul
 {
     font-size: 1.2rem;
 
-    //3d is for safari fix--otherwise entire document jitters
-    //still looks bad in safari :()
-    -webkit-transform-style: preserve-3d;
     transform: rotateX(-90deg);
     transform-origin: center;
 
     opacity: 0;
+    //3d is for safari fix--otherwise entire document jitters
+
+    -webkit-transform-style: preserve-3d;
     @media (min-width: $medium-break-point)
     {
         font-size: 1.8rem;
@@ -795,6 +797,7 @@ ul
     text-align: center;
 
     align-items: center;
+    min-width: 80%;
 }
 
 .overlay-content .climacal-logo svg
@@ -808,11 +811,13 @@ ul
 {
     overflow: hidden;
 
-    height: 250px;
-    margin-top: 20px;
+    height: 300px;
+    padding: 4% 0 0 0;
 }
 
-
+.explanation {
+  color : darken(#fff, 15%);
+}
 
 /* ==========================================================================
    menu
@@ -856,10 +861,11 @@ ul
 /* General sidebar styles */
 .bm-menu
 {
+    font-size: 1.5rem;
     font-weight: bold;
     font-variant: small-caps;
+
     padding-top: 30px;
-    font-size: 1.5rem;
 
     text-transform: lowercase;
 
@@ -893,11 +899,12 @@ ul
 
 .bm-menu__item
 {
+    font-size: 1.4rem;
+
     display: block;
 
     height: 60px;
     padding: 1rem;
-    font-size: 1.4rem;
 
     cursor: pointer;
     text-decoration: none;
@@ -912,7 +919,6 @@ ul
 
 .bm-menu__item i
 {
-
     width: 40px !important;
 }
 
@@ -935,7 +941,7 @@ ul
     font-style: normal;
     font-variant: normal;
 
-    margin: 0;
+    margin: 0 0 1rem 0;
     padding: 0 1rem;
 
     text-align: left;
@@ -986,9 +992,10 @@ ul
 
     padding: 1rem 2rem;
 
-    color: $text;
-    border: 2px solid darken($mid, 15%);
+    color: $textLight;
+    border: 1px solid #d0d0d0;
     background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .32);
 }
 
 .Popover-body h4
@@ -1018,7 +1025,7 @@ ul
 
 .Popover-tipShape
 {
-    fill: darken($mid, 15%);
+    fill: #fff;
 }
 
 /* ==========================================================================

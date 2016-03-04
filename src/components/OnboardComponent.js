@@ -82,12 +82,20 @@ class OnboardComponent extends React.Component {
         </h1>
 
         {errorMessage}
-
-        <button onClick={this._authorize} style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
-        <div>&nbsp;&nbsp;or&nbsp;&nbsp;</div>
-        <button id="preview-app-button" onClick={this._previewClick} style={{marginTop: '20px'}}>view a preview of the app</button>
+        <div>
+          <button onClick={this._authorize} style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
+          </div>
+          <div style = {{marginBottom : "20px"}}>
+            <span className="explanation">(requests Google calendar for next 2 days & current location)</span>
+          </div>
+          <hr/>
+         <div>
+           <button id="preview-app-button" onClick={this._previewClick} style={{marginTop: '20px'}}>or view a preview of the app</button>
+        </div>
 
       </div>
+
+
       );
     }
 

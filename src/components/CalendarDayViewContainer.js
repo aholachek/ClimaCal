@@ -109,12 +109,14 @@ class CalendarContainerComponent extends React.Component {
       <div className='calendar'>
         <div className='calendar-top'>
           <div className='calendar-top__day-description'>
-            <h4>{this.props.today.format("ddd, MMM DD")}</h4>: {this.props.forecast.daily.summary}&nbsp;
-              <span className="small-inline">
-                <b>
-                {Math.floor(this.props.forecast.daily.apparentTemperatureMin)}&deg;-
-                {Math.floor(this.props.forecast.daily.apparentTemperatureMax)}&deg;
-              </b>
+            <span>
+            <h4>{this.props.today.format("ddd, MMM DD")}</h4>:&nbsp;{this.props.forecast.daily.summary}&nbsp;
+                <span className="small-inline">
+                  <b>
+                  {Math.floor(this.props.forecast.daily.apparentTemperatureMin)}&deg;-
+                  {Math.floor(this.props.forecast.daily.apparentTemperatureMax)}&deg;
+                </b>
+                </span>
               </span>
           </div>
           <div className="mobile-tabs">

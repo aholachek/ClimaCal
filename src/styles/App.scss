@@ -237,7 +237,7 @@ ul
 }
 
 .mobile-tabs button {
-  color : $textLighter;
+  color : lighten($textLighter, 10%);
   width: 100%;
   border:none;
   border-bottom: 2px solid $mid;
@@ -269,7 +269,6 @@ ul
       overflow: hidden;
 
     }
-
 }
 
 .calendar-top__day-description {
@@ -278,7 +277,9 @@ ul
   text-align: center;
   font-size : .8rem;
   height: 44px;
-  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   @media (min-width: $medium-break-point)
   {
     font-size: 1rem;

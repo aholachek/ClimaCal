@@ -15,6 +15,11 @@ import CalendarLayout from './../modules/calendar_layout';
 
 class CalendarContainerComponent extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {mobileTab: 'hourView'};
+  }
+
   renderCalendarEntries() {
 
     let that = this;
@@ -112,21 +117,36 @@ class CalendarContainerComponent extends React.Component {
               </b>
               </span>
           </div>
-          <div className='all-day-tasks'>
-              <VelocityTransitionGroup
-                component="ul"
-                enter={{
-                  animation: "transition.expandIn",
-                  drag : true,
-                  stagger: "100ms"
-                }}
-                runOnMount
-                >
-                {allDayTasks}
-              </VelocityTransitionGroup>
+          <div className="mobile-tabs">
+              <div className={this.state.mobileTab === 'allDayView' ? 'active' : ''}>
+                <button onClick={function(){this.setState({mobileTab : 'allDayView'})}.bind(this)}>
+                  <b>all day</b> ( {allDayTasks.length} )
+                </button>
+              </div>
+              <div className = {this.state.mobileTab === 'hourView' ? 'active' : ''}>
+              <button onClick={function(){this.setState({mobileTab : 'hourView'})}.bind(this)}>
+                <b>schedule</b> ( {calendarEntries.length} )
+              </button>
+              </div>
+          </div>
+          <div className= {this.state.mobileTab === 'hourView' ? 'small-invisible' : ''}>
+            <div className='all-day-tasks'>
+                <VelocityTransitionGroup
+                  component="ul"
+                  enter={{
+                    animation: "transition.expandIn",
+                    drag : true,
+                    stagger: "100ms"
+                  }}
+                  runOnMount
+                  >
+                  {allDayTasks}
+                </VelocityTransitionGroup>
+            </div>
           </div>
 
         </div>
+        <div className= {this.state.mobileTab === 'allDayView' ? 'small-invisible' : ''}>
         <Scrollbars ref='scrollbars'
                     onScroll={onScroll}
                     autoHide={true}
@@ -151,6 +171,7 @@ class CalendarContainerComponent extends React.Component {
 
           </div>
         </Scrollbars>
+        </div>
         {calendarEntries.length === 0 ? noHourEntries  : null }
         <div className='calendar-bottom'></div>
       </div>

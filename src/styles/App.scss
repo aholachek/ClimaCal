@@ -93,7 +93,11 @@ li {
 }
 .calendar-top
 {
-    height: 85px;
+    height: 80px;
+    @media (min-width: $medium-break-point)
+    {
+        height:85px;
+    }
 }
 
 
@@ -101,7 +105,7 @@ li {
 .calendar-top + div
 {
     margin: auto;
-    height: calc(100vh - 50px  - 38px  - 85px - 10px) !important;
+    height: calc(100vh - 50px  - 38px  - 75px) !important;
 
     @media (min-width: $medium-break-point)
     {
@@ -118,11 +122,15 @@ li {
 
 button
 {
-    padding: .5rem;
+    padding: .3rem;
     border: 2px solid darken($mid, 5%);
     background: transparent;
     color: white;
     transition: border .5s, color .5s;
+    @media (min-width: $medium-break-point)
+    {
+      padding: .5rem;
+    }
     &:hover
     {
         border: 2px solid $primary;
@@ -136,16 +144,21 @@ ul
     padding: 0;
 }
 
+*:focus {
+  outline: thin dotted darken($primary, 30%);
+}
+
 .responsive-container
 {
     margin: auto;
-    width: 99%;
+    width: 100%;
     @media (min-width: $medium-break-point)
     {
         max-width: 900px;
         width: 96%;
     }
 }
+
 
 /* ==========================================================================
    general helper classes
@@ -189,6 +202,14 @@ ul
 
 }
 
+.small-visible {
+  @media (min-width: $medium-break-point)
+  {
+    display: none;
+  }
+
+}
+
 .small-inline {
   display: inline-block;
 
@@ -201,6 +222,33 @@ ul
 /* ==========================================================================
    calendar container
    ========================================================================== */
+
+
+.mobile-tabs {
+  display : flex;
+  margin-top: 5px;
+  @media (min-width: $medium-break-point)
+  {
+    display:none;
+  }
+}
+.mobile-tabs>div{
+  width: 50%;
+}
+
+.mobile-tabs button {
+  color : $textLighter;
+  width: 100%;
+  border:none;
+  border-bottom: 2px solid $mid;
+
+}
+
+.mobile-tabs .active button {
+  color : $primary;
+  border-color: $primary;
+}
+
 .calendar__container
 {
     position: relative;
@@ -215,24 +263,33 @@ ul
 {
     position: relative;
     z-index: 1;
-    overflow: hidden;
+    //will be overflow in mobile view bc of all day tasks
+    @media (min-width: $medium-break-point)
+    {
+      overflow: hidden;
+
+    }
 
 }
 
 .calendar-top__day-description {
-  padding: 14px 0 3px 0;
+  padding: 12px 0 3px 0;
   color: lighten($textLighter, 10%);
   text-align: center;
-  font-size : .9rem;
+  font-size : .8rem;
+  height: 44px;
+  overflow: auto;
   @media (min-width: $medium-break-point)
   {
     font-size: 1rem;
+    max-height: auto;
+    height:32px;
   }
 }
 
 .calendar-top__day-description h4 {
   display: inline;
-  font-size : .9rem;
+  font-size : .8rem;
   @media (min-width: $medium-break-point)
   {
     font-size: 1rem;
@@ -250,10 +307,6 @@ ul
     overflow-x: hidden !important;
 }
 
-.calendar-bottom
-{
-    min-height: 20px;
-}
 
 .calendar-header
 {
@@ -479,31 +532,36 @@ ul
     position: relative;
     top: 4px;
     overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 50px;
+    overflow-y:hidden;
     @media (min-width : $medium-break-point)
     {
         max-height: 80px;
+        background: #fff;
+        overflow-y: auto;
   }
 
 }
 
+
 .all-day-tasks ul {
-  display:flex;
+  display:block;
+
+  @media (min-width : $medium-break-point)
+  {
+      display:flex;
+}
 }
 
 .all-day-tasks li
 {
     overflow: hidden;
-    margin: 2px 4px 8px 0;
-    padding: 4px 4px 5px 4px;
-    max-height: 34px;
-    width: 100%;
+    margin: 10px auto;
+    width: 95%;
     background-color: #fff;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     cursor: pointer;
     transition: box-shadow .4s;
+    padding: 6px;
+    position:relative;
 
     &:after {
       content : "";
@@ -521,6 +579,11 @@ ul
         margin: 4px 8px 0 0;
         max-width: 30%;
         width: auto;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-height: 34px;
+        padding: 4px;
+
     }
     &:hover
     {

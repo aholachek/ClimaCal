@@ -19,14 +19,14 @@ class CalendarWeekViewDayComponent extends React.Component {
     return (
       <Popover isOpen={this.props.popover === id} body={popoverBody}>
         <div className="calendar-week__day__weather" onClick={this.props.setPopover.bind(undefined, id)}>
-          <span className="calendar-week__temperature">
+          <div className="calendar-week__temperature">
             {Math.floor(this.props.weather.apparentTemperatureMin)}&deg;
-          </span>
-          <span className="calendar-week__temperature">
-            {Math.floor(this.props.weather.apparentTemperatureMax)}&deg;
-          </span>
+          </div>
           <div className="calendar-week__icon-container">
             <i className={"wi wi-forecast-io-" + this.props.weather.icon + " calendar-week__icon"}></i>
+          </div>
+          <div className="calendar-week__temperature">
+            {Math.floor(this.props.weather.apparentTemperatureMax)}&deg;
           </div>
         </div>
       </Popover>

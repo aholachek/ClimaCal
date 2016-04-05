@@ -26,11 +26,11 @@ class TabComponent extends React.Component {
     });
 
     return (
-      <div className="tab-component">
+      <nav className="tab-component">
         <ul>
           {tabs}
         </ul>
-      </div>
+      </nav>
     );
   }
 }

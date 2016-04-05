@@ -299,7 +299,10 @@ ul
 
 .calendar-top + div
 {
-    border: 1px solid darken($mid, 5%);
+    @media (min-width: $medium-break-point)
+    {
+      border: 1px solid darken($mid, 5%);
+    }
 }
 
 .calendar-top + div > div
@@ -356,11 +359,12 @@ ul
     max-width: 100%;
     width: 100%;
     height: 82px;
-    border-bottom: 2px solid #fff;
-    background: $mid;
+    border-bottom: 1px solid lighten($mid, 3%);
     @media (min-width: $medium-break-point)
     {
         height: 42px;
+        border-bottom: 2px solid #fff;
+        background: $mid;
     }
 }
 .calendar__hour > div:nth-of-type(1)
@@ -620,9 +624,9 @@ ul
 {
     position: absolute;
     top: 0;
-    right: 15%;
+    right: 16%;
     bottom: 0;
-    left: 30px;
+    left: 34px;
     margin-top: 0;
     @media (min-width: $medium-break-point)
     {
@@ -643,16 +647,19 @@ ul
 .calendar-week {
   position: relative;
   display : flex !important;
-  padding: 5px;
-  background: $mid;
 
   flex-wrap: wrap;
   justify-content: center;
+  padding: 5px;
+  padding-top: 15px;
 
   @media (min-width: $large-break-point)
   {
     justify-content:flex-start;
     height: 620px;
+    padding-top: 5px;
+    background: $mid;
+
 
   }
 }
@@ -664,9 +671,12 @@ ul
   font-weight: 500;
   font-size: .9rem;
   color: lighten($textLighter, 10%);
+  border-bottom: 1px solid darken($mid, 5%);
   @media (min-width: $medium-break-point)
   {
     font-size : 1rem;
+    border-bottom: none;
+
   }
 
 }
@@ -674,9 +684,10 @@ ul
 
 .calendar-week__day {
   margin-bottom: 20px;
-  width : 100%;
+  width : 92%;
   background: #fff;
   font-size: .9rem;
+  border: 1px solid $mid;
 
   @media (min-width: $medium-break-point)
   {
@@ -706,15 +717,24 @@ ul
 .calendar-week__day__weather {
   position: relative;
   height: 50px;
+  display: flex;
   border-top: 1px solid lighten($mid, 5%);
   font-weight: 600;
   cursor: pointer;
   transition: box-shadow .4s;
+  color : lighten($textLighter, 10%);
+  text-align: center;
 
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+    color : $textLight;
+
+  }
+  &>div {
+    width:33%;
   }
 }
+
 
 .calendar-week__day__calendar {
   display : flex;
@@ -751,17 +771,13 @@ ul
 }
 
 .calendar-week__icon-container {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 80%);
+  transform: translateY(10px);
 
 }
 .calendar-week__icon {
   position: relative;
-  left: 50%;
   color: lighten($textLight, 10%);
   font-size: 2.1rem;
-  transform: translate(-50%, -50%);
 }
 
 .calendar-week__icon.wi-forecast-io-snow,
@@ -774,17 +790,10 @@ ul
 
 .calendar-week__temperature {
   position: relative;
-  position: absolute;
   top: 14px;
   z-index:1;
   color: lighten($textLight, 10%);
   font-size: 1.1rem;
-  &:nth-of-type(1){
-  left: 18%;
-  }
-  &:nth-of-type(2){
-    left: 70%;
-}
 
 }
 

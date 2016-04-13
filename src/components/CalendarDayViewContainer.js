@@ -106,11 +106,11 @@ class CalendarContainerComponent extends React.Component {
     let onScroll = this.props.setPopover.bind(undefined, null);
 
     return (
-      <div className='calendar'>
+      <div className='calendar' >
         <div className='calendar-top'>
           <div className='calendar-top__day-description'>
             <span>
-            <h4>{this.props.today.format("ddd, MMM DD")}</h4>:&nbsp;{this.props.forecast.daily.summary}&nbsp;
+            <b>{this.props.today.format("ddd, MMM DD")}</b>:&nbsp;{this.props.forecast.daily.summary}&nbsp;
                 <span className="small-inline">
                   <b>
                   {Math.floor(this.props.forecast.daily.apparentTemperatureMin)}&deg;-
@@ -119,19 +119,28 @@ class CalendarContainerComponent extends React.Component {
                 </span>
               </span>
           </div>
-          <div className="mobile-tabs">
-              <div className={this.state.mobileTab === 'allDayView' ? 'active' : ''}>
-                <button onClick={function(){this.setState({mobileTab : 'allDayView'})}.bind(this)}>
+          <div className="mobile-tabs" role="tablist">
+              <div className={this.state.mobileTab === 'allDayView' ? 'active' : ''} >
+                <button onClick={function(){this.setState({mobileTab : 'allDayView'})}.bind(this)}
+                  role="tab"
+                  aria-selected = {this.state.mobileTab === 'allDayView' ? true : false }
+                  aria-controls = "all-day-task-container"
+                  >
                   <b>all day</b> ( {allDayTasks.length} )
                 </button>
               </div>
-              <div className = {this.state.mobileTab === 'hourView' ? 'active' : ''}>
-              <button onClick={function(){this.setState({mobileTab : 'hourView'})}.bind(this)}>
+              <div className = {this.state.mobileTab === 'hourView' ? 'active' : ''} >
+              <button onClick={function(){this.setState({mobileTab : 'hourView'})}.bind(this)}
+                role="tab"
+                aria-selected = {this.state.mobileTab === 'hourView' ? true : false}
+                aria-controls = "schedule-task-container"
+                >
                 <b>schedule</b> ( {calendarEntries.length} )
               </button>
               </div>
           </div>
-          <div className= {this.state.mobileTab === 'hourView' ? 'small-invisible' : ''}>
+          <div className= {this.state.mobileTab === 'hourView' ? 'small-invisible' : ''} id="all-day-task-container">
+            <h4 className="sr-only">Calendar events with no defined start and end dates for the day</h4>
             <div className='all-day-tasks'>
                 <VelocityTransitionGroup
                   component="ul"
@@ -148,16 +157,21 @@ class CalendarContainerComponent extends React.Component {
           </div>
 
         </div>
-        <div className= {this.state.mobileTab === 'allDayView' ? 'small-invisible' : ''}>
+        <div className= {this.state.mobileTab === 'allDayView' ? 'small-invisible' : ''}
+          id ="schedule-task-container"
+          >
         <Scrollbars ref='scrollbars'
                     onScroll={onScroll}
                     autoHide={true}
                     autoHideTimeout={1000}
                     autoHideDuration={200} >
           <div className='calendar__container'>
-            <ol>
-              {hourEntries}
-            </ol>
+
+            {
+              calendarEntries.length > 1 ?
+              <h4 className="sr-only">Calendar events with defined start and end dates for the day</h4>
+                : <h4>No calendar entries</h4>
+            }
             <VelocityTransitionGroup
               component="ol"
               enter={{
@@ -170,7 +184,10 @@ class CalendarContainerComponent extends React.Component {
               >
               {calendarEntries}
             </VelocityTransitionGroup>
-
+            <h4 className="sr-only">Hourly weather information</h4>
+            <ol>
+              {hourEntries}
+            </ol>
           </div>
         </Scrollbars>
         </div>

@@ -3,6 +3,7 @@ import { updateStateVar } from '../actions/staticActionCreators';
 import  AppComponent  from './App';
 import { googleAuthorize } from './../actions/getCalendarData';
 
+
 const mapStateToProps = (state) => {
   return {
     data: state

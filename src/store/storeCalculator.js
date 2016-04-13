@@ -17,10 +17,5 @@ export default function(store){
     //if first two are true but no calendar data yet, will show loading view
     store.dispatch(updateStateVar({ onboardModal : false}));
   }
-
-//keep hash urls in sync
-  if (!state.onboardModal){
-    window.location.hash = "/" + state.tab.replace(/\s/g, "-");
-  }
-
+  
 }

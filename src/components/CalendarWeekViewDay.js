@@ -23,7 +23,7 @@ class CalendarWeekViewDayComponent extends React.Component {
             {Math.floor(this.props.weather.apparentTemperatureMin)}&deg;
           </div>
           <div className="calendar-week__icon-container">
-            <i className={"wi wi-forecast-io-" + this.props.weather.icon + " calendar-week__icon"}></i>
+            <i className={"wi wi-forecast-io-" + this.props.weather.icon + " calendar-week__icon"} aria-label={this.props.weather.summary}></i>
           </div>
           <div className="calendar-week__temperature">
             {Math.floor(this.props.weather.apparentTemperatureMax)}&deg;
@@ -44,9 +44,9 @@ class CalendarWeekViewDayComponent extends React.Component {
         let popoverBody = (
           <div>
             <a href={t.htmlLink} target='_blank'>
-              <i className='fa fa-pencil-square-o'></i>
+              <i className='fa fa-pencil-square-o' aria-label="edit icon"></i>
               edit</a>
-            <p>{t.summary}</p>
+            <h5>{t.summary}</h5>
           </div>
         );
 

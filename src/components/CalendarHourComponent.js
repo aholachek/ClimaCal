@@ -10,21 +10,24 @@ import moment from 'moment';
 class CalendarHourComponent extends React.Component {
 
   render() {
+
     //unix timestamp
     let time = moment(this.props.data.time, 'X');
     let hour = time.format('hha').replace(/^0/, "");
+    //for accessibility
+    let idHref = time.hour() + "-row";
 
     var iconClass = 'wi wi-forecast-io-' + this.props.data.icon;
 
     let probabilityThreshold = .1;
     let precip = (<div className = 'precip-anim-container'>
           <svg></svg>
-           <i className="weather-icon-small wi wi-sprinkle faded"></i>
+           <i className="weather-icon-small wi wi-sprinkle faded" aria-label="no precipitation predicted for this hour"></i>
         </div>);
 
     if (this.props.data.precipProbability > probabilityThreshold) {
      precip = (
-        <div className = 'precip-anim-container'>
+        <div className = 'precip-anim-container' aria-label="percent probability of precipitation">
           <svg ref='precipContainer' ></svg>
           {(this.props.data.precipProbability * 100).toFixed()+ '%'}
         </div>
@@ -48,7 +51,7 @@ class CalendarHourComponent extends React.Component {
            >
       <div className = {tempClass}>{displayTemp}&deg;</div>
       <div className="v-align-container">
-        <i className={iconClass}></i>
+        <i className={iconClass} aria-label={this.props.data.summary}></i>
       </div>
       <div>
         {precip}
@@ -72,7 +75,7 @@ class CalendarHourComponent extends React.Component {
     }
 
     return (
-      <li className={parentClass}>
+      <li className={parentClass} id={idHref} tabIndex="-1">
         <div>{hour.slice(0, hour.length - 1)}</div>
         <div></div>
         {weather}

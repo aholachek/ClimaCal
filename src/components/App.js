@@ -18,6 +18,8 @@ import TabComponent from './TabComponent';
 import CalendarDayViewContainer from './CalendarDayViewContainer';
 import CalendarWeekViewContainer from './CalendarWeekViewContainer';
 
+import { Router, Route, Link } from 'react-router';
+
 
 import OnboardComponent from './OnboardComponent';
 
@@ -29,15 +31,19 @@ class AppComponent extends React.Component {
     this.setPopover = this.setPopover.bind(this);
   }
 
-  onTabChange (targetName, e) {
-    e.preventDefault();
-    this.props.changeState({ tab : targetName });
-  }
 
   setPopover (id) {
     if (id === null && this.props.data.popover === null) return;
     let p = (this.props.data.popover == id) ? null : id;
     this.props.changeState({popover : p });
+  }
+
+  componentWillReceiveProps (nextProps) {
+    //not sure if there's a better way to do this
+    //update the tab url
+    if (nextProps.params.splat !== this.props.data.tab){
+      this.props.changeState({ tab : nextProps.params.splat })
+    }
   }
 
   useOwnData () {
@@ -108,7 +114,7 @@ class AppComponent extends React.Component {
           />
       );
     }
-    else if (this.props.data.tab === 'this week'){
+    else if (this.props.data.tab === 'this-week'){
       //attach calendar information to the days array from the weather endpoint
       let days = [];
       let n = 0;
@@ -140,9 +146,9 @@ class AppComponent extends React.Component {
     let key = this.useOwnData() ? 'self' : 'stub';
     let tabs = [
       //send summary info to tabs
-        {onTabChange : this.onTabChange.bind(this, 'today'), title : 'today', weather :  this.props.data[key].weather.today.daily},
-        {onTabChange : this.onTabChange.bind(this, 'tomorrow'), title : 'tomorrow', weather :  this.props.data[key].weather.tomorrow.daily},
-        {onTabChange : this.onTabChange.bind(this, 'this week'), title : 'this week', weather :  this.props.data[key].weather['this week']}
+        { title : 'today', weather :  this.props.data[key].weather.today.daily},
+        { title : 'tomorrow', weather :  this.props.data[key].weather.tomorrow.daily},
+        { title : 'this week', weather :  this.props.data[key].weather['this week']}
     ];
     return (
               <TabComponent
@@ -183,6 +189,7 @@ class AppComponent extends React.Component {
   }
 
   //combined render method
+
   render () {
 
   let updateMenuOpen = function(state){
@@ -200,7 +207,11 @@ class AppComponent extends React.Component {
     </div>);
 
     return (
-      <div id="outer-container" ref="container" onClick={this.hide}>
+      <div id="outer-container"
+           ref="container"
+           onClick={this.hide}
+           aria-hidden={this.props.data.onboardModal ? true : false}
+           >
 
             <AnimMenu pageWrapId={ "page-wrap" }
                       outerContainerId={ "outer-container" }
@@ -210,6 +221,7 @@ class AppComponent extends React.Component {
                       customIcon={ '/images/menu_icon.svg' }
                       >
             <br/>
+            <h2 className="sr-only">Menu</h2>
             <div className="section">
               { this.renderAuthorizeUI() }
             </div>
@@ -226,9 +238,9 @@ class AppComponent extends React.Component {
           <div className="navbar">
             <div className="responsive-container">
               <div className="climacal-logo">
-                <img src="/images/climacal.png"/>
+                <img src="/images/climacal.png" alt="climacal app logo"/>
                   <h1>
-                      ClimaCal
+                      ClimaCal <span className="sr-only">an app to integrate gmail + local weather data</span>
                   </h1>
               </div>
             </div>
@@ -237,15 +249,18 @@ class AppComponent extends React.Component {
           <main id="page-wrap" className="responsive-container">
            { this.renderTabs() }
 
-           <VelocityTransitionGroup
-             enter={{
-              animation: "transition.fadeIn",
-              duration: 400
-            }}
-             runOnMount
-             >
-             { this.renderContainerComponent() }
-           </VelocityTransitionGroup>
+
+             <VelocityTransitionGroup
+               enter={{
+                animation: "transition.fadeIn",
+                duration: 400
+              }}
+               runOnMount
+               >
+               { this.renderContainerComponent() }
+             </VelocityTransitionGroup>
+
+
           </main>
 
             <OnboardComponent

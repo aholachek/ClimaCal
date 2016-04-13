@@ -19,7 +19,7 @@ class AllDayTaskComponent extends React.Component {
                       className={className}
                       onClick = {this.props.setPopover}
                       style = {style}>
-                      {this.props.data.summary}
+                      <h5>{this.props.data.summary}</h5>
                 </li>);
 
   if (this.props.popover){

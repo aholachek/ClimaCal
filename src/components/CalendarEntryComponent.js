@@ -39,7 +39,11 @@ class CalendarEntryComponent extends React.Component {
           color: taskTextColor
         }}>{times}</div>
         <div>
-          {this.props.data.summary}
+          <h5>{this.props.data.summary}</h5>
+          <a href={ "#" + moment(this.props.data.start.dateTime).hour() + "-row" }  className="sr-only">
+          go to hourly weather information, starting from the hour
+          when this event begins
+          </a>
         </div>
       </li>
     );

@@ -3,6 +3,7 @@ import 'core-js/fn/object/assign';
 
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { Router, Route, browserHistory, Redirect } from 'react-router';
 
 import { calendarInit } from './../actions/getCalendarData';
 
@@ -24,16 +25,13 @@ export default function startApp(options){
     store.dispatch(calendarInit());
   }
 
-  //set the hash url into the state, if there is one
-  // will be either '#/this-week', '#/today', '#/tomorrow'
-  if (location.hash){
-    let tab = location.hash.replace(/^#\//, "").replace(/-/g, " ");
-    store.dispatch(updateStateVar({tab: tab }));
-  }
 
   ReactDOM.render(
     <Provider store={store}>
-      <AppContainer/>
+      <Router history={browserHistory}>
+        <Redirect from="/" to="today" />
+        <Route path="*" component={AppContainer}></Route>
+      </Router>
     </Provider>,
     document.getElementById('app')
   );

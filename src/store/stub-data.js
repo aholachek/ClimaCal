@@ -278,7 +278,7 @@ let stubData = {
        'dateTime': '2016-01-28T08:30:00-05:00'
      },
      'end': {
-       'dateTime': '2016-01-28T09:00:00-05:00'
+       'dateTime': '2016-01-28T09:30:00-05:00'
      },
      'iCalUID': 'v30g2k4gncjkvdeagd13eb1sj4@google.com',
      'sequence': 0,
@@ -376,7 +376,7 @@ let stubData = {
        'dateTime': '2016-01-29T08:30:00-05:00'
      },
      'end': {
-       'dateTime': '2016-01-29T09:30:00-05:00'
+       'dateTime': '2016-01-29T10:30:00-05:00'
      },
      'iCalUID': 'v30g2k4gncjkvdeagd13eb1sj4@google.com',
      'sequence': 0,

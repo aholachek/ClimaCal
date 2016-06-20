@@ -13,7 +13,6 @@ $medium-break-point: 600px;
 $large-break-point: 960px;
 $shadow: 0 5px 20px 2px rgba(0, 0, 0, .2);
 
-
 html
 {
     box-sizing: border-box;
@@ -1001,13 +1000,13 @@ h5 {
 {
     position: absolute;
     top: calc(80px + 40%);
-    left: 12%;
+    left: 11%;
     z-index: 1;
     color: $textLight;
     font-size: 1.4rem;
     @media (min-width: $medium-break-point)
     {
-        left: 34%;
+        left: 32%;
     }
 }
 /* ==========================================================================

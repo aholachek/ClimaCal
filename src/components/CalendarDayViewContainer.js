@@ -98,7 +98,7 @@ class CalendarContainerComponent extends React.Component {
     let allDayTasks = this.renderAllDayTasks();
 
     let noHourEntries = (
-      <div className='no-hour-entries'>schedule is empty</div>
+      <div className='no-hour-entries'>your schedule is empty!</div>
     );
 
     this.children = calendarEntries;
@@ -170,7 +170,7 @@ class CalendarContainerComponent extends React.Component {
             {
               calendarEntries.length > 1 ?
               <h4 className="sr-only">Calendar events with defined start and end dates for the day</h4>
-                : <h4>No calendar entries</h4>
+                : <h4 className="sr-only">No calendar entries</h4>
             }
             <VelocityTransitionGroup
               component="ol"

@@ -63,6 +63,9 @@ class CalendarHourComponent extends React.Component {
 
     let popoverBody = (
       <div>
+        <button className="Popover__button" onClick={ this.props.setPopover }>
+          <i className="fa fa-lg fa-times"/>
+        </button>
         <h4>{hour} : {this.props.data.summary.toLowerCase()}</h4>
         <ul>
           <li> real temp: <b>{parseInt(this.props.data.temperature)}</b>&deg;&nbsp;&nbsp;feels like: <b>{parseInt(this.props.data.apparentTemperature)}</b>&deg;</li>

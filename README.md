@@ -1,14 +1,13 @@
 
 #### working locally:
-1. in srsc/actions/getWeatherData.js, uncomment line 10 to set 'weatherEndpoint' var as localhost
-2. Get a dev key from https://developer.forecast.io/ and add a file to the top level
+1. Get a dev key from https://developer.forecast.io/ and add a file to the top level
 of the project called forecast-dev-key.js that contains:
 
     var forecast_dev_key = 'xxx';
     module.exports = forecast_dev_key;
 
-3. npm run-script webpack-start
-4. npm run-script express-start
+2. npm run-script webpack-start
+3. npm run-script express-start
 
 #### run tests in the browser:
 1. npm test

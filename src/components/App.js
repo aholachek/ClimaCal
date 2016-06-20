@@ -20,7 +20,6 @@ import CalendarWeekViewContainer from './CalendarWeekViewContainer';
 
 import { Router, Route, Link } from 'react-router';
 
-
 import OnboardComponent from './OnboardComponent';
 
 class AppComponent extends React.Component {
@@ -30,7 +29,6 @@ class AppComponent extends React.Component {
     this.toggleMenu = this.toggleMenu.bind(this);
     this.setPopover = this.setPopover.bind(this);
   }
-
 
   setPopover (id) {
     if (id === null && this.props.data.popover === null) return;
@@ -196,12 +194,18 @@ class AppComponent extends React.Component {
     this.toggleMenu(state.isOpen);
   }.bind(this);
 
+  let latLong;
+  try {
+    latLong = this.props.data.self.latLong.latitude + ',' + this.props.data.self.latLong.longitude;
+  } catch(TypeError) {
+  }
+
   let appOptions = (
      <div className="section">
       <a className="bm-menu__item" href='https://calendar.google.com/calendar/render' target='_blank'>
         <i className='fa fa-google'></i><span>edit my calendar</span>
       </a>
-      <a className="bm-menu__item" href={'https://forecast.io/#/f/' + this.props.latLong} target='_blank'>
+      <a className="bm-menu__item" href={'https://forecast.io/#/f/' + latLong} target='_blank'>
         <i className='fa fa-sun-o'></i><span>detailed forecast</span><
       /a>
     </div>);

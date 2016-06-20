@@ -6,9 +6,10 @@ import {
   updateStateVar
 } from './staticActionCreators';
 
-let forecastEndpoint = '/get-forecast';
-//for dev this needs to be uncommented
- // forecastEndpoint = 'http://localhost:4000/get-forecast';
+
+//the val will be determined by the webpack define plugin
+let env = process.env.NODE_ENV;
+let forecastEndpoint = env === 'production' ? '/get-forecast' : 'http://localhost:4000/get-forecast';
 
 export default function getWeatherData( dispatch ) {
 

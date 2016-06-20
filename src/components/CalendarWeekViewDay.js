@@ -12,13 +12,18 @@ class CalendarWeekViewDayComponent extends React.Component {
   renderWeather() {
 
     let popoverBody = (
-      <div>{this.props.weather.summary}</div>
+      <div>
+        <button className="Popover__button" onClick={ this.props.setPopover.bind(undefined, id) }>
+          <i className="fa fa-lg fa-times"/>
+        </button>
+        {this.props.weather.summary}
+      </div>
     );
     let id = 'weekly-page--weather-' + this.props.day.format();
 
     return (
       <Popover isOpen={this.props.popover === id} body={popoverBody}>
-        <div className="calendar-week__day__weather" onClick={this.props.setPopover.bind(undefined, id)}>
+        <div className="calendar-week__day__weather" onClick={ this.props.setPopover.bind(undefined, id) }>
           <div className="calendar-week__temperature">
             {Math.floor(this.props.weather.apparentTemperatureMin)}&deg;
           </div>
@@ -33,22 +38,29 @@ class CalendarWeekViewDayComponent extends React.Component {
     );
   }
 
-  renderCalendar() {
-    var that = this;
+//for list entries
+  renderPopoverBody(item){
+    return <div>
+      <button className="Popover__button" onClick={ this.props.setPopover.bind(undefined, item.id) }>
+        <i className="fa fa-lg fa-times"/>
+      </button>
+      <h5>{item.summary}</h5>
+      <a href={item.htmlLink} target='_blank' className="Popover__edit-link">
+        <i className='fa fa-pencil-square-o' aria-hidden="true"></i>
+        edit
+      </a>
+    </div>
+  }
 
-    let allDayTasks = this.props.calendar.allDayTasks.map(function (t) {
+  renderCalendar() {
+
+    let that = this,
+        allDayTasks = this.props.calendar.allDayTasks.map(function (t) {
 
       if (t) {
 
         let id = 'weekly-page--all-day-task--' + t.id;
-        let popoverBody = (
-          <div>
-            <a href={t.htmlLink} target='_blank'>
-              <i className='fa fa-pencil-square-o' aria-label="edit icon"></i>
-              edit</a>
-            <h5>{t.summary}</h5>
-          </div>
-        );
+        let popoverBody = this.renderPopoverBody(t);
 
         return (
           <Popover isOpen= {that.props.popover === id} body={popoverBody} key={id} >
@@ -58,7 +70,7 @@ class CalendarWeekViewDayComponent extends React.Component {
       } else {
         return ("");
       }
-    }).filter(function (t) {
+    }, this).filter(function (t) {
       return t;
     });
 
@@ -66,14 +78,8 @@ class CalendarWeekViewDayComponent extends React.Component {
 
       if (s) {
 
-        let popoverBody = (
-          <div>
-            <a href={s.htmlLink} target='_blank'>
-              <i className='fa fa-pencil-square-o'></i>
-              edit</a>
-            <p>{s.summary}</p>
-          </div>
-        );
+        let popoverBody = this.renderPopoverBody(s);
+
         let start = Moment(s.start.dateTime).format("h:mma");
         start = start.slice(0, start.length - 1);
         let background = Colors.event[s.colorId || 9].background;
@@ -94,7 +100,7 @@ class CalendarWeekViewDayComponent extends React.Component {
       } else {
         return ("");
       }
-    }).filter(function (t) {
+    }, this).filter(function (t) {
       return t;
     });
 

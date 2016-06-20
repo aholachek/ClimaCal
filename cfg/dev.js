@@ -20,6 +20,11 @@ var config = _.merge({
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': '"dev"'
+      }
     })
   ]
 }, baseConfig);

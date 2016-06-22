@@ -5,17 +5,16 @@ import ReactDOM from 'react-dom'
 import d3 from 'd3';
 import _ from 'lodash';
 import Popover from 'react-popover';
-import moment from 'moment';
+import Moment from 'moment';
 
 class CalendarHourComponent extends React.Component {
 
   render() {
 
-    //unix timestamp
-    let time = moment(this.props.data.time, 'X');
+    let time = Moment.parseZone(this.props.data.time);
     let hour = time.format('hha').replace(/^0/, "");
     //for accessibility
-    let idHref = time.hour() + "-row";
+    let idHref = "row-" + time.hour();
 
     var iconClass = 'wi wi-forecast-io-' + this.props.data.icon;
 
@@ -35,11 +34,13 @@ class CalendarHourComponent extends React.Component {
     }
 
     let displayTemp = parseInt(this.props.data.apparentTemperature);
-    let tempClass = 'temp';
 
     let parentClass = 'calendar__hour';
-    if (time > this.props.sun[0] && time < this.props.sun[1]){
+    if (time.isAfter(this.props.sun[0]) && time.isBefore(this.props.sun[1])){
       parentClass += ' calendar__hour--day';
+    }
+    if ( time.add(1, 'h').isBefore(new Moment())){
+      parentClass += ' happened-already';
     }
 
     let className = 'calendar__hour__weather';
@@ -49,11 +50,12 @@ class CalendarHourComponent extends React.Component {
       <div className={className}
            onClick = {this.props.setPopover}
            >
-      <div className = {tempClass}>{displayTemp}&deg;</div>
-      <div className="v-align-container">
+      <div className = "weather__temp"
+           dangerouslySetInnerHTML={{__html: displayTemp + '&deg;'}} />
+      <div className="weather__icon">
         <i className={iconClass} aria-label={this.props.data.summary}></i>
       </div>
-      <div>
+      <div className="weather__precip">
         {precip}
       </div>
     </div>
@@ -77,8 +79,16 @@ class CalendarHourComponent extends React.Component {
      weather = (<Popover isOpen={true} body={popoverBody}>{weather}</Popover>);
     }
 
+    let accessabilityButton = "";
+    if ( this.props.hasAccessibilityLink ){
+      accessabilityButton = <button className="sr-only" onClick={this.props.setAccessibilityEntry}>
+        click here to jump back to the previously focused calendar task
+      </button>
+    }
+
     return (
-      <li className={parentClass} id={idHref} tabIndex="-1">
+      <li className={parentClass} id={idHref} tabIndex="-1" key={ this.props.data.time } aria-label={"hourly weather information for " + hour}>
+      {accessabilityButton}
         <div>{hour.slice(0, hour.length - 1)}</div>
         <div></div>
         {weather}

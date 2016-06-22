@@ -125,9 +125,14 @@ class CalendarWeekViewDayComponent extends React.Component {
 
   render() {
 
+    let today;
+    if (this.props.day.date() === Moment().date()) {
+      today = true;
+    }
+
     return (
       <li className="calendar-week__day">
-        <h4>{this.props.day.format("ddd, MMM D")}</h4>
+        <h4>{this.props.day.format("ddd, MMM D")} {today ? '(today)' : ''}</h4>
         {this.renderCalendar()}
         {this.renderWeather()}
       </li>

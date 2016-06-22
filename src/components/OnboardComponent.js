@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Portal from 'react-portal';
 import Isvg from 'react-inlinesvg';
+import Popover from 'react-popover';
 
 
 class OnboardComponent extends React.Component {
@@ -12,6 +13,9 @@ class OnboardComponent extends React.Component {
     super(props);
     this.previewClick = this.previewClick.bind(this);
     this.beforeClose = this.beforeClose.bind(this);
+    this.state = {
+      popover : false
+    }
   }
 
   beforeClose (node, removeFromDom) {
@@ -33,6 +37,13 @@ class OnboardComponent extends React.Component {
     this.props.changeState(newState);
   }
 
+  authorizeApp (e) {
+    e.preventDefault();
+    var placeName = e.target.parentNode.parentNode.querySelector("input").value;
+    this.props.getWeatherData(placeName);
+    this.props.googleAuthorize();
+  }
+
   render() {
     let container;
 
@@ -40,43 +51,96 @@ class OnboardComponent extends React.Component {
       container = (
         <div>
           <p> <i className="fa fa-warning"></i> { this.props.appData.error } </p>
-          <p> <button id="preview-app-button" onClick={this.previewClick} style={{marginTop: '20px'}}> Try checking out the app preview instead </button> </p>
+          <p> <button className = "btn" id="preview-app-button" onClick={this.previewClick} style={{marginTop: '20px'}}> Try checking out the app preview instead </button> </p>
         </div>
       );
-
     }
 
   else if (
       //if undefined, hasn't returned. if false, it's not available (might have been an error)
-      this.props.appData.auth === "self" && (
+      this.props.appData.auth === 'self' && (
         (this.props.appData.self.weather === undefined) || (this.props.appData.self.calendar === undefined)
       )||
-      //if equal to undefined, initial loading check is in progress
+      //if equal to undefined, initial loading check is in progresss
       this.props.appData.self.googleAuth === undefined
-        ){
-
-      container = (<div className="overlay-details" style={{paddingTop: '80px'}}> loading <b>ClimaCal...</b> </div>);
+      ){
+      container = (<div className="overlay-details" style={{paddingTop: '200px', color: '#a4a4a4', fontWeight: 'bold', minHeight: '400px', minWidth: '500px'}}>
+       loading <b>ClimaCal...</b>
+     </div>);
     }
     else {
+
+      let popoverAbout = (
+        <div>
+          <button className="Popover__button" onClick={ function(){this.setState({popover : false})}.bind(this) }>
+            <i className="fa fa-lg fa-times"/>
+          </button>
+          <p>This is a side project I built to help me learn how to use some new web technologies.
+          </p>
+          <p>
+          If you'd like to take a look at the code,
+          <a href="https://github.com/aholachek/ClimaCal" target="__blank">&nbsp;
+          check out the Github repo.
+          </a>
+          </p>
+        </div>
+      );
+      let aboutButton =   <Popover isOpen={ this.state.popover === 'about'} body={popoverAbout}>
+        <button onClick={function(){this.state.popover === 'about' ? this.setState({popover : false}) : this.setState({popover : 'about'})}.bind(this)}>
+          <i className="fa fa-info-circle"></i> About this app
+        </button>
+      </Popover>
+
+      let popoverPrivacy = (
+        <div>
+          <button className="Popover__button" onClick={ function(){this.setState({popover : false})}.bind(this) }>
+            <i className="fa fa-lg fa-times"/>
+          </button>
+          <p>
+            This app requests your email address and calendar information for the next week from Google.</p>
+          <p>
+            Neither the location that you enter or any of your Google data is recorded in any way.
+          </p>
+        </div>
+      );
+
+      let privacyButton =   <Popover isOpen={ this.state.popover === 'privacy' } body={popoverPrivacy}>
+        <button onClick={function(){this.state.popover === 'privacy' ? this.setState({popover : false}) : this.setState({popover : 'privacy'})}.bind(this)}>
+                <i className="fa fa-user-secret"></i> Privacy
+            </button>
+       </Popover>
 
       container = (
       <div className="overlay-details">
         <h1 className="sr-only">
             ClimaCal
         </h1>
-
         <div>
-          <button onClick={ this.props.googleAuthorize } style={{marginBottom: '20px'}}> load my calendar + local weather data </button>
-          </div>
-          <div style = {{marginBottom : "20px"}}>
-            <span className="explanation">(requests Google calendar for next 8 days & current location)</span>
-          </div>
+          <p style={{color: '#a4a4a4', fontWeight: 'bold', marginTop: '35px'}}>
+            ClimaCal connects your calendar with an hourly weather report.
+          </p>
+          <form className="pure-form">
+            <div>
+              <br/>
+              <label> <b>1.</b> Set your location:&nbsp;&nbsp;
+              <input type="text" placeholder="city, state/region"/>
+              </label>
+            </div>
+            <div style={{marginTop : "10px"}}>
+              <b>2.</b> Import your Google calendar:&nbsp;&nbsp;
+              <button className="btn" onClick={ this.authorizeApp.bind(this) } style={{margin: '10px 0', width: '110px'}}>import </button>
+            </div>
+          </form>
           <hr/>
-         <div>
-           <button id="preview-app-button" onClick={this.previewClick} style={{marginTop: '20px'}}>or view a preview of the app</button>
+         <div className="preview-container">
+           Or preview the interface:&nbsp;&nbsp;<button className="btn" id="preview-app-button" onClick={this.previewClick} style={{margin: '20px 0', width: '174px'}}>view preview</button>
         </div>
+      </div>
+      <div className="overlay-app-info">
+        { aboutButton } &nbsp;&nbsp;&nbsp; { privacyButton }
 
       </div>
+    </div>
 
 
       );
@@ -99,7 +163,6 @@ class OnboardComponent extends React.Component {
       </Portal>
     );
   }
-
 
 }
 

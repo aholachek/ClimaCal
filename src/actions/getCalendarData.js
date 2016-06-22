@@ -7,11 +7,10 @@ import {
 
 import getWeatherData from './getWeatherData';
 
-
 //google auth
 
 var CLIENT_ID = '410834287787-sirh0hvkvs3if125evkhl958km2pvhmv.apps.googleusercontent.com';
-var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/calendar.readonly', 'email'];
 
 var cachedDispatch; //hack ?? to get access to dispatch function in other funcs
 
@@ -20,27 +19,39 @@ window.checkAuth = function() {
   gapi.auth.authorize({
     'client_id': CLIENT_ID,
     'scope': SCOPES.join(' '),
-    'immediate': true
-  }, handleAuthResult);
+    'immediate': true,
+    'cookie_policy': 'single_host_origin'
+  }, handleAutoAuthResult);
 };
 
-//once authorized by google, fetch calendar + fetch weather
+//once authorized by google, fetch email name --> fetch calendar --> fetch weather
+//called by both autoauth and user inititatedauth
 function onAuth (){
-  cachedDispatch(updateStateVar( {auth : 'self' }));
-  loadCalendarApi();
-  cachedDispatch(getWeatherData);
+
+  gapi.client.load('oauth2', 'v2', function()
+  {
+    gapi.client.oauth2.userinfo.get()
+      .execute(function(resp)
+      {
+        var email = resp.email || 'logged in with Google';
+        cachedDispatch(updateStateVar({auth : 'self'}));
+        cachedDispatch(updateUserData({googleAuth : email }));
+
+        loadCalendarApi();
+      });
+  });
 }
 
 //initial check of auth status
-function handleAuthResult(authResult) {
+function handleAutoAuthResult(authResult) {
   let auth = (authResult && !authResult.error) ? true : false;
-  cachedDispatch(updateUserData({ googleAuth : auth }));
 
   if (auth) {
     onAuth();
+    cachedDispatch(getWeatherData());
   }
   else {
-    cachedDispatch(updateStateVar( {auth : 'stub' }));
+    cachedDispatch(updateUserData({googleAuth : false }));
   }
 }
 
@@ -73,29 +84,44 @@ function listUpcomingEvents() {
 
   var oneWeekFromNow = today.clone().add(7, 'day');
 
-  var request = gapi.client.calendar.events.list({
-    'calendarId': 'primary',
-    'timeMin': today.format(),
-    'timeMax': oneWeekFromNow.format(),
-    'showDeleted': false,
-    'singleEvents': true,
-    'maxResults': 200,
-    'orderBy': 'startTime'
+  var request = gapi.client.calendar.calendarList.list();
+
+  request.execute(function(calendarData){
+    let calendarIds = calendarData.items.map(function(item){ return item.id }).slice(0,5);
+    let allItems = [];
+    let requestCount = calendarIds.length;
+    calendarIds.forEach(function(id){
+
+      var request = gapi.client.calendar.events.list({
+        'calendarId': id,
+        'timeMin': today.format(),
+        'timeMax': oneWeekFromNow.format(),
+        'showDeleted': false,
+        'singleEvents': true,
+        'maxResults': 200,
+        'orderBy': 'startTime'
+      });
+
+      request.execute(function(resp) {
+
+        if (resp.code && resp.code !== 200) {
+          console.error('couldn\'t contact google api', resp);
+        }
+        [].push.apply(allItems, resp.items);
+        requestCount-=1;
+        if (requestCount == 0){
+          cachedDispatch(updateUserData({ calendar : allItems }));
+        }
+      });
+
+    });
+
   });
 
-  request.execute(function(resp) {
-
-    if (resp.code && resp.code !== 200) {
-      console.error('couldn\'t contact google api', resp);
-    }
-    cachedDispatch(updateUserData({ calendar : resp.items }));
-
-  });
 }
 
-
 export function calendarInit() {
-  return function(dispatch) {
+  return function(dispatch, getState) {
     cachedDispatch = dispatch;
 
     var s = document.createElement('script');
@@ -109,9 +135,10 @@ export function googleAuthorize () {
   return function(dispatch){
 
       gapi.auth.authorize({
-          client_id: CLIENT_ID,
-          scope: SCOPES,
-          immediate: false
+        'client_id': CLIENT_ID,
+        'scope': SCOPES.join(' '),
+        'immediate': false,
+        'cookie_policy': 'single_host_origin'
         },
         handleUserInitiatedAuthResult);
       return false;

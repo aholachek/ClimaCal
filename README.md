@@ -6,8 +6,10 @@ of the project called forecast-dev-key.js that contains:
     var forecast_dev_key = 'xxx';
     module.exports = forecast_dev_key;
 
-2. npm run-script webpack-start
-3. npm run-script express-start
+2. Make a similar file called geocode-key.js with a Google API token.
+
+3. npm run-script webpack-start (serves the app on localhost:8080 )
+4. npm run-script express-start (starts up the node backend)
 
 #### run tests in the browser:
 1. npm test
@@ -17,5 +19,5 @@ of the project called forecast-dev-key.js that contains:
 (running npm dist on heroku was timing out)
 
 1. npm run-script dist
-2. git commit -m 'commit msg'
+2. make a git commit
 3. git push heroku master

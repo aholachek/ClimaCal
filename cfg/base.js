@@ -27,7 +27,7 @@ module.exports = {
     noInfo: false
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.json'],
     alias: {
       actions: srcPath + '/actions/',
       components: srcPath + '/components/',
@@ -63,7 +63,10 @@ module.exports = {
       {
         test: /\.(png|jpg|gif|woff|woff2)$/,
         loader: 'url-loader?limit=8192'
-      }
+      },
+
+      { include: /\.json$/, loaders: ["json-loader"] }
+
     ]
   },
 

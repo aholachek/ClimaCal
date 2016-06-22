@@ -24,27 +24,33 @@ class CalendarWeekViewContainerComponent extends React.Component {
     );
     });
 
-
     return (
-      <div className="calendar-week__container">
+      <VelocityTransitionGroup
+        component='div'
+        className="calendar-week__container"
+        enter={{
+          animation: 'transition.fadeIn'
+        }}
+        runOnMount
+        >
         <div className="calendar-week__summary">
           {this.props.scheduleData.summary}
         </div>
-        <Scrollbars autoHide={true}
+        <Scrollbars autoHide
                     autoHideTimeout={1000}
                     autoHideDuration={200} >
         <VelocityTransitionGroup
           component="ol"
           enter={{
-            animation: "transition.expandIn",
-            stagger: "100ms"
+            animation: "transition.slideDownIn",
+            stagger: "70ms"
           }}
           className="calendar-week"
           runOnMount>
               {days}
         </VelocityTransitionGroup>
       </Scrollbars>
-      </div>
+    </VelocityTransitionGroup>
 
     );
   }

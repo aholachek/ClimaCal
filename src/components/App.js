@@ -1,18 +1,12 @@
+require('styles/pure.scss');
 require('styles/App.scss');
 
+
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Isvg from 'react-inlinesvg';
 import _ from 'lodash';
 import moment from 'moment';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import { VelocityTransitionGroup, VelocityComponent } from 'velocity-react';
-import Velocity from 'velocity-animate';
-import VelocityUI from 'velocity-animate/velocity.ui';
-
-import Menu from 'react-burger-menu';
-const AnimMenu = Menu.scaleRotate;
+import DropdownMenu from 'react-dd-menu';
 
 import TabComponent from './TabComponent';
 import CalendarDayViewContainer from './CalendarDayViewContainer';
@@ -22,26 +16,21 @@ import { Router, Route, Link } from 'react-router';
 
 import OnboardComponent from './OnboardComponent';
 
+
 class AppComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleMenu = this.toggleMenu.bind(this);
     this.setPopover = this.setPopover.bind(this);
+    this.state = {
+      isMenuOpen: false
+    };
   }
 
   setPopover (id) {
     if (id === null && this.props.data.popover === null) return;
     let p = (this.props.data.popover == id) ? null : id;
     this.props.changeState({popover : p });
-  }
-
-  componentWillReceiveProps (nextProps) {
-    //not sure if there's a better way to do this
-    //update the tab url
-    if (nextProps.params.splat !== this.props.data.tab){
-      this.props.changeState({ tab : nextProps.params.splat })
-    }
   }
 
   useOwnData () {
@@ -68,7 +57,7 @@ class AppComponent extends React.Component {
       key = 'stub';
     }
 
-    let forecast = this.props.data[key].weather[this.props.data.tab];
+    let forecast = this.props.data[key].weather[this.props.params.splat];
 
     let compareFormat = "ddd MMM DD YYYY";
     let scheduleData;
@@ -85,7 +74,7 @@ class AppComponent extends React.Component {
           };
     }
 
-    if (this.props.data.tab === 'today'){
+    if (this.props.params.splat === 'today'){
       scheduleData = getScheduleForDay(this.props.data[key].calendar, today);
       return (
         <CalendarDayViewContainer
@@ -98,7 +87,7 @@ class AppComponent extends React.Component {
           />
       );
     }
-    else if (this.props.data.tab === 'tomorrow'){
+    else if (this.props.params.splat === 'tomorrow'){
       scheduleData = getScheduleForDay(this.props.data[key].calendar, tomorrow);
       return (
         <CalendarDayViewContainer
@@ -108,11 +97,10 @@ class AppComponent extends React.Component {
           setPopover = {this.setPopover}
           popover = {this.props.data.popover}
           key= 'tomorrow-tab'
-
           />
       );
     }
-    else if (this.props.data.tab === 'this-week'){
+    else if (this.props.params.splat === 'this-week'){
       //attach calendar information to the days array from the weather endpoint
       let days = [];
       let n = 0;
@@ -151,137 +139,153 @@ class AppComponent extends React.Component {
     return (
               <TabComponent
                   tabs={tabs}
-                  active={this.props.data.tab}/>
+                  active={ this.props.params.splat }/>
             );
   }
 
-  renderAuthorizeUI () {
+  renderHeader () {
 
-    let authorizeUI;
-    let that = this;
-
-    if ( this.useOwnData() ){
-        let setView = this.props.changeState.bind(this, {auth : 'stub' });
-        let func = function(){ setView(); that.toggleMenu(false); };
-        authorizeUI = (<span><h3>currently viewing <em>your own schedule</em></h3>
-          <a className="bm-menu__item" onClick={func}><i className="fa fa-eye"></i> view sample data</a><
-            /span>);
-    }
-    else if (this.props.data.self.calendar && this.props.data.self.weather){
-      let setView = this.props.changeState.bind(this, {auth : 'self'});
-      let func = function(){ setView(); that.toggleMenu(false); };
-      authorizeUI = (<span><h3>currently viewing a <em>sample schedule</em></h3>
-      <a className="bm-menu__item"  onClick={func}><i className="fa fa-eye"></i> view my data</a>
-      </span>);
-    }
-    else {
-      authorizeUI = (
-        <span>
-          <h3 style={{ paddingBottom : '15px'}}>currently viewing sample data</h3>
-          <button className="load-google" onClick={ this.props.googleAuthorize }> load my Google calendar</button>
+    return ( <div>
+      <span className="climacal-logo">
+          <img src="/images/climacal.png" alt="climacal app logo" title="ClimaCal"/>
+            <h1 className="sr-only">
+                ClimaCal <span>an app to integrate gmail + local weather data</span>
+            </h1>
         </span>
-      );
-    }
-
-    return authorizeUI;
+        { this.renderMenu() }
+      </div> )
   }
 
-  //combined render method
+  changeLocation (e) {
+    e.preventDefault();
+    var placeName = arguments[0].target.querySelector("input").value;
+    if (placeName.trim()){
+      this.props.getWeatherData(placeName);
+    }
+    this.setState({ isMenuOpen : false });
+  }
+
+  renderMenu () {
+
+    let close = function(){this.setState( {isMenuOpen : false} ) }.bind(this);
+    let toggle = function(){this.setState( {isMenuOpen : !this.state.isMenuOpen} ) }.bind(this);
+
+    let menuOptions = {
+     isOpen: this.state.isMenuOpen,
+     close: close,
+     align: 'right',
+     closeOnInsideClick: false
+    }
+
+    let dropdownMenu;
+
+    function changeView (auth){
+      this.props.changeState({auth : auth });
+      this.setState({isMenuOpen : false})
+    }
+
+    //fully authorized, showing user data OR fully authorized, showing stub
+    if ( this.useOwnData() ) {
+
+      let latLon = this.props.data.self.location.latitude + "," + this.props.data.self.location.longitude;
+      let currentLocation;
+
+      let placeParts = this.props.data.self.location.formattedAddress.split(',');
+       placeParts = _.unique(_.map(placeParts, function(p){return p.trim()}));
+       currentLocation = placeParts.join(", ");
+
+       menuOptions = _.extend(menuOptions,
+        {
+          toggle: <button className = "pull-right btn" onClick={ toggle }> <i className="fa fa-user"></i> { this.props.data.self.googleAuth }</button>
+      });
+
+       dropdownMenu = <DropdownMenu {...menuOptions}>
+         <li><a href="#" onClick= { changeView.bind(this, 'stub') }>
+           <i className="fa fa-calendar-o"></i>&nbsp;&nbsp;Preview app with sample data</a>
+         </li>
+         <li>
+           <a href="#" style={{paddingBottom: '0'}}><i className="fa fa-map-marker"></i>
+             <span style={{position: 'relative', 'left' : '15px'}}>Location: <b>{ currentLocation }</b></span>
+             <form className="pure-form" onSubmit={ this.changeLocation.bind(this) } style={{position: 'relative', 'left' : '25px'}}>
+               <label>Change: <input type="text" placeholder="city, state/region" style={{marginRight : '20px'}} /></label></form>
+           </a>
+          </li>
+          <li onClick= { function(){this.setState({isMenuOpen : false})}.bind(this)}><a href='https://calendar.google.com/calendar/render' target='_blank'>
+            <i className="fa fa-pencil-square-o"></i>&nbsp;&nbsp;Edit Google calendar</a>
+          </li>
+          <li>
+            <a href="#" onClick= { function(){ this.props.logOut(); this.setState({isMenuOpen : false}) }.bind(this) } >
+              <i className="fa fa-sign-out" />&nbsp;Log out
+            </a>
+          </li>
+        </DropdownMenu>
+    }
+    else if ( this.props.data.self.calendar && this.props.data.self.weather ) {
+
+       menuOptions = _.extend(menuOptions,
+        {
+          toggle: <button className = "pull-right btn" onClick={ toggle }> <i className="fa fa-user"></i> App Preview </button>
+      });
+
+       dropdownMenu = <DropdownMenu {...menuOptions}>
+         <li><a href="#" onClick={ changeView.bind(this, 'self') } style={{paddingRight: '100px'}}>
+           <i className="fa fa-calendar-o"></i>&nbsp;&nbsp;Show my data</a>
+         </li>
+          <li>
+            <a href="#" onClick= { function(){ this.props.logOut(); this.setState({isMenuOpen : false}) }.bind(this) } >
+              <i className="fa fa-sign-out" />&nbsp;Log out
+            </a>
+          </li>
+        </DropdownMenu>
+
+    }
+    //not authorized
+    else {
+
+        let currentLocation = 'App Preview';
+        menuOptions = _.extend(menuOptions,
+          {
+            toggle: <button className = "pull-right btn" onClick={ toggle }> <i className="fa fa-user"></i> { currentLocation }</button>,
+            closeOnInsideClick : true
+        }
+      );
+
+        dropdownMenu = <DropdownMenu {...menuOptions}>
+          <li style={{paddingRight: '100px'}}>
+            <a href="#" onClick= { this.props.showLoginPage } ><i className="fa fa-calendar-o"></i>&nbsp;&nbsp;load my data</a>
+          </li>
+         </DropdownMenu>
+    }
+
+    return dropdownMenu
+
+  }
 
   render () {
 
-  let updateMenuOpen = function(state){
-    this.toggleMenu(state.isOpen);
-  }.bind(this);
-
-  let latLong;
-  try {
-    latLong = this.props.data.self.latLong.latitude + ',' + this.props.data.self.latLong.longitude;
-  } catch(TypeError) {
-  }
-
-  let appOptions = (
-     <div className="section">
-      <a className="bm-menu__item" href='https://calendar.google.com/calendar/render' target='_blank'>
-        <i className='fa fa-google'></i><span>edit my calendar</span>
-      </a>
-      <a className="bm-menu__item" href={'https://forecast.io/#/f/' + latLong} target='_blank'>
-        <i className='fa fa-sun-o'></i><span>detailed forecast</span><
-      /a>
-    </div>);
-
     return (
-      <div id="outer-container"
-           ref="container"
-           onClick={this.hide}
-           aria-hidden={this.props.data.onboardModal ? true : false}
-           >
+      <div className={ this.useOwnData() ? 'showing-own-data' : 'showing-stub-data'}>
 
-            <AnimMenu pageWrapId={ "page-wrap" }
-                      outerContainerId={ "outer-container" }
-                      isOpen = {this.props.data.menuOpen}
-                      onStateChange = {updateMenuOpen}
-                      right
-                      customIcon={ '/images/menu_icon.svg' }
-                      >
-            <br/>
-            <h2 className="sr-only">Menu</h2>
-            <div className="section">
-              { this.renderAuthorizeUI() }
-            </div>
-
-            { this.useOwnData() ? appOptions : <div></div> }
-
-            <div className="section">
-              <a className="bm-menu__item" href="https://github.com/aholachek/ClimaCal">
-                <i className="fa fa-github-alt"></i>
-                <span>view the code</span></a>
-            </div>
-        </AnimMenu>
-
-          <div className="navbar">
-            <div className="responsive-container">
-              <div className="climacal-logo">
-                <img src="/images/climacal.png" alt="climacal app logo"/>
-                  <h1>
-                      ClimaCal <span className="sr-only">an app to integrate gmail + local weather data</span>
-                  </h1>
-              </div>
-            </div>
-          </div>
-
-          <main id="page-wrap" className="responsive-container">
-           { this.renderTabs() }
-
-
-             <VelocityTransitionGroup
-               enter={{
-                animation: "transition.fadeIn",
-                duration: 400
-              }}
-               runOnMount
-               >
-               { this.renderContainerComponent() }
-             </VelocityTransitionGroup>
-
-
-          </main>
+        <div className="responsive-container">
+          <nav className="navbar">
+            { this.renderHeader() }
+          </nav>
+          <main>
+            { this.renderTabs() }
+            { this.renderContainerComponent() }
+            </main>
+         </div>
 
             <OnboardComponent
                appData = {this.props.data}
                changeState = {this.props.changeState}
                googleAuthorize = {this.props.googleAuthorize}
+               getWeatherData = {this.props.getWeatherData}
                >
              </OnboardComponent>
 
       </div>
-
     );
-  }
-
-
-  toggleMenu (val) {
-    this.props.changeState({menuOpen : val});
   }
 
 }

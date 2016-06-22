@@ -23,10 +23,16 @@ class AllDayTaskComponent extends React.Component {
                 </li>);
 
   if (this.props.popover){
-    let body = (<div>
-      <a href={this.props.data.htmlLink} target="_blank">
-        <i className="fa fa-pencil-square-o"></i> edit</a>
+    let body = (
+      <div>
+        <button className="Popover__button" onClick={ this.props.setPopover }>
+          <i className="fa fa-lg fa-times"/>
+        </button>
       <p>{this.props.data.summary}</p>
+      <div className="Popover__edit-link">
+        <a href={this.props.data.htmlLink} target="_blank">
+          <i className="fa fa-pencil-square-o"></i> edit</a>
+      </div>
     </div>);
     return (
       <Popover isOpen={true} body={body}>{content}</Popover>

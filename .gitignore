@@ -35,4 +35,6 @@ npm-debug.log
 /*.env
 
 forecast-dev-key.js
+geocode-key.js
+
 

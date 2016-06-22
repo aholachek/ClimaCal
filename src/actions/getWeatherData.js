@@ -1,117 +1,87 @@
 import request from 'superagent';
-import moment from 'moment';
-import React from 'react/dist/react-with-addons';
+import Promise from 'bluebird';
+import moment from 'moment-timezone';
+import _ from 'lodash';
 import {
   updateUserData,
   updateStateVar
 } from './staticActionCreators';
 
-
 //the val will be determined by the webpack define plugin
 let env = process.env.NODE_ENV;
 let forecastEndpoint = env === 'production' ? '/get-forecast' : 'http://localhost:4000/get-forecast';
+let coordinatesEndpoint = env === 'production' ? '/get-coordinates' : 'http://localhost:4000/get-coordinates';
 
-export default function getWeatherData( dispatch ) {
+export default function getWeatherData(placeName) {
 
-  if ( !( "geolocation" in navigator ) ) {
-    //cant get data
-    console.error( "can't geolocate" );
-    dispatch( updateStateVar( {
-      error: 'We couldn\'t get latitude/longitude for you.'
-    } ) );
-    return;
-  }
+  return function(dispatch, getState) {
 
-  let today = moment()
-    .hour( 0 )
-    .minute( 0 )
-    .second( 0 );
+    if (!placeName) {
+      //just use whatever's in the store
+      if (getState().self.location) {
+        let loc = {
+          latitude: getState().self.location.latitude,
+          longitude: getState().self.location.longitude,
+          timezone: getState().self.location.timezone
+        }
+        fetchWeather(loc);
+      } else {
+        //need to tell app that we dont have weather
+        dispatch(updateUserData({
+          weather: false
+        }));
+        cachedDispatch(updateStateVar({
+          auth: 'stub'
+        }));
+      }
 
-  navigator.geolocation.getCurrentPosition(
-    function ( position ) {
+    } else {
+      fetchCoordsThenWeather(placeName);
+    }
 
-      request.get( forecastEndpoint )
-        .query( {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-          todayUNIX: today.unix()
-        } )
-        .end( function ( err, resp ) {
+    function fetchWeather(loc) {
 
-          if ( err ) {
-            console.error(
-              'request to /get-forecast failed : ',
-              err );
+      let today = moment().hour(0).minute(0).second(0);
+      let tomorrow = today.clone().add(1, 'day');
 
-            dispatch( updateUserData( {
-              latLong: position.coords,
-              weather: false
-            } ) );
+      request.get(forecastEndpoint)
+        .query({
+          lat: loc.latitude,
+          lon: loc.longitude,
+          time: today.format(),
+          tomorrowTime : tomorrow.format()
+        })
+        .then(function(resp) {
 
-            dispatch( updateStateVar( {
-              error: 'We couldn\'t get weather data for you',
-              auth: 'stub',
-              onboardModal : true,
-              menuOpen : false
-
-            } ) );
-            return;
-          }
-
-          let weather;
-
-          try {
-
-            weather = JSON.parse( resp.text );
-
-          } catch ( e ) {
-
-            console.error( "couldn't parse weather json",  resp.text );
-
-            dispatch( updateStateVar( {
-              weather: false,
-              latLong: position.coords
-            } ) );
-            dispatch( updateStateVar( {
-              error: 'We can\'t load weather data right now.',
-              auth: 'stub',
-              onboardModal : true,
-              menuOpen : false
-
-            } ) );
-            return;
-
-          }
-
-          let tomorrow = today.clone()
-            .add( 1, 'day' );
-
-          //unix time in seconds
-          let start = tomorrow.unix(),
-            end = tomorrow.clone()
-            .add( 1, 'day' )
-            .unix();
-
-          let tomorrowHours = weather.thisWeek
-            .hourly.data.filter( function ( h ) {
-              //you receive unix time in seconds
-              if ( h.time >= start && h.time <
-                end ) return true;
-            } );
-
+          let weather = JSON.parse(resp.text);
+          
           //calculate weekly vals
           let apparentTemperatureMax = _.max(_.pluck(weather.thisWeek.daily.data, "apparentTemperatureMax"));
           let apparentTemperatureMin = _.min(_.pluck(weather.thisWeek.daily.data, "apparentTemperatureMin"));
 
+          function convertUnixToTimeZoneMoment(hourlyData){
+            return hourlyData.map(function(hr){
+              hr.time =  moment.tz(hr.time * 1000, loc.timezone).format();
+              return hr
+            });
+          }
+
+          function convertSunTime(data){
+            data.sunriseTime = moment.tz(data.sunriseTime * 1000, loc.timezone).format();
+            data.sunsetTime = moment.tz(data.sunsetTime * 1000, loc.timezone).format();
+            return data;
+          }
+
           //now arrange into today, tomorrow, this week
           let processedWeather = {
+            todayMoment : today,
             today: {
-              daily: weather.today.daily.data[ 0 ],
-              hourly: weather.today.hourly.data
+              daily: convertSunTime(weather.today.daily.data[0]),
+              hourly: convertUnixToTimeZoneMoment(weather.today.hourly.data)
             },
             tomorrow: {
-              daily: weather.thisWeek.daily.data[ 1 ],
-              hourly: tomorrowHours
+              daily: convertSunTime(weather.tomorrow.daily.data[0]),
+              hourly: convertUnixToTimeZoneMoment(weather.tomorrow.hourly.data)
             },
             'this week': _.extend(weather.thisWeek.daily, {
               apparentTemperatureMin,
@@ -119,12 +89,33 @@ export default function getWeatherData( dispatch ) {
             })
           };
 
-          dispatch( updateUserData( {
-            weather: processedWeather,
-            latLong: position.coords
-          } ) );
+          dispatch(updateUserData({
+            weather: processedWeather
+          }));
 
-        } );
-    } );
+        });
+    }
 
+    function fetchCoordsThenWeather(placeName) {
+
+      request.get(coordinatesEndpoint)
+        .query({
+          placeName: placeName
+        })
+        .then(function(resp) {
+
+          let loc = JSON.parse(resp.text);
+
+          dispatch(updateUserData({
+            location: loc
+          }));
+
+          fetchWeather({
+            longitude: loc.longitude,
+            latitude: loc.latitude,
+            timezone: loc.timezone
+          });
+        });
+    }
+  }
 }

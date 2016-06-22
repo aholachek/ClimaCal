@@ -41,6 +41,8 @@ describe('Store', () => {
 
   it('should initialize with correct default vals', () => {
 
+    debugger
+
     expect(JSON.stringify(_.omit(store.getState(), "stub"))).to.eql(JSON.stringify({
       "onboardModal": true,
       "menuOpen": false,

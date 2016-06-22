@@ -1,11 +1,11 @@
 /* Base Application Styles */
 @import './weather-icons/sass/weather-icons.scss';
-@import './pure';
+@import './../../node_modules/react-dd-menu/src/scss/react-dd-menu.scss';
 
 $mid: #e4e7e8;
 $text: #3e3e3e;
 $textLight: lighten($text, 10%);
-$textLighter: lighten($textLight, 12%);
+$superLightText : lighten($textLight, 16%);
 $primary: #5893ff;
 
 $border-left-width: .4rem;
@@ -70,6 +70,10 @@ li {
     border: 0;
 }
 
+.pull-right {
+  float : right !important;
+}
+
 
 /*heights*/
 
@@ -80,25 +84,18 @@ li {
 
 .tab-component
 {
-    padding-bottom: 5px;
     height: 30px;
 
     @media (min-width: $medium-break-point)
     {
         margin-bottom: 5px;
-        padding-bottom: 10px;
         height: 40px;
     }
 }
 .calendar-top
 {
     height: 80px;
-    @media (min-width: $medium-break-point)
-    {
-        height:85px;
-    }
 }
-
 
 /*this is a div w/o classname created by scroll component*/
 .calendar-top + div
@@ -112,28 +109,47 @@ li {
     }
 }
 
-
-.calendar-bottom
-{
-    height: 10px;
+button {
+  border: none;
+  background: transparent;
+  color: $textLight;
 }
 
+a {
+  color : $primary;
+  text-decoration: none;
+  transition: color .5s;
+  &:hover {
+    color: darken($primary, 10%)
+  }
+}
 
-button
+.btn
 {
-    padding: .3rem;
-    border: 2px solid darken($mid, 5%);
-    background: transparent;
-    color: white;
-    transition: border .5s, color .5s;
+    padding: .4rem;
+    font-variant: small-caps;
+    text-transform: lowercase !important;
+    font-weight: bold;
+    font-size: 1.3rem;
+    background : white;
+    color: $primary;
+    box-shadow: 0 0 6px #c6c6c6;
+    transition: color .5s, box-shadow .5s;
     @media (min-width: $medium-break-point)
     {
       padding: .5rem;
     }
     &:hover
     {
-        border: 2px solid $primary;
-        color: $primary;
+        color: darken($primary, 5%);
+        box-shadow: 0 0 14px darken(#c6c6c6, 10%);
+
+    }
+
+    @media (min-width: $medium-break-point)
+    {
+      font-size: 1.3rem;
+
     }
 }
 ol,
@@ -182,11 +198,6 @@ ul
     transform: translateY(-50%);
 }
 
-.fade-background
-{
-    background-color: rgba(0, 0, 0, .89) !important;
-}
-
 .faded
 {
     opacity: .14;
@@ -195,7 +206,7 @@ ul
 .small-invisible {
   @media (max-width: $medium-break-point)
   {
-    display: none;
+    display: none !important;
   }
 
 }
@@ -203,7 +214,7 @@ ul
 .small-visible {
   @media (min-width: $medium-break-point)
   {
-    display: none;
+    display: none !important;
   }
 
 }
@@ -213,6 +224,13 @@ ul
 
   @media(min-width: $medium-break-point){
     display:none;
+  }
+}
+
+.large-inline {
+  display: none !important;
+  @media(min-width: $medium-break-point){
+    display:inline !important;
   }
 }
 
@@ -235,7 +253,7 @@ ul
 }
 
 .mobile-tabs button {
-  color : lighten($textLighter, 10%);
+  color : $superLightText;
   width: 100%;
   border:none;
   border-bottom: 2px solid $mid;
@@ -250,6 +268,12 @@ ul
 .calendar__container
 {
     position: relative;
+    overflow-y: hidden;
+    //for animations
+    @media (min-width: $medium-break-point)
+    {
+      min-height: 1008px;
+    }
 }
 
 .calendar
@@ -270,8 +294,8 @@ ul
 }
 
 .calendar-top__day-description {
-  padding: 12px 0 3px 0;
-  color: lighten($textLighter, 10%);
+  padding: 14px 0 3px 0;
+  color: $superLightText;
   text-align: center;
   font-size : .8rem;
   height: 44px;
@@ -296,19 +320,10 @@ ul
 
 }
 
-.calendar-top + div
-{
-    @media (min-width: $medium-break-point)
-    {
-      border: 1px solid darken($mid, 5%);
-    }
-}
-
 .calendar-top + div > div
 {
     overflow-x: hidden !important;
 }
-
 
 .calendar-header
 {
@@ -380,11 +395,17 @@ ul
 {
     flex-grow: 1;
 }
+
+.showing-own-data {
+  .happened-already {
+    opacity: .4 !important;
+  }
+}
+
 .calendar__hour__weather
 {
     position: relative;
-    width: 16%;
-    border-left: $border-left-width solid transparent;
+    width: 19%;
     background: hsla(0, 0%, 0%, .1);
     color: $textLight;
     font-weight: bold;
@@ -393,6 +414,7 @@ ul
 
     @media (min-width: $medium-break-point)
     {
+        width: 19%;
         display: flex;
         flex-direction: row;
         height: 100%;
@@ -407,6 +429,7 @@ ul
 .weather-icon-small
 {
     font-size: 1.2rem;
+    display: inline;
 }
 
 
@@ -420,45 +443,34 @@ ul
 }
 .calendar__hour__weather > div
 {
-    margin: 5px 0;
-    padding: 0;
-    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 33%;
+    flex-direction: column;
     @media (min-width: $medium-break-point)
     {
-        margin: 0;
-        width: 100%;
-        text-align: center;
+        width: 33%;
+        height: 100%;
+        flex-direction: row;
     };
 }
 
-// z-index is so that mobile has svg as background
-.calendar__hour__weather > div:first-of-type
+
+.calendar__hour__weather .weather__icon
 {
     position: relative;
     z-index: 1;
-    margin: 0;
-    padding-top: 11px;
 }
 
-.calendar__hour__weather > div:nth-of-type(2)
-{
-    position: relative;
-    z-index: 1;
-}
-.calendar__hour__weather > div:last-of-type
-{
-    height: 100%;
-}
 
 .calendar__hour__weather > div > span
 {
     position: relative;
 }
-.temp
-{
-    padding-top: 10px;
-    height: 100%;
-}
+
 
 .calendar__hour__weather .precip-anim-container
 {
@@ -482,7 +494,6 @@ ul
 }
 .calendar__hour__weather .precip-anim-container span
 {
-    width: 100%;
     @media (min-width: $medium-break-point)
     {
         position: relative;
@@ -608,6 +619,7 @@ h5 {
 .calendar__entry
 {
     position: absolute;
+    z-index: 1;
     overflow: hidden;
     border: 1px solid gainsboro;
     background-color: #fff;
@@ -625,7 +637,12 @@ h5 {
   margin: 0;
   padding: 0;
   font-weight:normal;
-  font-size: 1rem;
+  font-size: .9rem;
+  @media (min-width: $medium-break-point)
+  {
+    font-size: 1rem;
+
+  }
 }
 
 .calendar__entry > div
@@ -642,13 +659,14 @@ h5 {
 {
     position: absolute;
     top: 0;
-    right: 16%;
+    right: 17%;
     bottom: 0;
     left: 34px;
     margin-top: 0;
+    right: 19%;
+    left: 30px;
     @media (min-width: $medium-break-point)
     {
-        right: 18%;
         left: 40px;
     }
 }
@@ -674,66 +692,64 @@ h5 {
   justify-content: center;
   padding: 5px;
   padding-top: 15px;
+  background: $mid;
 
   @media (min-width: $large-break-point)
   {
     justify-content:flex-start;
-    height: 620px;
+    height: 630px;
     padding-top: 5px;
-    background: $mid;
-
-
   }
 }
 
 .calendar-week__summary {
   padding: 10px;
-  color: $textLighter;
+  color: $textLight;
   text-align: center;
   font-weight: 500;
   font-size: .9rem;
-  color: lighten($textLighter, 10%);
+  color: $superLightText;
   border-bottom: 1px solid darken($mid, 5%);
   @media (min-width: $medium-break-point)
   {
     font-size : 1rem;
     border-bottom: none;
-
   }
 
 }
-
 
 .calendar-week__day {
   margin-bottom: 20px;
   width : 92%;
   background: #fff;
-  font-size: .9rem;
   border: 1px solid $mid;
+  font-size: .9rem;
 
   @media (min-width: $medium-break-point)
   {
     margin-bottom: 0;
-    width: 218px;
-    height: 300px;
+    width: 222px;
+    height: 310px;
     border: 5px solid $mid;
+    font-size: .9rem;
   }
 }
 
 .calendar-week__day h4 {
     margin: 0;
-    padding: 5px;
-    padding-bottom: 4px;
     border-bottom: 1px solid lighten($mid, 5%);
     color: $textLight;
     text-align: center;
     letter-spacing: .1rem;
     font-weight: 600;
     font-size: 1rem;
-}
-
-.calendar-week__day:first-of-type h4 {
-  color: $primary;
+    height: 50px;
+    padding: 15px 5px 5px 5px;
+    @media (min-width: $medium-break-point)
+    {
+      height: auto;
+      padding: 10px 0;
+    }
 }
 
 .calendar-week__day__weather {
@@ -741,11 +757,12 @@ h5 {
   height: 50px;
   display: flex;
   border-top: 1px solid lighten($mid, 5%);
-  font-weight: 600;
   cursor: pointer;
   transition: box-shadow .4s;
-  color : lighten($textLighter, 10%);
+  font-weight: 600;
+  color : $superLightText;
   text-align: center;
+  font-size: .9rem;
 
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
@@ -754,6 +771,11 @@ h5 {
   }
   &>div {
     width:33%;
+  }
+
+  @media (min-width: $medium-break-point)
+  {
+    color : $superLightText;
   }
 }
 
@@ -882,8 +904,7 @@ h5 {
 }
 .tab-component li
 {
-    position: relative;
-    z-index: 1;
+
     width: 50%;
     list-style: none;
     text-align: center;
@@ -893,12 +914,13 @@ h5 {
 {
     margin: 0;
     text-transform: lowercase;
+    font-variant: small-caps;
     font-weight: bold;
-    font-size: .9rem;
+    font-size: 1.3rem;
 
     @media (min-width: $medium-break-point)
     {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
 
     }
 }
@@ -913,8 +935,6 @@ h5 {
 }
 .tab__title__temp
 {
-    position: relative;
-    top: -5px;
     font-size: 1.1rem;
     opacity: .7;
 }
@@ -928,7 +948,7 @@ h5 {
 .tab-component__tab a
 {
     display: inline-block;
-    padding: 11px 0 4px 0;
+    padding: 5px 0;
     width: 100%;
     height: 100%;
     border-bottom: 2px solid $mid;
@@ -936,12 +956,9 @@ h5 {
     text-decoration: none;
     transition: border-bottom .5s, color .5s;
 
-
     @media (min-width: $medium-break-point)
     {
-        padding: 13px 0 5px 0;
-        font-size: 1.8rem;
-
+        padding: 5px 0;
     }
 
     &:hover
@@ -951,12 +968,7 @@ h5 {
     }
 }
 
-.tab-component div,
-.tab-component h3
-{
-    position: relative;
-    z-index: 1;
-}
+
 
 
 .tab-component__tab.active a
@@ -998,20 +1010,31 @@ h5 {
 
 .no-hour-entries
 {
-    position: absolute;
-    top: calc(80px + 40%);
-    left: 11%;
-    z-index: 1;
-    color: $textLight;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform:translate(-50%);
+  z-index: 1;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  cursor: pointer;
+  color: gray;
+  @media (min-width: $medium-break-point)
+  {
+    @extend .btn;
     font-size: 1.4rem;
-    @media (min-width: $medium-break-point)
-    {
-        left: 32%;
+    padding: 30px 80px;
+    &:hover {
+      color: $primary;
     }
+
+  }
 }
 /* ==========================================================================
    onboardModal
    ========================================================================== */
+
 .overlay
 {
     position: absolute;
@@ -1021,8 +1044,8 @@ h5 {
     left: 0;
     z-index: 3;
     display: flex;
-    background-color: rgba(0, 0, 0, 1);
-    color: #fff;
+    background-color: rgba(0,0,0, .85);
+    color: $textLight;
     font-size: 1.2rem;
     transition: opacity .5s, transform .5s, background-color .5s;
 
@@ -1034,8 +1057,8 @@ h5 {
 {
     display: flex;
     flex-direction: column;
-    min-width: 80%;
-    text-align: center;
+    background-color: #fff;
+    padding: 3%;
 
     align-items: center;
 }
@@ -1049,154 +1072,43 @@ h5 {
 
 .overlay-details
 {
-    overflow: hidden;
-    padding: 30px 0 0 0;
-    height: 320px;
+    text-align:center;
+    hr {
+      background: #d5d5ff;
+      height: 2px;
+      border: none;
+
+    }
 }
 
 .explanation {
-  color : darken(#fff, 15%);
+  color : $superLightText;
 }
 
-/* ==========================================================================
-   menu
-   ========================================================================== */
-
-/* Position and sizing of burger button */
-.bm-burger-button
-{
-    position: absolute;
-    top: 12px;
-    right: 2%;
-    z-index: 2 !important;
-    width: 100px;
-    height: 30px;
-
-    @media (min-width: '900px')
-    {
-        right: calc((100vw - 900px)/2);
-    }
-}
-
-.bm-burger-button button
-{
-    height: auto !important;
-}
-
-/* Position and sizing of clickable cross button */
-.bm-cross-button
-{
-    width: 24px;
-    height: 24px;
-}
-
-/* Color/shape of close button cross */
-.bm-cross
-{
-    background: #bdc3c7;
-}
-
-/* General sidebar styles */
-.bm-menu
-{
-    padding-top: 30px;
-    background-color: rgba(0, 0, 0, .5);
-    text-transform: lowercase;
-    font-weight: bold;
-    font-variant: small-caps;
-    font-size: 1.5rem;
-}
-
-.bm-menu-wrap
-{
-    z-index: 3 !important;
-}
-
-.bm-overlay
-{
-    z-index: 3 !important;
-    background: rgba(0, 0, 0, .66) !important;
-}
-
-.bm-item-list a span
-{
-    margin-left: 10px;
-}
-
-.bm-menu__footer
-{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-.bm-menu__item
-{
-    display: block;
-    padding: 1rem;
-    height: 60px;
-    color: $primary;
-    text-decoration: none;
-    font-size: 1.4rem;
-    cursor: pointer;
-
-    &:hover
-    {
-        color: darken($primary, 10%);
-    }
-}
-
-.bm-menu__item i
-{
-    width: 40px !important;
-}
-
-/* Morph shape necessary with bubble or elastic */
-.bm-morph-shape
-{
-    fill: #373a47;
-}
-
-/* Wrapper for item list */
-.bm-item-list
-{
-    color: $textLight;
-}
-
-.bm-menu h3
-{
-    margin: 0 0 1rem 0;
-    padding: 0 1rem;
-    color: white;
-    text-align: left;
-    font-weight: normal;
-    font-style: normal;
-    font-variant: normal;
-    font-size: 1.5rem;
-}
-
-.bm-menu h3 em
-{
-    display: block;
-    font-style: normal;
-}
-
-.bm-menu .section
-{
-    padding: 20px 0;
-    border-right: none;
-    border-bottom: 2px solid hsla(255, 255, 255, .1);
-    border-left: none;
-}
-
-.bm-menu .load-google
-{
-    display: block;
+.pure-form, .preview-container {
+    max-width: 405px;
     margin: auto;
-    padding: .5rem;
-    text-transform: lowercase;
-    font-variant: small-caps;
+    input {
+      display:inline-block !important;
+      margin-right: 3px !important;
+    }
+    @media (min-width: $medium-break-point)
+    {
+      text-align: left;
+      input {
+        display:block;
+        margin-right: 20px !important;
+      }
+    }
 }
+
+.overlay-app-info button{
+  color : $superLightText !important;
+  font-weight: bold;
+  font-size: 1rem;
+  padding-top:40px;
+}
+
 
 /* ==========================================================================
    popover
@@ -1205,6 +1117,7 @@ h5 {
 .Popover
 {
     z-index: 3;
+    max-width: 400px;
 }
 .Popover-body
 {
@@ -1215,7 +1128,7 @@ h5 {
     background: #fff;
     box-shadow: 0 0 20px rgba(0, 0, 0, .32);
     color: $textLight;
-    min-width: 250px;
+    min-width: 300px;
 }
 
 .Popover-body h4
@@ -1255,29 +1168,7 @@ h5 {
   }
 }
 
-/* ==========================================================================
-   app logo
-   ========================================================================== */
 
-.climacal-logo
-{
-    display: flex !important;
-    padding: .5%;
-}
-
-.climacal-logo h1
-{
-    margin: .1rem .5rem 0 .5rem;
-    color: lighten($textLight, 30%);
-    font-weight: 500;
-    font-size: 2rem;
-}
-
-.bm-menu .climacal-logo
-{
-    margin-left: 3%;
-    padding-top: 40px;
-}
 
 /* ==========================================================================
      top nav
@@ -1285,12 +1176,8 @@ h5 {
 
 .navbar
 {
+    padding-top: 5px;
     position: relative;
-    z-index: 1;
-    display: flex;
-    border-bottom: 2px solid #F2F3F4;
-
-    justify-content: space-between;
 }
 
 .navbar .climacal-logo h1
@@ -1307,4 +1194,57 @@ h5 {
 {
     max-height: 40px;
     width: auto;
+    opacity: .8;
+}
+
+
+.dd-menu {
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+
+.dd-menu button {
+  margin: 0 5px;
+  @media (min-width: $medium-break-point)
+  {
+    min-width: 250px;
+    margin: 0;
+  }
+}
+
+.dd-menu-items {
+  position: relative;
+  top: 36px;
+}
+
+.dd-menu .dd-menu-items ul, .dd-menu .dd-menu-items ol {
+    list-style: none;
+    font-size: 1rem;
+    padding: 0;
+    margin: 0;
+    color: $textLight;
+    background-color: #fefefe;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.29);
+    font-family : Raleway;
+}
+
+.dd-menu .dd-menu-items ul li:hover:not([role="separator"]):not(.separator), .dd-menu .dd-menu-items ul li > *:focus, .dd-menu .dd-menu-items ol li:hover:not([role="separator"]):not(.separator), .dd-menu .dd-menu-items ol li > *:focus {
+    background-color: darken(#fff, 7%);
+    color : $text;
+  }
+
+.dd-menu .dd-menu-items ul.dd-items-right li > *, .dd-menu .dd-menu-items ol.dd-items-right li > *  {
+  text-align: left;
+}
+
+.dd-menu .dd-menu-items ul li > :not(.dd-item-ignore), .dd-menu .dd-menu-items ol li > :not(.dd-item-ignore) {
+    font-family: 'Raleway', sans-serif;
+}
+
+//overriding some pure form styles
+.pure-form input {
+  padding: .4rem !important;
+  margin: 5px 0;
+  width: 220px;
 }

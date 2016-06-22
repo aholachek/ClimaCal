@@ -8,8 +8,6 @@ let appState = {
 
     onboardModal : true,
 
-    menuOpen : false,
-
     auth : 'stub',
 
     stub : {
@@ -23,10 +21,8 @@ let appState = {
         //will be changed to "false" by initial check
         //if there is no access
         googleAuth : undefined,
-        latLong : undefined,
+        location : undefined
       },
-
-    tab : 'today',
 
     //represents an error getting user data
     error : false,

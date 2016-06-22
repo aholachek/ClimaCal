@@ -18,6 +18,12 @@ class CalendarContainerComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {mobileTab: 'hourView'};
+    this.scrollToEight = this.scrollToEight.bind(this);
+    this.state = {
+      accessibilityFrom : undefined,
+      accessibilityTo : undefined,
+      mobileTab : 'hourView'
+      }
   }
 
   renderCalendarEntries() {
@@ -30,16 +36,31 @@ class CalendarContainerComponent extends React.Component {
 
       let id = 'daily-page--calendar-entry--' + c.id;
 
+      let startHour = moment(c.start.dateTime).hour();
+      let timeLink = "#" + "row-" + startHour;
+
       return (
 
         <CalendarEntryComponent
           key= {id}
+          id = {id}
           data= {c}
+          timeLink = { timeLink }
           popover={that.props.popover === id}
-          setPopover= {that.props.setPopover.bind(undefined, id)}>
+          setPopover= {that.props.setPopover.bind(undefined, id)}
+          setAccessibilityEntry = {function(){
+            this.setState({
+              accessibilityFrom : id,
+              accessibilityTo : startHour
+            });
+            setTimeout(function(){
+              document.querySelector( timeLink ).focus();
+            }, 1000);
+          }.bind(this)}
+          >
         </CalendarEntryComponent>
       );
-    });
+    }, this);
 
     return calendarEntries;
 
@@ -48,13 +69,12 @@ class CalendarContainerComponent extends React.Component {
   renderHourEntries () {
 
     let that = this;
-    let sun = [moment(this.props.forecast.daily.sunriseTime, 'X'), moment(this.props.forecast.daily.sunsetTime, 'X')];
+    let sun = [this.props.forecast.daily.sunriseTime, this.props.forecast.daily.sunsetTime];
 
     //hourly forecast + background for calendar
     let hourEntries = this.props.forecast.hourly.map(function(f) {
 
     let id = 'daily-page--hour-weather--' + f.time;
-
 
       return (
         <CalendarHourComponent
@@ -62,10 +82,26 @@ class CalendarContainerComponent extends React.Component {
           data= {f}
           sun= {sun}
           popover= {that.props.popover === id}
-          setPopover= {that.props.setPopover.bind(undefined, id)} >
+          setPopover= {that.props.setPopover.bind(undefined, id)}
+          setAccessibilityEntry = {
+            function(){
+              var accessibilityFrom = this.state.accessibilityFrom;
+              var onTimeout = function(){
+                  document.querySelector( "#" + accessibilityFrom ).focus();
+              }.bind(this);
+              setTimeout(onTimeout, 1000);
+              this.setState({
+                accessibilityFrom : undefined,
+                accessibilityTo : undefined
+              });
+          }.bind(this)
+        }
+          hasAccessibilityLink = { moment(f.time).hour() === this.state.accessibilityTo }
+           >
         </CalendarHourComponent>
       );
-    });
+
+    }, this);
 
     return hourEntries;
   }
@@ -98,20 +134,54 @@ class CalendarContainerComponent extends React.Component {
     let allDayTasks = this.renderAllDayTasks();
 
     let noHourEntries = (
-      <div className='no-hour-entries'>your schedule is empty!</div>
+        <a className='no-hour-entries' href='https://calendar.google.com/calendar/render' target='_blank'>
+      <div>
+        <div> <i className="fa fa-2x fa-calendar-plus-o"></i></div>
+        <br/>
+        <div> add an event </div>
+      </div>
+    </a>
+
     );
 
     this.children = calendarEntries;
 
     let onScroll = this.props.setPopover.bind(undefined, null);
 
+    let hourContainer;
+
+    //these animations look terrible on mobile
+    if (document.body.clientWidth > 600) {
+      hourContainer =  <VelocityTransitionGroup
+       component='ol'
+       enter={{
+         animation: 'transition.slideDownIn',
+         display : 'flex',
+         drag : true,
+         stagger: '30ms'
+       }}
+       runOnMount
+       >
+       { hourEntries }
+     </VelocityTransitionGroup>
+   } else {
+      hourContainer = <ol> {hourEntries}</ol>
+   }
+
     return (
-      <div className='calendar' >
+      <VelocityTransitionGroup
+        component='div'
+        className='calendar'
+        enter={{
+          animation: 'transition.fadeIn'
+        }}
+        runOnMount
+        >
         <div className='calendar-top'>
           <div className='calendar-top__day-description'>
             <span>
-            <b>{this.props.today.format("ddd, MMM DD")}</b>:&nbsp;{this.props.forecast.daily.summary}&nbsp;
-                <span className="small-inline">
+            <b>{this.props.today.format('ddd, MMM DD')}</b>:&nbsp;{this.props.forecast.daily.summary}&nbsp;
+                <span className='small-inline'>
                   <b>
                   {Math.floor(this.props.forecast.daily.apparentTemperatureMin)}&deg;-
                   {Math.floor(this.props.forecast.daily.apparentTemperatureMax)}&deg;
@@ -119,46 +189,38 @@ class CalendarContainerComponent extends React.Component {
                 </span>
               </span>
           </div>
-          <div className="mobile-tabs" role="tablist">
+          <div className='mobile-tabs' role='tablist'>
               <div className={this.state.mobileTab === 'allDayView' ? 'active' : ''} >
                 <button onClick={function(){this.setState({mobileTab : 'allDayView'})}.bind(this)}
-                  role="tab"
+                  role='tab'
                   aria-selected = {this.state.mobileTab === 'allDayView' ? true : false }
-                  aria-controls = "all-day-task-container"
+                  aria-controls = 'all-day-task-container'
                   >
                   <b>all day</b> ( {allDayTasks.length} )
                 </button>
               </div>
               <div className = {this.state.mobileTab === 'hourView' ? 'active' : ''} >
               <button onClick={function(){this.setState({mobileTab : 'hourView'})}.bind(this)}
-                role="tab"
+                role='tab'
                 aria-selected = {this.state.mobileTab === 'hourView' ? true : false}
-                aria-controls = "schedule-task-container"
+                aria-controls = 'schedule-task-container'
                 >
                 <b>schedule</b> ( {calendarEntries.length} )
               </button>
               </div>
           </div>
-          <div className= {this.state.mobileTab === 'hourView' ? 'small-invisible' : ''} id="all-day-task-container">
-            <h4 className="sr-only">Calendar events with no defined start and end dates for the day</h4>
+          <div className= {this.state.mobileTab === 'hourView' ? 'small-invisible' : ''} id='all-day-task-container'>
+            <h4 className='sr-only'>Calendar events with no defined start and end dates for the day</h4>
             <div className='all-day-tasks'>
-                <VelocityTransitionGroup
-                  component="ul"
-                  enter={{
-                    animation: "transition.expandIn",
-                    drag : true,
-                    stagger: "100ms"
-                  }}
-                  runOnMount
-                  >
-                  {allDayTasks}
-                </VelocityTransitionGroup>
+              <ul>
+                {allDayTasks}
+              </ul>
             </div>
           </div>
 
         </div>
         <div className= {this.state.mobileTab === 'allDayView' ? 'small-invisible' : ''}
-          id ="schedule-task-container"
+          id ='schedule-task-container'
           >
         <Scrollbars ref='scrollbars'
                     onScroll={onScroll}
@@ -166,47 +228,53 @@ class CalendarContainerComponent extends React.Component {
                     autoHideTimeout={1000}
                     autoHideDuration={200} >
           <div className='calendar__container'>
-
             {
               calendarEntries.length > 1 ?
-              <h4 className="sr-only">Calendar events with defined start and end dates for the day</h4>
-                : <h4 className="sr-only">No calendar entries</h4>
+              <h4 className='sr-only'>Calendar events with defined start and end dates for the day</h4>
+                : <h4 className='sr-only'>No calendar entries</h4>
             }
             <VelocityTransitionGroup
-              component="ol"
-              enter={{
-                animation: "transition.expandIn",
-                drag : true,
-                stagger: "100ms"
-              }}
-              className='calendar__entrylist'
-              runOnMount
-              >
-              {calendarEntries}
-            </VelocityTransitionGroup>
-            <h4 className="sr-only">Hourly weather information</h4>
-            <ol>
-              {hourEntries}
-            </ol>
+             component='ol'
+             enter={{
+               animation: 'transition.fadeIn',
+               drag : true,
+               stagger : '200ms'
+             }}
+             className='calendar__entrylist'
+             runOnMount
+             >
+             {calendarEntries}
+           </VelocityTransitionGroup>
+
+            <h4 className='sr-only'>Hourly weather information</h4>
+             { hourContainer }
           </div>
         </Scrollbars>
-        </div>
         {calendarEntries.length === 0 ? noHourEntries  : null }
-        <div className='calendar-bottom'></div>
-      </div>
+        </div>
+    </VelocityTransitionGroup>
     );
 
   }
 
-  componentDidMount () {
+  scrollToEight (){
     let hourHeight = (document.body.clientWidth < 600) ? 82 : 42;
     this.refs.scrollbars.scrollTop(hourHeight * 8);
   }
 
+  componentDidMount () {
+    let scrollToEight = this.scrollToEight;
+    setTimeout(function(){
+      scrollToEight()
+    }, 100);
+  }
+
   componentDidUpdate (newProps) {
-    if (newProps.today === this.props.today) return;
-    let hourHeight = (document.body.clientWidth < 600) ? 82 : 42;
-    this.refs.scrollbars.scrollTop(hourHeight * 8);
+    let scrollToEight = this.scrollToEight;
+    if (newProps.today.toString() === this.props.today.toString()) return;
+    setTimeout(function(){
+      scrollToEight()
+    }, 100);
   }
 
 }

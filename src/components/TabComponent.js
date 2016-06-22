@@ -8,9 +8,8 @@ class TabComponent extends React.Component {
 
     let that = this;
     let tabs = this.props.tabs.map(function(t) {
-
       let c = that.props.active === t.title.replace(" ", "-") ? "active tab-component__tab " : "tab-component__tab";
-      let weatherIconSmall = "weather-icon-small wi wi-forecast-io-" + t.weather.icon;
+      let weatherIconSmall = "weather-icon-small wi wi-forecast-io-" + t.weather.icon + " large-inline";
 
       return (
               <li className={c} key={t.title}>

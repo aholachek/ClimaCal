@@ -51,6 +51,7 @@ function handleAutoAuthResult(authResult) {
     cachedDispatch(getWeatherData());
   }
   else {
+    //show modal
     cachedDispatch(updateUserData({googleAuth : false }));
   }
 }

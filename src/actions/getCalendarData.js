@@ -26,16 +26,18 @@ window.checkAuth = function() {
 
 //once authorized by google, fetch email name --> fetch calendar --> fetch weather
 //called by both autoauth and user inititatedauth
-function onAuth (){
+function onAuth() {
 
-  gapi.client.load('oauth2', 'v2', function()
-  {
+  gapi.client.load('oauth2', 'v2', function() {
     gapi.client.oauth2.userinfo.get()
-      .execute(function(resp)
-      {
+      .execute(function(resp) {
         var email = resp.email || 'logged in with Google';
-        cachedDispatch(updateStateVar({auth : 'self'}));
-        cachedDispatch(updateUserData({googleAuth : email }));
+        cachedDispatch(updateStateVar({
+          auth: 'self'
+        }));
+        cachedDispatch(updateUserData({
+          googleAuth: email
+        }));
 
         loadCalendarApi();
       });
@@ -49,30 +51,32 @@ function handleAutoAuthResult(authResult) {
   if (auth) {
     onAuth();
     cachedDispatch(getWeatherData());
-  }
-  else {
+  } else {
     //show modal
-    cachedDispatch(updateUserData({googleAuth : false }));
+    cachedDispatch(updateUserData({
+      googleAuth: false
+    }));
   }
 }
 
 function handleUserInitiatedAuthResult(authResult) {
 
   let auth = (authResult && !authResult.error) ? true : false;
-  cachedDispatch(updateUserData({googleAuth : auth}));
+  cachedDispatch(updateUserData({
+    googleAuth: auth
+  }));
 
   if (auth) {
     onAuth();
   } else {
     cachedDispatch(updateStateVar({
-      error : 'We couldn\'t authenticate with Google.',
-      onboardModal : true,
-      menuOpen : false
+      error: 'We couldn\'t authenticate with Google.',
+      onboardModal: true,
+      menuOpen: false
 
-     }));
+    }));
   }
 }
-
 
 function loadCalendarApi() {
   gapi.client.load('calendar', 'v3', listUpcomingEvents);
@@ -87,11 +91,14 @@ function listUpcomingEvents() {
 
   var request = gapi.client.calendar.calendarList.list();
 
-  request.execute(function(calendarData){
-    let calendarIds = calendarData.items.map(function(item){ return item.id }).slice(0,5);
+  request.execute(function(calendarData) {
+    //iterate through the first 5 calendars returned
+    let calendarIds = calendarData.items.map(function(item) {
+      return item.id
+    }).slice(0, 5);
     let allItems = [];
     let requestCount = calendarIds.length;
-    calendarIds.forEach(function(id){
+    calendarIds.forEach(function(id) {
 
       var request = gapi.client.calendar.events.list({
         'calendarId': id,
@@ -109,14 +116,14 @@ function listUpcomingEvents() {
           console.error('couldn\'t contact google api', resp);
         }
         [].push.apply(allItems, resp.items);
-        requestCount-=1;
-        if (requestCount == 0){
-          cachedDispatch(updateUserData({ calendar : allItems }));
+        requestCount -= 1;
+        if (requestCount === 0) {
+          cachedDispatch(updateUserData({
+            calendar: allItems
+          }));
         }
       });
-
     });
-
   });
 
 }
@@ -131,18 +138,18 @@ export function calendarInit() {
   };
 }
 
-export function googleAuthorize () {
+export function googleAuthorize() {
 
-  return function(dispatch){
+  return function(dispatch) {
 
-      gapi.auth.authorize({
+    gapi.auth.authorize({
         'client_id': CLIENT_ID,
         'scope': SCOPES.join(' '),
         'immediate': false,
         'cookie_policy': 'single_host_origin'
-        },
-        handleUserInitiatedAuthResult);
-      return false;
+      },
+      handleUserInitiatedAuthResult);
+    return false;
   }
 
 }

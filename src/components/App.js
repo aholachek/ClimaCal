@@ -12,8 +12,6 @@ import TabComponent from './TabComponent';
 import CalendarDayViewContainer from './CalendarDayViewContainer';
 import CalendarWeekViewContainer from './CalendarWeekViewContainer';
 
-import { Router, Route, Link } from 'react-router';
-
 import OnboardComponent from './OnboardComponent';
 
 
@@ -207,7 +205,7 @@ class AppComponent extends React.Component {
            <a href="#" style={{paddingBottom: '0'}}><i className="fa fa-map-marker"></i>
              <span style={{position: 'relative', 'left' : '15px'}}>Location: <b>{ currentLocation }</b></span>
              <form className="pure-form" onSubmit={ this.changeLocation.bind(this) } style={{position: 'relative', 'left' : '25px'}}>
-               <label>Change: <input type="text" placeholder="city, state/region" style={{marginRight : '20px'}} /></label></form>
+               <label>Change: <input type="text" placeholder="city, state/region" /></label></form>
            </a>
           </li>
           <li onClick= { function(){this.setState({isMenuOpen : false})}.bind(this)}><a href='https://calendar.google.com/calendar/render' target='_blank'>
@@ -252,7 +250,7 @@ class AppComponent extends React.Component {
 
         dropdownMenu = <DropdownMenu {...menuOptions}>
           <li style={{paddingRight: '100px'}}>
-            <a href="#" onClick= { this.props.showLoginPage } ><i className="fa fa-calendar-o"></i>&nbsp;&nbsp;load my data</a>
+            <a href="#" className="load-google" onClick= { this.props.showLoginPage } ><i className="fa fa-calendar-o"></i>&nbsp;&nbsp;load my data</a>
           </li>
          </DropdownMenu>
     }

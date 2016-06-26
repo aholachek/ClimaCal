@@ -27,11 +27,9 @@ export default function getWeatherData(placeName) {
         fetchWeather(loc);
       } else {
         //need to tell app that we dont have weather
+        //and force it to show the authorization form
         dispatch(updateUserData({
-          weather: false
-        }));
-        cachedDispatch(updateStateVar({
-          auth: 'stub'
+          weather: false, googleAuth : false
         }));
       }
 
@@ -54,7 +52,7 @@ export default function getWeatherData(placeName) {
         .then(function(resp) {
 
           let weather = JSON.parse(resp.text);
-          
+
           //calculate weekly vals
           let apparentTemperatureMax = _.max(_.pluck(weather.thisWeek.daily.data, "apparentTemperatureMax"));
           let apparentTemperatureMin = _.min(_.pluck(weather.thisWeek.daily.data, "apparentTemperatureMin"));

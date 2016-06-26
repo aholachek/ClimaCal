@@ -21,15 +21,15 @@ const enhancer = compose(
   applyMiddleware(thunkMiddleware, createLogger(), saveToLocalStorage)
 );
 
-let initial =  JSON.parse(JSON.stringify(initialState));
-
-if ( localStorage && localStorage.climaCal ) {
-  var cachedLocation = JSON.parse(localStorage.climaCal).self.location;
-  initial.self.location =  cachedLocation;
-}
-
-
 export default function configureStore () {
+
+  let initial =  JSON.parse(JSON.stringify(initialState));
+
+  if ( localStorage && localStorage.climaCal ) {
+    var cachedLocation = JSON.parse(localStorage.climaCal).self.location;
+    initial.self.location =  cachedLocation;
+  }
+
   return createStore(
     reducer,
     initial,

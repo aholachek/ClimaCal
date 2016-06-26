@@ -1044,7 +1044,11 @@ h5 {
     left: 0;
     z-index: 3;
     display: flex;
-    background-color: rgba(0,0,0, .85);
+    background : white;
+    @media (min-width: $medium-break-point)
+    {
+      background-color: rgba(0,0,0, .85);
+  }
     color: $textLight;
     font-size: 1.2rem;
     transition: opacity .5s, transform .5s, background-color .5s;
@@ -1063,10 +1067,14 @@ h5 {
     align-items: center;
 }
 
-.overlay-content .climacal-logo svg
+.overlay-content img
 {
-    width: 100px !important;
+    width: 80px !important;
     height: auto;
+    @media (min-width: $medium-break-point)
+    {
+      width: 100px !important;
+  }
 }
 
 
@@ -1085,19 +1093,31 @@ h5 {
   color : $superLightText;
 }
 
+.overlay__header {
+  color: #a4a4a4;
+  font-weight: bold;
+  margin: 15px 0;
+  @media (min-width: $medium-break-point)
+  {
+    margin: 25px 0 25px 0;
+}
+}
+
 .pure-form, .preview-container {
     max-width: 405px;
     margin: auto;
+
     input {
       display:inline-block !important;
-      margin-right: 3px !important;
+      padding: .4rem !important;
+      margin: 5px 0 !important;
+      width: 220px;
     }
     @media (min-width: $medium-break-point)
     {
       text-align: left;
       input {
         display:block;
-        margin-right: 20px !important;
       }
     }
 }
@@ -1106,7 +1126,7 @@ h5 {
   color : $superLightText !important;
   font-weight: bold;
   font-size: 1rem;
-  padding-top:40px;
+  padding-top: 30px;
 }
 
 
@@ -1176,7 +1196,7 @@ h5 {
 
 .navbar
 {
-    padding-top: 5px;
+    padding-top: 10px;
     position: relative;
 }
 
@@ -1201,7 +1221,7 @@ h5 {
 .dd-menu {
   position: absolute;
   right: 0;
-  top: 5px;
+  top: 10px;
 }
 
 .dd-menu button {
@@ -1216,6 +1236,10 @@ h5 {
 .dd-menu-items {
   position: relative;
   top: 36px;
+}
+
+.dd-menu .pure-form input {
+  margin-right: 20px;
 }
 
 .dd-menu .dd-menu-items ul, .dd-menu .dd-menu-items ol {
@@ -1240,11 +1264,4 @@ h5 {
 
 .dd-menu .dd-menu-items ul li > :not(.dd-item-ignore), .dd-menu .dd-menu-items ol li > :not(.dd-item-ignore) {
     font-family: 'Raleway', sans-serif;
-}
-
-//overriding some pure form styles
-.pure-form input {
-  padding: .4rem !important;
-  margin: 5px 0;
-  width: 220px;
 }

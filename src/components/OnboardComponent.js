@@ -116,12 +116,11 @@ class OnboardComponent extends React.Component {
             ClimaCal
         </h1>
         <div>
-          <p style={{color: '#a4a4a4', fontWeight: 'bold', marginTop: '35px'}}>
+          <p className="overlay__header">
             ClimaCal connects your calendar with an hourly weather report.
           </p>
           <form className="pure-form">
             <div>
-              <br/>
               <label> <b>1.</b> Set your location:&nbsp;&nbsp;
               <input type="text" placeholder="city, state/region"/>
               </label>

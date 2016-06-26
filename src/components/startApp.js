@@ -14,8 +14,7 @@ import StoreCalculator from './../store/storeCalculator';
 import AppContainer from './AppContainer';
 import { updateStateVar } from './../actions/staticActionCreators';
 
-export default function startApp(options){
-  options = options || {};
+export default function startApp(){
 
   const store = configureStore();
   store.subscribe(function(){ StoreCalculator.call(undefined, store); });

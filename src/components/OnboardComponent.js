@@ -57,13 +57,18 @@ class OnboardComponent extends React.Component {
     }
 
   else if (
-      //if undefined, hasn't returned. if false, it's not available (might have been an error)
+    //need to show the initital modal even if google is authenticated, b/c no location/weather info
+    this.props.appData.self.weather !== false &&
+    //if equal to undefined, initial loading check is in progresss
+    (
+      this.props.appData.self.googleAuth === undefined ||
+      //if undefined, hasn't returned. if false, it's not currently available
       this.props.appData.auth === 'self' && (
-        (this.props.appData.self.weather === undefined) || (this.props.appData.self.calendar === undefined)
-      )||
-      //if equal to undefined, initial loading check is in progresss
-      this.props.appData.self.googleAuth === undefined
+        this.props.appData.self.weather === undefined || this.props.appData.self.calendar === undefined
+      )
+    )
       ){
+        console.log(  this.props.appData.self.weather !== false)
       container = (<div className="overlay-details" style={{paddingTop: '200px', color: '#a4a4a4', fontWeight: 'bold', minHeight: '400px', minWidth: '500px'}}>
        loading <b>ClimaCal...</b>
      </div>);

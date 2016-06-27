@@ -53,7 +53,7 @@ class CalendarEntryComponent extends React.Component {
             {this.props.data.summary}
           </h5>
           <button onClick = { this.props.setAccessibilityEntry } className="sr-only">
-          go to hourly weather information, starting from {startHour}, the hour
+          go to hourly weather information, starting from { startHour }, the hour
           when this event begins
           </button>
         </div>

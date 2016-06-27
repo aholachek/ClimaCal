@@ -1110,7 +1110,7 @@ h5 {
     input {
       display:inline-block !important;
       padding: .4rem !important;
-      margin: 5px 0 !important;
+      margin: 5px 0;
       width: 220px;
     }
     @media (min-width: $medium-break-point)

@@ -1,13 +1,9 @@
 
 #### working locally:
-1. Get a dev key from https://developer.forecast.io/ and add a file to the top level
-of the project called forecast-dev-key.js that contains:
-
+1. Get a dev key from https://developer.forecast.io/ and add a file to the top level of the project called forecast-dev-key.js that contains:
     var forecast_dev_key = 'xxx';
     module.exports = forecast_dev_key;
-
 2. Make a similar file called geocode-key.js with a Google API token.
-
 3. npm run-script webpack-start (serves the app on localhost:8080 )
 4. npm run-script express-start (starts up the node backend)
 

@@ -147,7 +147,6 @@ class CalendarContainerComponent extends React.Component {
     this.children = calendarEntries;
 
     let onScroll = this.props.setPopover.bind(undefined, null);
-
     let hourContainer;
 
     //these animations look terrible on mobile
@@ -169,14 +168,7 @@ class CalendarContainerComponent extends React.Component {
    }
 
     return (
-      <VelocityTransitionGroup
-        component='div'
-        className='calendar'
-        enter={{
-          animation: 'transition.fadeIn'
-        }}
-        runOnMount
-        >
+      <div>
         <div className='calendar-top'>
           <div className='calendar-top__day-description'>
             <span>
@@ -252,7 +244,7 @@ class CalendarContainerComponent extends React.Component {
         </Scrollbars>
         {calendarEntries.length === 0 ? noHourEntries  : null }
         </div>
-    </VelocityTransitionGroup>
+    </div>
     );
 
   }
@@ -266,7 +258,7 @@ class CalendarContainerComponent extends React.Component {
     let scrollToEight = this.scrollToEight;
     setTimeout(function(){
       scrollToEight()
-    }, 100);
+    }, 2);
   }
 
   componentDidUpdate (newProps) {
@@ -274,7 +266,7 @@ class CalendarContainerComponent extends React.Component {
     if (newProps.today.toString() === this.props.today.toString()) return;
     setTimeout(function(){
       scrollToEight()
-    }, 100);
+    }, 2);
   }
 
 }

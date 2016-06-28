@@ -87,7 +87,7 @@ class CalendarHourComponent extends React.Component {
     }
 
     return (
-      <li className={parentClass} id={idHref} tabIndex="-1" key={ this.props.data.time } aria-label={"hourly weather information for " + hour}>
+      <li className={parentClass} id={idHref} tabIndex="-1" aria-label={"hourly weather information for " + hour}>
       {accessabilityButton}
         <div>{hour.slice(0, hour.length - 1)}</div>
         <div></div>

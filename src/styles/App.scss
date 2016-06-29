@@ -402,9 +402,18 @@ ul
   }
 }
 
+.weather-icon-small
+{
+    font-size: 1.2rem;
+    display: inline;
+}
+
+
 .calendar__hour__weather
 {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 19%;
     background: hsla(0, 0%, 0%, .1);
     color: $textLight;
@@ -414,22 +423,12 @@ ul
 
     @media (min-width: $medium-break-point)
     {
-        width: 19%;
-        display: flex;
         flex-direction: row;
-        height: 100%;
     }
     &:hover
     {
         box-shadow: 0 5px 20px 2px rgba(0, 0, 0, .3);
     }
-}
-
-
-.weather-icon-small
-{
-    font-size: 1.2rem;
-    display: inline;
 }
 
 
@@ -445,17 +444,9 @@ ul
 {
 
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 33%;
-    flex-direction: column;
-    @media (min-width: $medium-break-point)
-    {
-        width: 33%;
-        height: 100%;
-        flex-direction: row;
-    };
+    align-items: center;
+    flex-grow: 1;
 }
 
 
@@ -494,13 +485,8 @@ ul
 }
 .calendar__hour__weather .precip-anim-container span
 {
-    @media (min-width: $medium-break-point)
-    {
-        position: relative;
-        top: 25%;
-        display: inline-block;
-        transform: translateY(-50%);
-    }
+    position: relative;
+    z-index: 1;
 }
 .calendar__hour__weather svg
 {
